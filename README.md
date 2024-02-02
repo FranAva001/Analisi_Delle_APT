@@ -1,1 +1,1 @@
-# Analisi_Delle_APT
+Questa Repository contiene i risultati dell'Elaborato di Laurea "Analisi delle APT mediante Adversary Emulation in MITRE Caldera". Al suo interno saranno presenti i file in formato STIX contenenti le principali informazioni inerenti alle APT studiate.
