@@ -1,0 +1,66 @@
+{
+  "$id": "hhttps://github.com/FranAva001/Analisi_Delle_APT/blob/main/Extension%20Definition/Extension_Definition.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Attack Pattern Extension",
+  "description": "Estensione per consentire di salvare le informazioni inerenti ad un attacco",
+  "allOf": [
+
+    {
+      "properties": {
+       
+        "technique_name":{
+          "type": "string",
+          "description": "Nome della tecnica a cui appartiene l'ability"
+	},
+	"attack_id":{
+          "type": "string",
+          "description": "Identificativo dell'ability specifica"
+	},
+	 "input_arguments": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "description": "Descrizione dell'input"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Tipo dell'input"
+                },
+                "default": {
+                  "type": "string",
+                  "description": "Valore di default associato all'input"
+                }
+              }
+            },
+            "description": "Valori di input per il comando"
+          },
+          "platforms": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "command": {
+		  "type": "string",
+		  "description": "Comando eseguito durante l'attacco"
+		},
+                "payloads": {
+                  "type": "string",
+                  "description": "File utilizzati per eseguire l'attacco"
+                },
+                
+              }
+              }
+              }
+          },
+          
+          }
+      }
+    
+  ],
+  "unevaluatedProperties": false
+}
